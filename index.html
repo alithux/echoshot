@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#080d1c" />
   <meta name="description" content="ECHOSHOT v0.2 — 50 original physics puzzles with wormhole portals, echo splits and moving targets." />
   
-  <title>ECHOSHOT v0.2.1 — 50 ricochet puzzles</title>
+  <title>ECHOSHOT v0.3 — 50 ricochet puzzles</title>
   <style>
 :root{color-scheme:dark;--bg:#080d1c;--panel:#111a2b;--muted:#7b8ba7;--text:#eef4ff;--gold:#f4cb86;--cyan:#56e6f4;--purple:#bc8cff;--border:#26344c;font-family:'DM Sans',system-ui,-apple-system,sans-serif}
 *{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;color:var(--text);background:radial-gradient(ellipse 60% 34% at 51% 18%,#1a253a 0%,#080d1c 100%);min-height:100vh;min-height:100svh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible,canvas:focus-visible{outline:2px solid #79eefa;outline-offset:3px}.ambient{pointer-events:none;position:fixed;filter:blur(90px);border-radius:50%;z-index:0}.ambient-one{width:380px;height:380px;background:#47335c33;top:17%;right:-200px}.ambient-two{width:340px;height:340px;background:#153a5433;bottom:6%;left:-190px}.shell{position:relative;z-index:1;max-width:1390px;margin:auto;padding:0 38px}.topbar{height:104px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #23314999}.identity{display:flex;align-items:center;gap:14px}.brandicon{position:relative;width:38px;height:38px;border-radius:12px;border:1px solid #375f73;background:linear-gradient(140deg,#123448,#11172a);overflow:hidden;display:grid;place-items:center}.brandicon span{position:absolute;display:block;border:2px solid #76e6ed;border-radius:50%;width:25px;height:25px;transform:translate(7px,7px)}.brandicon span:nth-child(2){width:15px;height:15px;transform:translate(2px,2px);border-color:#c2a0fa}.brandicon span:nth-child(3){width:5px;height:5px;transform:translate(-5px,-5px);background:#f8d399;border:0}.wordmark{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:.16em;font-size:21px;line-height:1.1}.wordmark span{color:#6bd9eb}.brand-sub{color:#72829e;letter-spacing:.19em;font-size:8px;font-weight:700;margin-top:7px}.top-actions{display:flex;align-items:center;gap:18px}.build-tag{color:#8b9ab1;font-size:9px;letter-spacing:.12em;font-weight:700;white-space:nowrap}.version{border:1px solid #34435c;border-radius:4px;padding:4px 6px;margin-left:7px;color:#e4d3b3}.icon-btn{width:40px;height:40px;border:1px solid #2e3b52;background:#131c2d;border-radius:12px;color:#bdcbe0;display:grid;place-items:center;transition:.2s}.icon-btn svg{width:19px;height:19px}.icon-btn:hover,.control-btn:hover,.close-btn:hover{background:#202d45;border-color:#6c819d}.sound-wave{display:none}.sound-cross{display:block}.sound-on .sound-wave{display:block}.sound-on .sound-cross{display:none}.layout{display:grid;grid-template-columns:minmax(210px,1fr) minmax(330px,420px) minmax(190px,1fr);gap:54px;align-items:start;justify-content:center;padding-top:33px}.sidebar{padding-top:85px}.eyebrow,.kicker{font-weight:700;font-size:10px;letter-spacing:.18em;color:#a9bad3}.eyebrow{color:var(--gold);display:flex;align-items:center;gap:10px}.gold-dot{height:6px;width:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px #f1c888}.left-sidebar h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(31px,3.2vw,49px);line-height:1.06;letter-spacing:-.055em;margin:28px 0 22px;font-weight:700}.left-sidebar h1 span{color:var(--cyan)}.intro{line-height:1.8;color:#91a0bb;font-size:13px;margin:0 0 36px;max-width:290px}.how-card{display:flex;align-items:flex-start;gap:16px;margin:0 0 22px}.how-icon{height:33px;min-width:33px;border:1px solid #34445d;background:#172237;border-radius:9px;color:#b8c9e5;display:grid;place-items:center;font-size:19px}.how-card strong{display:block;font-size:10px;letter-spacing:.14em;margin:2px 0 6px}.how-card p{margin:0;color:#8798b3;font-size:12px;line-height:1.55}.sidebar-footer{display:flex;align-items:center;gap:10px;color:#576983;font-size:9px;letter-spacing:.14em;margin-top:48px}.tiny-orbit{width:20px;height:20px;border:1px solid #446176;border-radius:50%;position:relative}.tiny-orbit:after{content:'';position:absolute;left:7px;top:-4px;width:6px;height:6px;border-radius:50%;background:var(--cyan)}.game-column{min-width:0;display:flex;flex-direction:column;align-items:stretch}.game-header{display:flex;justify-content:space-between;align-items:flex-end;margin:0 2px 17px}.kicker{color:#95a5bd;display:block}.level-title-block h2{font-family:'Space Grotesk',sans-serif;font-size:20px;letter-spacing:-.025em;margin:7px 0 0}.stat-cluster{display:flex;align-items:center;gap:19px}.stat{text-align:right}.stat-label{display:block;letter-spacing:.13em;color:#73849f;font-size:8px;font-weight:700;margin-bottom:5px}.stat strong{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#eaf3ff}.stat-slash{font-size:14px;padding:0 3px;color:#58718c}.frame-wrap{width:100%}.game-frame{width:100%;position:relative;aspect-ratio:3/5;border-radius:22px;background:#0c182a;border:1px solid #33415b;box-shadow:0 22px 65px #02040890,0 0 0 7px #152035b0,inset 0 0 40px #38d1ff08;overflow:hidden}.game-frame canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;user-select:none;outline-offset:-5px}.flight-hud{position:absolute;z-index:3;top:14px;left:50%;transform:translateX(-50%);width:calc(100% - 38px);max-width:370px;padding:9px 13px 10px;background:linear-gradient(115deg,#0d1b30ee,#111e36ee);border:1px solid #4a6380;border-radius:11px;box-shadow:0 5px 22px #02071288,0 0 18px #32d5ff12;pointer-events:none;user-select:none;transition:border-color .15s,box-shadow .15s}
@@ -19,6 +19,18 @@
 @media (max-height:720px) and (max-width:940px){.game-frame{max-height:60svh}.toolbar{margin-top:11px}.touch-hint{margin-top:11px}.footer{padding:14px 0}.game-caption{margin-top:9px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
+/* Time-trial mastery: persistent score and benchmark strip */
+.record-strip{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;padding:10px 13px;border:1px solid #334a64;border-radius:12px;background:#111e32b8;font-family:'Space Grotesk',system-ui,sans-serif}
+.record-item{display:flex;align-items:center;gap:9px;min-width:0}
+.record-item .record-label{color:#92a8c4;font-size:9px;font-weight:800;letter-spacing:.1em;white-space:nowrap}
+.record-item strong{font-size:14px;letter-spacing:.015em;color:#eaf4ff;font-variant-numeric:tabular-nums;white-space:nowrap}
+.record-item .par-icon{color:#e9bf7b;font-size:14px}
+.record-item .best-icon{color:#83e7f5;font-size:14px}
+.record-item .benchmark-met{color:#65edcb}
+.record-divider{height:19px;width:1px;background:#3a4e65;flex-shrink:0}
+.par-progress{font-size:10px;color:#8ac8d4;margin:12px 0 0;line-height:1.4}
+.level-tile .tile-best{color:#89ddeb;font:600 9px 'Space Grotesk',sans-serif;letter-spacing:0}
+@media(max-width:480px){.record-strip{margin-top:8px;padding:8px 9px}.record-item{gap:5px}.record-item .record-label{font-size:8px;letter-spacing:.02em}.record-item strong{font-size:12px}.record-divider{height:16px}}
 </style>
 </head>
 <body>
@@ -30,7 +42,7 @@
         <div><div class="wordmark">ECHO<span>SHOT</span></div><div class="brand-sub">ONE SHOT · INFINITE POSSIBILITIES</div></div>
       </div>
       <div class="top-actions">
-        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.2.1</span></span>
+        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.3</span></span>
         <button id="soundBtn" class="icon-btn" type="button" aria-label="Turn sound on" title="Toggle sound">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-wave" d="M15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"/><path class="sound-cross" d="m16 9 5 6m0-6-5 6"/></svg>
         </button>
@@ -40,7 +52,7 @@
       <aside class="sidebar left-sidebar">
         <div class="eyebrow"><span class="gold-dot"></span> SIGNAL FOUND</div>
         <h1>One shot.<br/><span>Infinite</span><br/>possibilities.</h1>
-        <p class="intro">Line up the perfect ricochet. Warp through portals, time moving targets, and split into echoes. Clear every glowing target — with one launch.</p>
+        <p class="intro">Line up the perfect ricochet. Warp through portals, time moving targets, and split into echoes. Clear every glowing target — with one launch. Then beat your best flight time.</p>
         <div class="how-card"><span class="how-icon">↗</span><div><strong>01 — AIM</strong><p>Drag a finger toward your targets.</p></div></div>
         <div class="how-card"><span class="how-icon">◎</span><div><strong>02 — ECHO</strong><p>Hit a purple resonator to create two new balls.</p></div></div>
         <div class="how-card"><span class="how-icon">✦</span><div><strong>03 — CLEAR</strong><p>Destroy every target in a single shot.</p></div></div>
@@ -79,6 +91,11 @@
             </div>
           </div>
           <div class="game-caption"><span><span class="live-dot"></span> PHYSICS SIMULATION ONLINE</span><span id="statusText">READY TO LAUNCH</span></div>
+          <div class="record-strip" aria-label="Level flight time challenge">
+            <div class="record-item"><span class="par-icon" aria-hidden="true">◎</span><span class="record-label">TARGET</span><strong id="parTarget">—</strong></div>
+            <span class="record-divider" aria-hidden="true"></span>
+            <div class="record-item"><span class="best-icon" aria-hidden="true">↗</span><span class="record-label">MY BEST</span><strong id="personalBest">NO RECORD</strong></div>
+          </div>
         </div>
         <div class="toolbar">
           <button id="resetBtn" class="control-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> RETRY</button>
@@ -99,6 +116,7 @@
         <div class="side-heading">YOUR JOURNEY</div>
         <div class="progress-summary"><span>LEVELS CLEARED</span><strong id="levelsCleared">0 <small>/ 50</small></strong></div>
         <div class="progress-track"><div id="progressFill"></div></div>
+        <p class="par-progress" id="parWins">0 / 50 flight challenges beaten</p>
         <p class="right-footnote">No lives. One visible flight timer. No paywalls.<br/>Just one more shot.</p>
         <div class="keyboard-note">DESKTOP <span>← → AIM · SPACE FIRE · R RETRY</span></div>
       </aside>
@@ -106,7 +124,7 @@
     <footer class="footer"><span>© ECHOSHOT — AN ORIGINAL ONE-FINGER PUZZLE</span><span>BUILT FOR TOUCH · MADE TO REPLAY</span></footer>
   </main>
   <div id="levelsModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="levelsHeading">
-    <div class="modal-card"><div class="modal-header"><div><span class="kicker">SELECT YOUR SIGNAL</span><h2 id="levelsHeading">STAGES</h2></div><button type="button" class="close-btn" id="closeLevels" aria-label="Close level selection">✕</button></div><p>Complete a stage to unlock the next. Stars reflect how many attempts it took.</p><div class="level-grid" id="levelGrid"></div></div>
+    <div class="modal-card"><div class="modal-header"><div><span class="kicker">SELECT YOUR SIGNAL</span><h2 id="levelsHeading">STAGES</h2></div><button type="button" class="close-btn" id="closeLevels" aria-label="Close level selection">✕</button></div><p>Complete a stage to unlock the next. Stars reflect attempts; your fastest single-shot clear appears below each finished level.</p><div class="level-grid" id="levelGrid"></div></div>
   </div>
   <script>
 // ECHOSHOT – deterministic, original 2D collision system. No dependencies.
@@ -408,13 +426,27 @@ function getLevel(n){
  return JSON.parse(JSON.stringify(cache.get(id)));
 }
 function levelSummary(){return Array.from({length:LEVEL_COUNT},(_,i)=>{const l=getLevel(i+1);return {level:l.id,title:l.name,targets:l.targets.length,resonators:l.obstacles.filter(o=>o.type==='resonator').length,answerDegrees:Math.round(l.angle*180/Math.PI)};});}
+// Level-specific target time: the verified seed shot plus a small, achievable margin.
+// Memoized so the target stays stable across retries and level-selector visits.
+const parCache=new Map();
+function parTime(l){
+ if(parCache.has(l.id))return parCache.get(l.id);
+ const probe=makeShot(l,l.angle);
+ for(let k=0;k<Math.ceil(probe.timeLimit*180)+5&&!probe.done;k++)stepShot(probe,1/180);
+ const base=probe.success?Math.max(.8,probe.elapsed*1.22+.35):probe.timeLimit*.8;
+ const target=Math.round(Math.min(probe.timeLimit-.1,base)*10)/10;
+ parCache.set(l.id,target);
+ return target;
+}
+function recordTime(n){const t=Number(save.times?.[n]);return Number.isFinite(t)&&t>0&&t<=shotTimeLimit({id:n})+.01?t:null;}
+
 
 
 const $=id=>document.getElementById(id);
 const canvas=$('game'),ctx=canvas.getContext('2d',{alpha:false});
 const TAU=Math.PI*2;
 const STORAGE='echoshot-progress-v1'; // v0.2 uses the same key to preserve every player's progress.
-function safeLoad(){try{const v=JSON.parse(localStorage.getItem(STORAGE)||'{}');return {unlocked:Math.max(1,Math.min(LEVEL_COUNT,Math.max(v.unlocked||1,v.best?.[20]?21:1))),best:v.best||{},sound:!!v.sound}}catch{return {unlocked:1,best:{},sound:false}}}
+function safeLoad(){try{const v=JSON.parse(localStorage.getItem(STORAGE)||'{}');return {unlocked:Math.max(1,Math.min(LEVEL_COUNT,Math.max(v.unlocked||1,v.best?.[20]?21:1))),best:v.best||{},times:v.times&&typeof v.times==='object'&&!Array.isArray(v.times)?v.times:{},sound:!!v.sound}}catch{return {unlocked:1,best:{},times:{},sound:false}}}
 let save=safeLoad();
 let levelIndex=save.unlocked,level=getLevel(levelIndex),attempts=0,shot=null,mode='ready',aimAngle=0,aiming=false,aimPointer=null;
 let preview=[],particles=[],floating=[],last=performance.now(),time=0,hitFlash=0,toastTimeout=0,hintUntil=0,winPending=false;
@@ -433,7 +465,14 @@ function updateProgress(){
  $('chapterNotice').textContent=levelIndex<=20?'ORBITAL BASICS':levelIndex<25?'SIGNAL REBORN':levelIndex<35?'WORMHOLE GATES':levelIndex<45?'MOVING TARGETS':'THE FINAL FREQUENCY';
  $('remaining').textContent=level.targets.length-(shot?.removed.size??0);$('attempts').textContent=attempts;
  const cleared=Object.keys(save.best).filter(k=>Number(k)>=1&&Number(k)<=LEVEL_COUNT).length;
- $('levelsCleared').innerHTML=`${cleared} <small>/ ${LEVEL_COUNT}</small>`;$('progressFill').style.width=`${(cleared/LEVEL_COUNT)*100}%`;updateFlightHud();
+ $('levelsCleared').innerHTML=`${cleared} <small>/ ${LEVEL_COUNT}</small>`;$('progressFill').style.width=`${(cleared/LEVEL_COUNT)*100}%`;
+ const par=parTime(level),best=recordTime(levelIndex);
+ $('parTarget').textContent=`${par.toFixed(1)}s`;
+ $('personalBest').textContent=best===null?'NO RECORD':`${best.toFixed(2)}s`;
+ $('personalBest').classList.toggle('benchmark-met',best!==null&&best<=par+.005);
+ const won=Object.keys(save.times).filter(k=>Number(k)>=1&&Number(k)<=LEVEL_COUNT&&recordTime(Number(k))!==null&&recordTime(Number(k))<=parTime(getLevel(Number(k)))+.005).length;
+ $('parWins').textContent=`${won} / ${LEVEL_COUNT} flight challenges beaten`;
+ updateFlightHud();
 }
 function updateFlightHud(){
  const limit=shot?.timeLimit??shotTimeLimit(level);
@@ -495,8 +534,13 @@ function showResult(success){
  $('resultTitle').textContent=success?'LEVEL CLEARED':'ALMOST THERE';
  const earned=attempts===1?3:attempts<=3?2:1;
  if(success){
+  const elapsed=Number(shot.elapsed.toFixed(2));
+  const previousBest=recordTime(levelIndex);
+  const personalRecord=previousBest===null||elapsed<previousBest-0.005;
+  if(personalRecord)save.times[levelIndex]=elapsed;
+  const metPar=elapsed<=parTime(level)+.005;
   save.best[levelIndex]=Math.max(Number(save.best[levelIndex]||0),earned);save.unlocked=Math.max(save.unlocked,Math.min(LEVEL_COUNT,levelIndex+1));persist();updateProgress();
-  $('resultMessage').textContent=`All ${level.targets.length} targets cleared in ${attempts} ${attempts===1?'attempt':'attempts'}.`;
+  $('resultMessage').textContent=`All ${level.targets.length} targets cleared in ${elapsed.toFixed(2)}s · ${attempts} ${attempts===1?'attempt':'attempts'}. ${personalRecord?'NEW PERSONAL BEST!':`Best: ${previousBest.toFixed(2)}s.`}${metPar?' TARGET TIME BEATEN!':''}`;
   $('resultStars').textContent='★'.repeat(earned)+'☆'.repeat(3-earned);
   $('primaryResultBtn').innerHTML=levelIndex===LEVEL_COUNT?'CHOOSE A LEVEL <span>→</span>':'NEXT STAGE <span>→</span>';
   $('secondaryResultBtn').textContent='PLAY AGAIN';
@@ -523,6 +567,8 @@ function openLevels(){
   b.disabled=!unlocked;b.setAttribute('aria-label',`Level ${n}${unlocked?'':', locked'}`);
   const s=document.createElement('small');s.textContent=unlocked?(save.best[n]?'★'.repeat(save.best[n]):'○ ○ ○'):'🔒';
   b.textContent=String(n).padStart(2,'0');b.appendChild(s);
+  const bestTime=recordTime(n);
+  if(unlocked&&bestTime!==null){const label=document.createElement('span');label.className='tile-best';label.textContent=`${bestTime.toFixed(2)}s`;b.appendChild(label);}
   b.addEventListener('click',()=>{loadLevel(n);closeLevels();});grid.appendChild(b);
  }
  $('levelsModal').classList.remove('hidden');$('closeLevels').focus();
@@ -705,7 +751,7 @@ function tick(now){
  render(dt);requestAnimationFrame(tick);
 }
 setSound();refreshPreview();updateProgress();requestAnimationFrame(tick);
-window.__ECHOSHOT_DEBUG__={levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
+window.__ECHOSHOT_DEBUG__={levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
 
 </script>
 </body>
