@@ -998,3 +998,49 @@ function validateBackup(data){
  const src=data.progress;
  if(!Number.isInteger(src.unlocked)||src.unlocked<1||src.unlocked>LEVEL_COUNT||!src.best||typeof src.best!=='object'||Array.isArray(src.best)||!src.times||typeof src.times!=='object'||Array.isArray(src.times))throw new Error('Backup contains invalid progress fields.');
  const clean={unlocked:src.unlocked,best:Object.create(null),times:Object.create(null),sound:!!src.sound};
+ for(const [key,value] of Object.entries(src.best)){
+  const n=Number(key);if(!Number.isInteger(n)||n<1||n>LEVEL_COUNT||String(n)!==key||!Number.isInteger(value)||value<1||value>3)throw new Error('Backup contains an invalid star score.');
+  clean.best[n]=value;
+ }
+ for(const [key,value] of Object.entries(src.times)){
+  const n=Number(key);if(!Number.isInteger(n)||n<1||n>LEVEL_COUNT||String(n)!==key||typeof value!=='number'||!Number.isFinite(value)||value<=0||value>shotTimeLimit({id:n})+.02)throw new Error('Backup contains an invalid flight time.');
+  clean.times[n]=value;
+ }
+ return clean;
+}
+$('backupInput').addEventListener('change',async event=>{
+ const file=event.target.files?.[0];event.target.value='';if(!file)return;
+ if(file.size>256000){reportBackup('Backup exceeds the maximum size of 256 KB.',true);return;}
+ try{
+  const incoming=validateBackup(JSON.parse(await file.text()));
+  // Merge, never decrease existing stars, unlocks or personal-best times.
+  save.unlocked=Math.max(Number(save.unlocked)||1,incoming.unlocked);
+  for(let n=1;n<=LEVEL_COUNT;n++){
+   if(incoming.best[n])save.best[n]=Math.max(Number(save.best[n])||0,incoming.best[n]);
+   if(incoming.times[n]){
+    const current=recordTime(n);
+    save.times[n]=current===null?incoming.times[n]:Math.min(current,incoming.times[n]);
+   }
+  }
+  const highestClear=Math.max(0,...Object.keys(save.best).map(Number).filter(n=>Number.isInteger(n)&&n>0&&n<=LEVEL_COUNT));
+  save.unlocked=Math.max(save.unlocked,Math.min(LEVEL_COUNT,highestClear+1));
+  persist();setSound();loadLevel(save.unlocked);updateMission();
+  reportBackup(`Progress restored and merged. Level ${save.unlocked} unlocked; no higher scores lost.`);
+ }catch(err){reportBackup(err.message||'Could not read backup JSON.',true);}
+});
+if('serviceWorker' in navigator){
+ navigator.serviceWorker.register('/sw.js',{scope:'/'}).then(async registration=>{
+  try{await navigator.serviceWorker.ready;$('offlineBadge').textContent='OFFLINE READY';}
+  catch{$('offlineBadge').textContent='ONLINE ONLY';}
+  registration.addEventListener('updatefound',()=>{const worker=registration.installing;if(worker)worker.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller){toast('UPDATE READY · REOPEN TO APPLY');}});});
+ }).catch(e=>{console.warn('Offline setup unavailable:',e);$('offlineBadge').textContent='ONLINE ONLY';});
+}else{$('offlineBadge').textContent='ONLINE ONLY';}
+window.addEventListener('online',()=>{$('offlineBadge').textContent=navigator.serviceWorker?.controller?'OFFLINE READY':'ONLINE';});
+window.addEventListener('offline',()=>{$('offlineBadge').textContent='PLAYING OFFLINE';});
+
+setSound();refreshPreview();updateProgress();requestAnimationFrame(tick);
+window.__ECHOSHOT_DEBUG__={levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,switches:shot?.switches.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
+
+</script>
+</body>
+</html>
