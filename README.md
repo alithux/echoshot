@@ -1,6 +1,17 @@
-# ECHOSHOT v0.5 — Mobile Polish & Offline PWA
+# ECHOSHOT v0.5.1 — Crystal Rework and Offline PWA
 
 **Play:** https://echoshot-game.onrender.com
+
+## New in v0.5.1 — Breakable reflectors
+
+- The **first** ball to strike a crystal **ricochets off it**, and the crystal shatters.
+- The crystal stays gone for the rest of that shot, letting later balls and echoes pass.
+- Crystal stages require **all targets AND all crystals** to be cleared before a win.
+- A live in-board crystal counter and results-screen text show the additional objective.
+- Crystal geometry on levels **51–57** and **70–75** was retuned. All 75 reference solutions still succeed; the advanced target counts are preserved.
+- The PWA cache is bumped to **v0.5.1**. Reopen the installed app online to receive the change.
+- Existing levels, saved stars, personal-best times, achievements, backup/restore and the flight timer are retained. Previously earned best times on changed stages may reflect the older rules.
+
 
 ECHOSHOT is a one-finger, mobile-first ricochet puzzle with 75 deterministic stages. All gameplay remains self-contained in `index.html`; the PWA works offline after the first successful visit.
 
