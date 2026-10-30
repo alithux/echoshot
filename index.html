@@ -11,9 +11,9 @@
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" sizes="192x192" type="image/png" href="/icons/icon-192.png" />
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-  <meta name="description" content="ECHOSHOT v0.5 — 75 original ricochet puzzles with breakable crystals, circuit switches and one-way shields." />
+  <meta name="description" content="ECHOSHOT v0.5.1 — 75 original ricochet puzzles with breakable crystals, circuit switches and one-way shields." />
   
-  <title>ECHOSHOT v0.5 — 75 ricochet puzzles</title>
+  <title>ECHOSHOT v0.5.1 — 75 ricochet puzzles</title>
   <style>
 :root{color-scheme:dark;--bg:#080d1c;--panel:#111a2b;--muted:#7b8ba7;--text:#eef4ff;--gold:#f4cb86;--cyan:#56e6f4;--purple:#bc8cff;--border:#26344c;font-family:'DM Sans',system-ui,-apple-system,sans-serif}
 *{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;color:var(--text);background:radial-gradient(ellipse 60% 34% at 51% 18%,#1a253a 0%,#080d1c 100%);min-height:100vh;min-height:100svh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible,canvas:focus-visible{outline:2px solid #79eefa;outline-offset:3px}.ambient{pointer-events:none;position:fixed;filter:blur(90px);border-radius:50%;z-index:0}.ambient-one{width:380px;height:380px;background:#47335c33;top:17%;right:-200px}.ambient-two{width:340px;height:340px;background:#153a5433;bottom:6%;left:-190px}.shell{position:relative;z-index:1;max-width:1390px;margin:auto;padding:0 38px}.topbar{height:104px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #23314999}.identity{display:flex;align-items:center;gap:14px}.brandicon{position:relative;width:38px;height:38px;border-radius:12px;border:1px solid #375f73;background:linear-gradient(140deg,#123448,#11172a);overflow:hidden;display:grid;place-items:center}.brandicon span{position:absolute;display:block;border:2px solid #76e6ed;border-radius:50%;width:25px;height:25px;transform:translate(7px,7px)}.brandicon span:nth-child(2){width:15px;height:15px;transform:translate(2px,2px);border-color:#c2a0fa}.brandicon span:nth-child(3){width:5px;height:5px;transform:translate(-5px,-5px);background:#f8d399;border:0}.wordmark{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:.16em;font-size:21px;line-height:1.1}.wordmark span{color:#6bd9eb}.brand-sub{color:#72829e;letter-spacing:.19em;font-size:8px;font-weight:700;margin-top:7px}.top-actions{display:flex;align-items:center;gap:18px}.build-tag{color:#8b9ab1;font-size:9px;letter-spacing:.12em;font-weight:700;white-space:nowrap}.version{border:1px solid #34435c;border-radius:4px;padding:4px 6px;margin-left:7px;color:#e4d3b3}.icon-btn{width:40px;height:40px;border:1px solid #2e3b52;background:#131c2d;border-radius:12px;color:#bdcbe0;display:grid;place-items:center;transition:.2s}.icon-btn svg{width:19px;height:19px}.icon-btn:hover,.control-btn:hover,.close-btn:hover{background:#202d45;border-color:#6c819d}.sound-wave{display:none}.sound-cross{display:block}.sound-on .sound-wave{display:block}.sound-on .sound-cross{display:none}.layout{display:grid;grid-template-columns:minmax(210px,1fr) minmax(330px,420px) minmax(190px,1fr);gap:54px;align-items:start;justify-content:center;padding-top:33px}.sidebar{padding-top:85px}.eyebrow,.kicker{font-weight:700;font-size:10px;letter-spacing:.18em;color:#a9bad3}.eyebrow{color:var(--gold);display:flex;align-items:center;gap:10px}.gold-dot{height:6px;width:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px #f1c888}.left-sidebar h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(31px,3.2vw,49px);line-height:1.06;letter-spacing:-.055em;margin:28px 0 22px;font-weight:700}.left-sidebar h1 span{color:var(--cyan)}.intro{line-height:1.8;color:#91a0bb;font-size:13px;margin:0 0 36px;max-width:290px}.how-card{display:flex;align-items:flex-start;gap:16px;margin:0 0 22px}.how-icon{height:33px;min-width:33px;border:1px solid #34445d;background:#172237;border-radius:9px;color:#b8c9e5;display:grid;place-items:center;font-size:19px}.how-card strong{display:block;font-size:10px;letter-spacing:.14em;margin:2px 0 6px}.how-card p{margin:0;color:#8798b3;font-size:12px;line-height:1.55}.sidebar-footer{display:flex;align-items:center;gap:10px;color:#576983;font-size:9px;letter-spacing:.14em;margin-top:48px}.tiny-orbit{width:20px;height:20px;border:1px solid #446176;border-radius:50%;position:relative}.tiny-orbit:after{content:'';position:absolute;left:7px;top:-4px;width:6px;height:6px;border-radius:50%;background:var(--cyan)}.game-column{min-width:0;display:flex;flex-direction:column;align-items:stretch}.game-header{display:flex;justify-content:space-between;align-items:flex-end;margin:0 2px 17px}.kicker{color:#95a5bd;display:block}.level-title-block h2{font-family:'Space Grotesk',sans-serif;font-size:20px;letter-spacing:-.025em;margin:7px 0 0}.stat-cluster{display:flex;align-items:center;gap:19px}.stat{text-align:right}.stat-label{display:block;letter-spacing:.13em;color:#73849f;font-size:8px;font-weight:700;margin-bottom:5px}.stat strong{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#eaf3ff}.stat-slash{font-size:14px;padding:0 3px;color:#58718c}.frame-wrap{width:100%}.game-frame{width:100%;position:relative;aspect-ratio:3/5;border-radius:22px;background:#0c182a;border:1px solid #33415b;box-shadow:0 22px 65px #02040890,0 0 0 7px #152035b0,inset 0 0 40px #38d1ff08;overflow:hidden}.game-frame canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;user-select:none;outline-offset:-5px}.flight-hud{position:absolute;z-index:3;top:14px;left:50%;transform:translateX(-50%);width:calc(100% - 38px);max-width:370px;padding:9px 13px 10px;background:linear-gradient(115deg,#0d1b30ee,#111e36ee);border:1px solid #4a6380;border-radius:11px;box-shadow:0 5px 22px #02071288,0 0 18px #32d5ff12;pointer-events:none;user-select:none;transition:border-color .15s,box-shadow .15s}
@@ -58,6 +58,11 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
 @media(max-width:480px){.topbar{height:calc(70px + env(safe-area-inset-top,0px))}.top-actions{gap:8px}.menu-btn{min-width:44px}.mission-modal{padding:18px}.mission-statline strong{font-size:17px}.mission-statline span{font-size:7px}.achievement-grid{grid-template-columns:1fr 1fr}.achievement{padding:10px 7px;gap:7px}.achievement strong{font-size:9px}.achievement small{font-size:8px}}
 @media(max-width:350px){.achievement-grid{grid-template-columns:1fr}}
 @media(display-mode:standalone){.shell{padding-bottom:max(12px,env(safe-area-inset-bottom,0px))}}
+/* Crystal Run: explicit win condition visible throughout the shot. */
+.crystal-objective{position:absolute;z-index:3;top:75px;left:50%;transform:translateX(-50%);pointer-events:none;white-space:nowrap;padding:6px 13px;border-radius:999px;border:1px solid #835ba7;background:#221834e6;box-shadow:0 4px 14px #0009;color:#eac6fb;font:800 10px/1.2 system-ui,sans-serif;letter-spacing:.12em}
+.crystal-objective strong{font-variant-numeric:tabular-nums;margin-left:8px;color:#fff}
+.crystal-objective.finished{border-color:#64bfa5;background:#10382bdf;color:#a5ffcf}
+@media(max-width:480px){.crystal-objective{top:67px;padding:5px 10px;font-size:9px}}
 </style>
 </head>
 <body>
@@ -69,7 +74,7 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
         <div><div class="wordmark">ECHO<span>SHOT</span></div><div class="brand-sub">ONE SHOT · INFINITE POSSIBILITIES</div></div>
       </div>
       <div class="top-actions">
-        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.5</span></span>
+        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.5.1</span></span>
         <button id="soundBtn" class="icon-btn" type="button" aria-label="Turn sound on" title="Toggle sound">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-wave" d="M15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"/><path class="sound-cross" d="m16 9 5 6m0-6-5 6"/></svg>
         </button>
@@ -106,6 +111,7 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
               <div class="flight-hud-top"><span class="flight-hud-label" id="flightHudLabel">TIME PER SHOT</span><strong class="flight-hud-value"><span id="flightSeconds">8.4</span><span class="flight-hud-unit">s</span></strong></div>
               <div class="flight-progress" id="flightProgress" role="progressbar" aria-label="Flight time remaining" aria-valuemin="0" aria-valuemax="8.4" aria-valuenow="8.4"><div class="flight-progress-fill" id="flightProgressFill"></div></div>
             </div>
+            <div id="crystalObjective" class="crystal-objective hidden" aria-live="polite">✧ CRYSTALS <strong id="crystalCount">0 / 1</strong></div>
             <div class="frame-filigree tl"></div><div class="frame-filigree tr"></div><div class="frame-filigree bl"></div><div class="frame-filigree br"></div>
             <div id="toast" class="toast" role="status" aria-live="polite"></div>
             <div class="game-overlay hidden" id="resultOverlay" role="dialog" aria-live="polite" aria-label="Shot result">
@@ -143,7 +149,7 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
         <div class="legend"><span class="legend-dot echo-dot"></span><div><strong>RESONATOR</strong><small>Splits your ball into two echoes</small></div></div>
         <div class="legend"><span class="legend-dot portal-dot"></span><div><strong>WORMHOLE GATE</strong><small>Teleport to its paired gate · from stage 25</small></div></div>
         <div class="legend"><span class="legend-dot moving-dot"></span><div><strong>DRIFTING TARGET</strong><small>Moves along a small path · from stage 35</small></div></div>
-        <div class="legend"><span class="legend-dot crystal-dot"></span><div><strong>BREAKABLE CRYSTAL</strong><small>Breaks on first hit · stage 51</small></div></div>
+        <div class="legend"><span class="legend-dot crystal-dot"></span><div><strong>BREAKABLE CRYSTAL</strong><small>One-use reflector · shatter all to win</small></div></div>
         <div class="legend"><span class="legend-dot circuit-dot"></span><div><strong>CIRCUIT SWITCH</strong><small>Opens a linked red gate · stage 58</small></div></div>
         <div class="legend"><span class="legend-dot diode-dot"></span><div><strong>ONE-WAY SHIELD</strong><small>Only passes in arrow direction · stage 66</small></div></div>
         <div class="side-line"></div>
@@ -204,6 +210,7 @@ function targetPosition(t,elapsed){
  const delta=t.amp*Math.sin(elapsed*t.freq+t.phase);
  return {x:t.x+(t.axis==='x'?delta:0),y:t.y+(t.axis==='y'?delta:0)};
 }
+function crystalCount(level){return level.obstacles.filter(o=>o.type==='crystal').length;}
 function emit(s,type,extra={}) {s.events.push({type, t:s.elapsed,...extra});}
 function reflect(b,nx,ny){ const dot = b.vx*nx+b.vy*ny; if(dot<0){b.vx -= 2*dot*nx; b.vy -= 2*dot*ny; return true;} return false; }
 function advanceBall(s,b,dt){
@@ -239,7 +246,17 @@ function advanceBall(s,b,dt){
     const dx=b.x-o.x,dy=b.y-o.y,dist=Math.hypot(dx,dy),limit=RADIUS+o.r;
     if(dist >= limit)continue;
     if(o.type==='crystal'){
-      s.shattered.add(o.id);emit(s,'shatter',{id:o.id,x:o.x,y:o.y});continue;
+      // A crystal is a one-use mirror: its first collision changes direction and
+      // breaks it. All subsequent balls (including echoes) pass through the gap.
+      const sp=Math.hypot(b.vx,b.vy)||1;
+      const nx=dist<EPS?-b.vx/sp:dx/dist,ny=dist<EPS?-b.vy/sp:dy/dist;
+      b.x=o.x+nx*(limit+0.15);b.y=o.y+ny*(limit+0.15);
+      const reflected=reflect(b,nx,ny);
+      if(reflected){
+        s.shattered.add(o.id);
+        emit(s,'shatter',{id:o.id,x:o.x,y:o.y,kind:b.kind});
+      }
+      continue;
     }
     if(o.type==='switch'){
       if(!s.switches.has(o.id)){s.switches.add(o.id);emit(s,'switch',{id:o.id,x:o.x,y:o.y});}
@@ -294,7 +311,7 @@ function stepShot(s, dt){
     // Iterate snapshot: new echoes advance starting next simulation step.
     for(const b of [...s.balls]) if(!b.dead)advanceBall(s,b,h);
     remain-=h;
-    if(s.removed.size===s.level.targets.length){s.done=true;s.success=true;emit(s,'win');}
+    if(s.removed.size===s.level.targets.length && s.shattered.size===crystalCount(s.level)){s.done=true;s.success=true;emit(s,'win');}
     else if(s.elapsed>=s.timeLimit || s.balls.every(b=>b.dead)){s.done=true;emit(s,'end');}
   }
   return s;
@@ -419,7 +436,7 @@ function geometryV2(n){
  return {id:n,name:EXTRA_TITLES[index],angle,obstacles,portals,echoSpread:.53+((n%3)*.024)};
 }
 
-// V0.4 — independent puzzles with teach-one-mechanic-at-a-time progression.
+// V0.5.1 — crystals bounce the first shot and must be shattered to clear the stage.
 // 51–57: shatter a crystal and keep moving. 58–65: switches open a closed gate.
 // 66–75: one-way shields let the ball through in the arrow direction only.
 const V4_ANGLES=[.11,-.41,.28,-.17,.52,-.34,.06,.43,-.29,.20,-.53,.31,-.10,.39,-.22,.47,-.35,.14,-.46,.23,-.05,.37,-.26,.50,-.15];
@@ -450,7 +467,7 @@ function geometryV3(n){
       obstacles.push({id:'r2',type:'resonator',x:candidate.x,y:candidate.y,r:15});
  }
  if(n<=57){
-   obstacles.push({id:'glass-1',type:'crystal',x:WORLD.launchX+dir.x*75,y:WORLD.launchY+dir.y*75,r:12});
+   obstacles.push({id:'glass-1',type:'crystal',x:WORLD.launchX+dir.x*75-dir.y*10,y:WORLD.launchY+dir.y*75+dir.x*10,r:12});
  }
  if(n>=58){
    // The order of the circuit elements along the guaranteed seed path is intentional.
@@ -461,7 +478,7 @@ function geometryV3(n){
    obstacles.push({id:'diode-1',type:'diode',x:WORLD.launchX+dir.x*54,y:WORLD.launchY+dir.y*54,r:13,dx:dir.x,dy:dir.y});
  }
  if(n>=70 && exit){
-   obstacles.push({id:'glass-2',type:'crystal',x:exit.x+dir.x*62,y:exit.y+dir.y*62,r:12});
+   obstacles.push({id:'glass-2',type:'crystal',x:exit.x+dir.x*62-dir.y*4,y:exit.y+dir.y*62+dir.x*4,r:12});
  }
  const count=n<58?3:n<66?3:4;
  let tries=0;
@@ -639,10 +656,10 @@ function updateProgress(){
  $('levelNumber').textContent=String(levelIndex).padStart(2,'0');$('levelTotal').textContent=LEVEL_COUNT;
  $('levelTitle').textContent=level.name;$('targetTotal').textContent=level.targets.length;
  const tip=$('stageTip');
- tip.textContent=levelIndex>69?'➤ Follow gold arrows · ◉ open red gates · ✧ shatter crystals':levelIndex>65?'➤ Follow the gold arrow; ◉ open the red gate':levelIndex>57?'◉ Touch the blue switch to open the red gate':levelIndex>50?'✧ Crystal obstacles break when struck':' ';
+ tip.textContent=levelIndex>69?'✧ Shatter every crystal to win · ➤ follow arrows · ◉ open gates':levelIndex>65?'➤ Follow the gold arrow; ◉ open the red gate':levelIndex>57?'◉ Touch the blue switch to open the red gate':levelIndex>50?'✧ First hit reflects and shatters · BREAK CRYSTALS + CLEAR TARGETS':' ';
  tip.classList.toggle('active',levelIndex>50);
  $('chapterNotice').textContent=levelIndex<=20?'ORBITAL BASICS':levelIndex<25?'SIGNAL REBORN':levelIndex<35?'WORMHOLE GATES':levelIndex<45?'MOVING TARGETS':levelIndex<=50?'FINAL FREQUENCY':levelIndex<58?'CRYSTAL RUN':levelIndex<66?'CIRCUIT SHIFT':'POLARITY LAB';
- $('remaining').textContent=level.targets.length-(shot?.removed.size??0);$('attempts').textContent=attempts;
+ $('remaining').textContent=level.targets.length-(shot?.removed.size??0);$('attempts').textContent=attempts;updateCrystalObjective();
  const cleared=Object.keys(save.best).filter(k=>Number(k)>=1&&Number(k)<=LEVEL_COUNT).length;
  $('levelsCleared').innerHTML=`${cleared} <small>/ ${LEVEL_COUNT}</small>`;$('progressFill').style.width=`${(cleared/LEVEL_COUNT)*100}%`;
  const par=parTime(level),best=recordTime(levelIndex);
@@ -653,6 +670,12 @@ function updateProgress(){
  $('parWins').textContent=`${won} / ${LEVEL_COUNT} flight challenges beaten`;
  if(!$('menuModal').classList.contains('hidden'))updateMission();
  updateFlightHud();
+}
+function updateCrystalObjective(){
+ const goal=crystalCount(level),done=shot?.shattered.size??0,pill=$('crystalObjective');
+ pill.classList.toggle('hidden',goal===0);
+ pill.classList.toggle('finished',goal>0&&done===goal);
+ $('crystalCount').textContent=`${done} / ${goal}`;
 }
 function updateFlightHud(){
  const limit=shot?.timeLimit??shotTimeLimit(level);
@@ -700,7 +723,7 @@ function handleEvents(events){
     burst(e.x,e.y,'#bd8fff',34,165);spawnFloat(e.x,e.y,'ECHO ×2','#d5aaff');
     toast('◈  RESONANCE ACTIVATED');beep(310,.28,'triangle',.09);vibrate([20,45,20]);
   } else if(e.type==='portal'){burst(e.x,e.y,'#59edd3',25,130);spawnFloat(e.x,e.y,'WARP','#68e9c7');beep(880,.17,'sine',.06);}
-  else if(e.type==='shatter'){burst(e.x,e.y,'#f5a8ff',27,155);spawnFloat(e.x,e.y,'SHATTER','#f8b9ff');beep(760,.17,'triangle',.06);}
+  else if(e.type==='shatter'){burst(e.x,e.y,'#f5a8ff',27,155);spawnFloat(e.x,e.y,'REFLECT + BREAK','#f8b9ff');toast('✧ CRYSTAL DESTROYED');updateCrystalObjective();beep(760,.17,'triangle',.06);}
   else if(e.type==='switch'){burst(e.x,e.y,'#8cf5a8',25,130);spawnFloat(e.x,e.y,'GATE OPEN','#a9ffcf');toast('◉ CIRCUIT OPEN');beep(620,.18,'sine',.06);}
   else if(e.type==='pass'){burst(e.x,e.y,'#f4cb86',9,45);spawnFloat(e.x,e.y,'ONE WAY','#f5deab');}
   else if(e.type==='bumper'){if(random()<.35)burst(e.x,e.y,'#7bc4dd',3,40);}
@@ -723,14 +746,14 @@ function showResult(success){
   if(personalRecord)save.times[levelIndex]=elapsed;
   const metPar=elapsed<=parTime(level)+.005;
   save.best[levelIndex]=Math.max(Number(save.best[levelIndex]||0),earned);save.unlocked=Math.max(save.unlocked,Math.min(LEVEL_COUNT,levelIndex+1));persist();updateProgress();
-  $('resultMessage').textContent=`All ${level.targets.length} targets cleared in ${elapsed.toFixed(2)}s · ${attempts} ${attempts===1?'attempt':'attempts'}. ${personalRecord?'NEW PERSONAL BEST!':`Best: ${previousBest.toFixed(2)}s.`}${metPar?' TARGET TIME BEATEN!':''}`;
+  $('resultMessage').textContent=`All ${level.targets.length} targets${crystalCount(level)?` and ${crystalCount(level)} crystal${crystalCount(level)>1?'s':''}`:''} cleared in ${elapsed.toFixed(2)}s · ${attempts} ${attempts===1?'attempt':'attempts'}. ${personalRecord?'NEW PERSONAL BEST!':`Best: ${previousBest.toFixed(2)}s.`}${metPar?' TARGET TIME BEATEN!':''}`;
   $('resultStars').textContent='★'.repeat(earned)+'☆'.repeat(3-earned);
   $('primaryResultBtn').innerHTML=levelIndex===LEVEL_COUNT?'CHOOSE A LEVEL <span>→</span>':'NEXT STAGE <span>→</span>';
   $('secondaryResultBtn').textContent='PLAY AGAIN';
   textStatus('ALL TARGETS CLEARED');beep(870,.27,'sine',.07);vibrate([20,40,30]);
  }else{
   const cleared=shot?.removed.size??0;
-  $('resultMessage').textContent=shot?.elapsed>=shot?.timeLimit-0.01?`Time expired after ${shot.timeLimit.toFixed(1)} seconds. ${cleared} of ${level.targets.length} targets hit. Retry with a different angle.`:`${cleared} of ${level.targets.length} targets hit. Adjust your angle and try again.`;
+  $('resultMessage').textContent=shot?.elapsed>=shot?.timeLimit-0.01?`Time expired after ${shot.timeLimit.toFixed(1)} seconds. ${cleared}/${level.targets.length} targets${crystalCount(level)?` · ${shot?.shattered.size??0}/${crystalCount(level)} crystals`:''}. Retry with a different angle.`:`${cleared}/${level.targets.length} targets${crystalCount(level)?` · ${shot?.shattered.size??0}/${crystalCount(level)} crystals`:''}. Clear every target and shatter every crystal to win.`;
   $('resultStars').textContent='· · ·';
   $('primaryResultBtn').innerHTML='TRY AGAIN <span>↗</span>';
   $('secondaryResultBtn').textContent='SHOW HINT';
@@ -953,7 +976,7 @@ function render(dt){
 function tick(now){
  const dt=Math.min(.045,Math.max(0,(now-last)/1000));last=now;time+=dt;hitFlash=Math.max(0,hitFlash-dt*.9);
  if(mode==='flight'&&shot){stepShot(shot,dt);handleEvents(shot.events);
-  $('remaining').textContent=level.targets.length-shot.removed.size;updateFlightHud();
+  $('remaining').textContent=level.targets.length-shot.removed.size;updateCrystalObjective();updateFlightHud();
  }
  if(toastTimeout&&now>toastTimeout){$('toast').classList.remove('show');toastTimeout=0;}
  render(dt);requestAnimationFrame(tick);
@@ -1039,7 +1062,7 @@ window.addEventListener('online',()=>{$('offlineBadge').textContent=navigator.se
 window.addEventListener('offline',()=>{$('offlineBadge').textContent='PLAYING OFFLINE';});
 
 setSound();refreshPreview();updateProgress();requestAnimationFrame(tick);
-window.__ECHOSHOT_DEBUG__={levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,switches:shot?.switches.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
+window.__ECHOSHOT_DEBUG__={levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,crystalsRequired:crystalCount(level),switches:shot?.switches.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
 
 </script>
 </body>
