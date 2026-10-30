@@ -4,9 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#080d1c" />
-  <meta name="description" content="ECHOSHOT v0.4 — 75 original ricochet puzzles with breakable crystals, circuit switches and one-way shields." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ECHOSHOT" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" sizes="192x192" type="image/png" href="/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <meta name="description" content="ECHOSHOT v0.5 — 75 original ricochet puzzles with breakable crystals, circuit switches and one-way shields." />
   
-  <title>ECHOSHOT v0.4 — 75 ricochet puzzles</title>
+  <title>ECHOSHOT v0.5 — 75 ricochet puzzles</title>
   <style>
 :root{color-scheme:dark;--bg:#080d1c;--panel:#111a2b;--muted:#7b8ba7;--text:#eef4ff;--gold:#f4cb86;--cyan:#56e6f4;--purple:#bc8cff;--border:#26344c;font-family:'DM Sans',system-ui,-apple-system,sans-serif}
 *{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;color:var(--text);background:radial-gradient(ellipse 60% 34% at 51% 18%,#1a253a 0%,#080d1c 100%);min-height:100vh;min-height:100svh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible,canvas:focus-visible{outline:2px solid #79eefa;outline-offset:3px}.ambient{pointer-events:none;position:fixed;filter:blur(90px);border-radius:50%;z-index:0}.ambient-one{width:380px;height:380px;background:#47335c33;top:17%;right:-200px}.ambient-two{width:340px;height:340px;background:#153a5433;bottom:6%;left:-190px}.shell{position:relative;z-index:1;max-width:1390px;margin:auto;padding:0 38px}.topbar{height:104px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #23314999}.identity{display:flex;align-items:center;gap:14px}.brandicon{position:relative;width:38px;height:38px;border-radius:12px;border:1px solid #375f73;background:linear-gradient(140deg,#123448,#11172a);overflow:hidden;display:grid;place-items:center}.brandicon span{position:absolute;display:block;border:2px solid #76e6ed;border-radius:50%;width:25px;height:25px;transform:translate(7px,7px)}.brandicon span:nth-child(2){width:15px;height:15px;transform:translate(2px,2px);border-color:#c2a0fa}.brandicon span:nth-child(3){width:5px;height:5px;transform:translate(-5px,-5px);background:#f8d399;border:0}.wordmark{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:.16em;font-size:21px;line-height:1.1}.wordmark span{color:#6bd9eb}.brand-sub{color:#72829e;letter-spacing:.19em;font-size:8px;font-weight:700;margin-top:7px}.top-actions{display:flex;align-items:center;gap:18px}.build-tag{color:#8b9ab1;font-size:9px;letter-spacing:.12em;font-weight:700;white-space:nowrap}.version{border:1px solid #34435c;border-radius:4px;padding:4px 6px;margin-left:7px;color:#e4d3b3}.icon-btn{width:40px;height:40px;border:1px solid #2e3b52;background:#131c2d;border-radius:12px;color:#bdcbe0;display:grid;place-items:center;transition:.2s}.icon-btn svg{width:19px;height:19px}.icon-btn:hover,.control-btn:hover,.close-btn:hover{background:#202d45;border-color:#6c819d}.sound-wave{display:none}.sound-cross{display:block}.sound-on .sound-wave{display:block}.sound-on .sound-cross{display:none}.layout{display:grid;grid-template-columns:minmax(210px,1fr) minmax(330px,420px) minmax(190px,1fr);gap:54px;align-items:start;justify-content:center;padding-top:33px}.sidebar{padding-top:85px}.eyebrow,.kicker{font-weight:700;font-size:10px;letter-spacing:.18em;color:#a9bad3}.eyebrow{color:var(--gold);display:flex;align-items:center;gap:10px}.gold-dot{height:6px;width:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px #f1c888}.left-sidebar h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(31px,3.2vw,49px);line-height:1.06;letter-spacing:-.055em;margin:28px 0 22px;font-weight:700}.left-sidebar h1 span{color:var(--cyan)}.intro{line-height:1.8;color:#91a0bb;font-size:13px;margin:0 0 36px;max-width:290px}.how-card{display:flex;align-items:flex-start;gap:16px;margin:0 0 22px}.how-icon{height:33px;min-width:33px;border:1px solid #34445d;background:#172237;border-radius:9px;color:#b8c9e5;display:grid;place-items:center;font-size:19px}.how-card strong{display:block;font-size:10px;letter-spacing:.14em;margin:2px 0 6px}.how-card p{margin:0;color:#8798b3;font-size:12px;line-height:1.55}.sidebar-footer{display:flex;align-items:center;gap:10px;color:#576983;font-size:9px;letter-spacing:.14em;margin-top:48px}.tiny-orbit{width:20px;height:20px;border:1px solid #446176;border-radius:50%;position:relative}.tiny-orbit:after{content:'';position:absolute;left:7px;top:-4px;width:6px;height:6px;border-radius:50%;background:var(--cyan)}.game-column{min-width:0;display:flex;flex-direction:column;align-items:stretch}.game-header{display:flex;justify-content:space-between;align-items:flex-end;margin:0 2px 17px}.kicker{color:#95a5bd;display:block}.level-title-block h2{font-family:'Space Grotesk',sans-serif;font-size:20px;letter-spacing:-.025em;margin:7px 0 0}.stat-cluster{display:flex;align-items:center;gap:19px}.stat{text-align:right}.stat-label{display:block;letter-spacing:.13em;color:#73849f;font-size:8px;font-weight:700;margin-bottom:5px}.stat strong{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#eaf3ff}.stat-slash{font-size:14px;padding:0 3px;color:#58718c}.frame-wrap{width:100%}.game-frame{width:100%;position:relative;aspect-ratio:3/5;border-radius:22px;background:#0c182a;border:1px solid #33415b;box-shadow:0 22px 65px #02040890,0 0 0 7px #152035b0,inset 0 0 40px #38d1ff08;overflow:hidden}.game-frame canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;user-select:none;outline-offset:-5px}.flight-hud{position:absolute;z-index:3;top:14px;left:50%;transform:translateX(-50%);width:calc(100% - 38px);max-width:370px;padding:9px 13px 10px;background:linear-gradient(115deg,#0d1b30ee,#111e36ee);border:1px solid #4a6380;border-radius:11px;box-shadow:0 5px 22px #02071288,0 0 18px #32d5ff12;pointer-events:none;user-select:none;transition:border-color .15s,box-shadow .15s}
@@ -38,6 +45,19 @@
 .circuit-dot{background:#71ddbf;border:4px solid #426c76;box-shadow:0 0 14px #72f5b966}
 .diode-dot{background:#f1d091;border:4px solid #8b6544;box-shadow:0 0 14px #f4c57866}
 @media (max-width:480px){.stage-tip{font-size:9px;padding:8px 10px;margin-top:10px}}
+
+/* v0.5: accessible mobile-first mission control and home-screen app fit */
+html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
+.shell{padding-bottom:env(safe-area-inset-bottom,0px)}
+.topbar{padding-top:env(safe-area-inset-top,0px);height:calc(104px + env(safe-area-inset-top,0px))}
+.icon-btn{min-width:44px;min-height:44px}.menu-btn{border-color:#436078;background:#16243a;color:#8debf3}
+.mission-modal{max-width:520px;padding:24px;scrollbar-width:thin}.mission-modal .modal-header h2{font-size:25px}.mission-statline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:24px 0 4px}.mission-statline>div{padding:14px 5px 12px;border:1px solid #344560;background:#162237;border-radius:12px;text-align:center;display:flex;flex-direction:column;gap:8px;min-width:0}.mission-statline strong{font:700 20px/1 'Space Grotesk',system-ui;color:#e4f6ff;font-variant-numeric:tabular-nums}.mission-statline span{font-size:8px;font-weight:700;letter-spacing:.06em;color:#99acc7}
+.mission-section{padding-top:24px;margin-top:20px;border-top:1px solid #31425b}.mission-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.mission-title h3{margin:0;font-size:12px;letter-spacing:.1em;color:#e1edf8}.mini-pill{font-size:9px;letter-spacing:.08em;border:1px solid #416779;color:#94e2dd;border-radius:999px;padding:5px 8px;white-space:nowrap}.mission-section p{font-size:12px;line-height:1.65;color:#9eafca;margin:12px 0 14px}.mission-action{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:46px;padding:12px 15px;border:1px solid #48607f;border-radius:11px;background:#1c2c43;color:#dceeff;font-size:11px;letter-spacing:.07em;font-weight:800;cursor:pointer;text-align:left}.mission-action.primary{background:linear-gradient(110deg,#69d3e7,#b298ff);color:#0e2037;border-color:transparent}.mission-action+.mission-action{margin-top:9px}.mission-action:disabled{opacity:.5;cursor:not-allowed}
+.achievement-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}.achievement{display:flex;gap:10px;align-items:center;min-width:0;padding:12px 10px;border:1px solid #304059;background:#121e31;border-radius:11px;opacity:.67}.achievement.earned{opacity:1;border-color:#536e77;background:linear-gradient(135deg,#1c3443,#1c2540)}.achievement-mark{font-size:20px;flex-shrink:0;color:#9fb0cc;line-height:1}.achievement.earned .achievement-mark{color:#ffdb96}.achievement strong{font-size:10px;display:block;color:#e1efff;letter-spacing:.02em}.achievement small{font-size:9px;display:block;color:#8ca1bc;line-height:1.4;margin-top:4px}.backup-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.backup-actions .mission-action{min-width:0;justify-content:center;text-align:center;font-size:9px;padding:12px 7px}.backup-status{min-height:20px}.backup-status.error{color:#ff9da3}.backup-status.ok{color:#8de7c7}.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:940px){.topbar{height:calc(76px + env(safe-area-inset-top,0px))}.game-column{margin-bottom:16px}.toolbar .control-btn{min-height:48px}.modal-backdrop{padding:calc(10px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px))}.modal-card{max-height:calc(100svh - 28px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}}
+@media(max-width:480px){.topbar{height:calc(70px + env(safe-area-inset-top,0px))}.top-actions{gap:8px}.menu-btn{min-width:44px}.mission-modal{padding:18px}.mission-statline strong{font-size:17px}.mission-statline span{font-size:7px}.achievement-grid{grid-template-columns:1fr 1fr}.achievement{padding:10px 7px;gap:7px}.achievement strong{font-size:9px}.achievement small{font-size:8px}}
+@media(max-width:350px){.achievement-grid{grid-template-columns:1fr}}
+@media(display-mode:standalone){.shell{padding-bottom:max(12px,env(safe-area-inset-bottom,0px))}}
 </style>
 </head>
 <body>
@@ -49,9 +69,12 @@
         <div><div class="wordmark">ECHO<span>SHOT</span></div><div class="brand-sub">ONE SHOT · INFINITE POSSIBILITIES</div></div>
       </div>
       <div class="top-actions">
-        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.4</span></span>
+        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.5</span></span>
         <button id="soundBtn" class="icon-btn" type="button" aria-label="Turn sound on" title="Toggle sound">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-wave" d="M15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"/><path class="sound-cross" d="m16 9 5 6m0-6-5 6"/></svg>
+        </button>
+        <button id="menuBtn" class="icon-btn menu-btn" type="button" aria-label="Open game menu" title="Game menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         </button>
       </div>
     </header>
@@ -136,6 +159,29 @@
   </main>
   <div id="levelsModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="levelsHeading">
     <div class="modal-card"><div class="modal-header"><div><span class="kicker">SELECT YOUR SIGNAL</span><h2 id="levelsHeading">STAGES</h2></div><button type="button" class="close-btn" id="closeLevels" aria-label="Close level selection">✕</button></div><p>Complete stages to unlock new mechanics. Stars reward fewer attempts; records reward faster shots.</p><div class="level-grid" id="levelGrid"></div></div>
+  </div>
+  <div id="menuModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="menuHeading">
+    <div class="modal-card mission-modal">
+      <div class="modal-header"><div><span class="kicker">MISSION CONTROL</span><h2 id="menuHeading">YOUR ECHOSHOT</h2></div><button id="closeMenu" class="close-btn" type="button" aria-label="Close game menu">✕</button></div>
+      <div class="mission-statline"><div><strong id="missionCleared">0/75</strong><span>STAGES CLEARED</span></div><div><strong id="missionStars">0</strong><span>STARS EARNED</span></div><div><strong id="missionMastery">0</strong><span>TIME CHALLENGES</span></div></div>
+      <section class="mission-section" aria-labelledby="installHeading">
+        <div class="mission-title"><h3 id="installHeading">INSTALL & PLAY OFFLINE</h3><span class="mini-pill" id="offlineBadge">CHECKING</span></div>
+        <p id="installHelp">Add ECHOSHOT to your home screen for a full-screen, app-like experience. Your stages work without internet after the first load.</p>
+        <button type="button" class="mission-action primary" id="installBtn">INSTALL ECHOSHOT <span aria-hidden="true">↗</span></button>
+        <button type="button" class="mission-action" id="fullscreenBtn">FULL SCREEN <span aria-hidden="true">⛶</span></button>
+      </section>
+      <section class="mission-section" aria-labelledby="achievementsHeading">
+        <div class="mission-title"><h3 id="achievementsHeading">ACHIEVEMENTS</h3><span class="mini-pill" id="achievementCount">0 / 10</span></div>
+        <div id="achievementGrid" class="achievement-grid" aria-live="polite"></div>
+      </section>
+      <section class="mission-section" aria-labelledby="backupHeading">
+        <div class="mission-title"><h3 id="backupHeading">SAVE YOUR JOURNEY</h3></div>
+        <p>Progress stays on this device. Download a backup to move your stars, unlocked levels, and flight records to another browser.</p>
+        <div class="backup-actions"><button id="exportBtn" type="button" class="mission-action">EXPORT BACKUP ↓</button><button id="importBtn" type="button" class="mission-action">RESTORE BACKUP ↑</button></div>
+        <input id="backupInput" type="file" accept=".json,application/json" class="visually-hidden" tabindex="-1" aria-label="Choose an ECHOSHOT progress backup JSON file" />
+        <p id="backupStatus" class="backup-status" role="status" aria-live="polite">Restore safely merges progress; it never erases better scores.</p>
+      </section>
+    </div>
   </div>
   <script>
 // ECHOSHOT – deterministic, original 2D collision system. No dependencies.
@@ -546,6 +592,44 @@ let audioCtx=null;let announceCounter=0;
 const stars=[];let randseed=91231;function random(){randseed=(1664525*randseed+1013904223)>>>0;return randseed/4294967296;}
 for(let i=0;i<60;i++)stars.push({x:25+random()*311,y:90+random()*465,r:.3+random()*.85,phase:random()*6});
 function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(save))}catch{}}
+// Achievements are derived from existing scores; legacy saves gain their badges immediately.
+const CHAPTERS=[{end:20,name:'Orbital Basics'},{end:34,name:'Wormhole Gates'},{end:50,name:'Final Frequency'},{end:57,name:'Crystal Run'},{end:65,name:'Circuit Shift'},{end:75,name:'Polarity Lab'}];
+function masteredCount(){let total=0;for(let n=1;n<=LEVEL_COUNT;n++){const record=recordTime(n);if(record!==null&&record<=parTime(getLevel(n))+.005)total++;}return total;}
+function achievementStats(){
+ const cleared=Array.from({length:LEVEL_COUNT},(_,i)=>i+1).filter(n=>Number(save.best[n])>=1);
+ const stars=cleared.reduce((sum,n)=>sum+Number(save.best[n]||0),0);
+ const perfect=cleared.filter(n=>Number(save.best[n])===3).length;
+ const mastery=masteredCount();
+ return {cleared:cleared.length,stars,perfect,mastery};
+}
+function achievements(){
+ const v=achievementStats(),complete=n=>Number(save.best[n])>=1;
+ return [
+  {icon:'✦',title:'FIRST SIGNAL',detail:'Clear any stage',earned:v.cleared>=1},
+  {icon:'◈',title:'TEN SPARKS',detail:'Clear 10 stages',earned:v.cleared>=10},
+  {icon:'❖',title:'ORBITAL ACE',detail:'Clear stages 1–20',earned:Array.from({length:20},(_,i)=>i+1).every(complete)},
+  {icon:'◎',title:'WORMHOLE RIDER',detail:'Clear stage 34',earned:complete(34)},
+  {icon:'✧',title:'CRYSTAL BREAKER',detail:'Clear stage 57',earned:complete(57)},
+  {icon:'⌁',title:'CIRCUIT MASTER',detail:'Clear stage 65',earned:complete(65)},
+  {icon:'➤',title:'POLARITY PILOT',detail:'Clear stage 75',earned:complete(75)},
+  {icon:'★',title:'PERFECT TEN',detail:'Earn 3 stars on 10 stages',earned:v.perfect>=10},
+  {icon:'↗',title:'TIME BENDER',detail:'Beat 10 flight challenges',earned:v.mastery>=10},
+  {icon:'✷',title:'ALL FREQUENCIES',detail:'Clear all 75 stages',earned:v.cleared===75}
+ ];
+}
+function updateMission(){
+ const stats=achievementStats();
+ $('missionCleared').textContent=`${stats.cleared}/${LEVEL_COUNT}`;
+ $('missionStars').textContent=stats.stars;
+ $('missionMastery').textContent=stats.mastery;
+ const badges=achievements();
+ $('achievementCount').textContent=`${badges.filter(a=>a.earned).length} / ${badges.length}`;
+ const grid=$('achievementGrid');grid.replaceChildren();
+ for(const a of badges){const card=document.createElement('div');card.className='achievement'+(a.earned?' earned':'');
+  const symbol=document.createElement('span');symbol.className='achievement-mark';symbol.textContent=a.earned?a.icon:'♢';symbol.setAttribute('aria-hidden','true');
+  const words=document.createElement('div');const title=document.createElement('strong');title.textContent=a.title;const desc=document.createElement('small');desc.textContent=a.detail+(a.earned?' · EARNED':' · LOCKED');words.append(title,desc);card.append(symbol,words);grid.appendChild(card);
+ }
+}
 function beep(freq=460,duration=.075,type='sine',volume=.04){if(!save.sound)return;try{audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,audioCtx.currentTime);osc.frequency.exponentialRampToValueAtTime(freq*.62,audioCtx.currentTime+duration);gain.gain.setValueAtTime(volume,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+duration+.01);}catch{}}
 function vibrate(pattern){try{navigator.vibrate?.(pattern)}catch{}}
 function textStatus(t){$('statusText').textContent=t;}
@@ -567,6 +651,7 @@ function updateProgress(){
  $('personalBest').classList.toggle('benchmark-met',best!==null&&best<=par+.005);
  const won=Object.keys(save.times).filter(k=>Number(k)>=1&&Number(k)<=LEVEL_COUNT&&recordTime(Number(k))!==null&&recordTime(Number(k))<=parTime(getLevel(Number(k)))+.005).length;
  $('parWins').textContent=`${won} / ${LEVEL_COUNT} flight challenges beaten`;
+ if(!$('menuModal').classList.contains('hidden'))updateMission();
  updateFlightHud();
 }
 function updateFlightHud(){
@@ -680,7 +765,7 @@ function aimAtPoint(p){
  refreshPreview();
 }
 canvas.addEventListener('pointerdown',e=>{
- if(mode!=='ready'||!$('levelsModal').classList.contains('hidden'))return;
+ if(mode!=='ready'||!$('levelsModal').classList.contains('hidden')||!$('menuModal').classList.contains('hidden'))return;
  e.preventDefault();aiming=true;aimPointer=e.pointerId;canvas.setPointerCapture(e.pointerId);
  aimAtPoint(pointInBoard(e));
  textStatus('AIMING · RELEASE TO FIRE');
@@ -689,6 +774,7 @@ canvas.addEventListener('pointermove',e=>{if(!aiming||aimPointer!==e.pointerId)r
 canvas.addEventListener('pointerup',e=>{if(!aiming||aimPointer!==e.pointerId)return;e.preventDefault();aiming=false;aimPointer=null;fire();});
 canvas.addEventListener('pointercancel',()=>{aiming=false;aimPointer=null;textStatus('READY TO LAUNCH');});
 window.addEventListener('keydown',e=>{
+ if(!$('menuModal').classList.contains('hidden')){if(e.key==='Escape')closeMenu();return;}
  if(!$('levelsModal').classList.contains('hidden')){if(e.key==='Escape')closeLevels();return;}
  if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
   e.preventDefault();if(mode!=='ready')return;
@@ -872,9 +958,43 @@ function tick(now){
  if(toastTimeout&&now>toastTimeout){$('toast').classList.remove('show');toastTimeout=0;}
  render(dt);requestAnimationFrame(tick);
 }
-setSound();refreshPreview();updateProgress();requestAnimationFrame(tick);
-window.__ECHOSHOT_DEBUG__={levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,switches:shot?.switches.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
 
-</script>
-</body>
-</html>
+// Installable web app / progress backup: no server accounts or personal data collection.
+let deferredInstallPrompt=null;
+const menuOpen=()=>$('menuModal').classList.contains('hidden')===false;
+const runningStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+function openMenu(){updateMission();updateInstallUI();$('menuModal').classList.remove('hidden');$('closeMenu').focus();}
+function closeMenu(){$('menuModal').classList.add('hidden');$('menuBtn').focus();}
+function updateInstallUI(){
+ const standalone=runningStandalone();const ios=/iPad|iPhone|iPod/i.test(navigator.userAgent);
+ $('installBtn').textContent=standalone?'INSTALLED ON HOME SCREEN':deferredInstallPrompt?'INSTALL ECHOSHOT ↗':ios?'HOW TO ADD ON iPHONE':'HOW TO INSTALL';
+ $('installBtn').disabled=standalone;
+ $('installHelp').textContent=standalone?'ECHOSHOT is running as a home-screen app. Levels are available offline after initial caching.':ios?'In Safari, tap Share, then Add to Home Screen, then Add. Open the new ECHOSHOT icon to play like an app.':'Install ECHOSHOT from your browser’s app menu, then play all 75 levels offline after your first visit.';
+}
+$('menuBtn').addEventListener('click',openMenu);
+$('closeMenu').addEventListener('click',closeMenu);
+$('menuModal').addEventListener('click',e=>{if(e.target===$('menuModal'))closeMenu();});
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event;updateInstallUI();});
+window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;updateInstallUI();toast('ECHOSHOT INSTALLED');});
+$('installBtn').addEventListener('click',async()=>{
+ if(deferredInstallPrompt){const choice=deferredInstallPrompt;deferredInstallPrompt=null;try{await choice.prompt();await choice.userChoice;}catch(e){console.warn('Install prompt:',e);}updateInstallUI();return;}
+ $('installHelp').textContent=/iPad|iPhone|iPod/i.test(navigator.userAgent)?'Safari: tap Share (square with arrow) → Add to Home Screen → Add.': 'Browser: open the menu ⋮ → Install app / Add to Home screen. On unsupported browsers, use the install option in Chrome or Safari.';
+});
+$('fullscreenBtn').addEventListener('click',async()=>{
+ try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else $('backupStatus').textContent='Full screen is provided by Add to Home Screen on iOS.';}
+ catch(e){$('backupStatus').textContent='Full screen is not available in this browser. Install ECHOSHOT instead.';}
+});
+function reportBackup(message,error=false){const el=$('backupStatus');el.textContent=message;el.classList.toggle('error',error);el.classList.toggle('ok',!error);}
+$('exportBtn').addEventListener('click',()=>{
+ const payload={app:'ECHOSHOT',format:1,exportedAt:new Date().toISOString(),progress:{unlocked:save.unlocked,best:save.best,times:save.times,sound:save.sound}};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),anchor=document.createElement('a');anchor.href=url;anchor.download='ECHOSHOT-progress-'+new Date().toISOString().slice(0,10)+'.json';
+ document.body.append(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
+ reportBackup('Backup downloaded. Keep the JSON file somewhere safe.');
+});
+$('importBtn').addEventListener('click',()=>$('backupInput').click());
+function validateBackup(data){
+ if(!data||data.app!=='ECHOSHOT'||data.format!==1||!data.progress||typeof data.progress!=='object'||Array.isArray(data.progress))throw new Error('Not a supported ECHOSHOT backup file.');
+ const src=data.progress;
+ if(!Number.isInteger(src.unlocked)||src.unlocked<1||src.unlocked>LEVEL_COUNT||!src.best||typeof src.best!=='object'||Array.isArray(src.best)||!src.times||typeof src.times!=='object'||Array.isArray(src.times))throw new Error('Backup contains invalid progress fields.');
+ const clean={unlocked:src.unlocked,best:Object.create(null),times:Object.create(null),sound:!!src.sound};
