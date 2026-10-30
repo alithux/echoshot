@@ -1,34 +1,44 @@
-# ECHOSHOT v0.4 — 75 stages
-
-An original one-finger ricochet puzzle for phones and browsers. The entire game runs from the standalone `index.html`, without external dependencies.
+# ECHOSHOT v0.5 — Mobile Polish & Offline PWA
 
 **Play:** https://echoshot-game.onrender.com
 
-Drag to aim and release to fire. Clear all targets in one shot. Every level has a repeatable, verified solution, and hints are available in-game.
+ECHOSHOT is a one-finger, mobile-first ricochet puzzle with 75 deterministic stages. All gameplay remains self-contained in `index.html`; the PWA works offline after the first successful visit.
 
-## New in v0.4
+## What's new
 
-- **51–57 · Crystal Run:** purple diamond crystals break on first contact, allowing the ball to continue.
-- **58–65 · Circuit Shift:** hit a blue switch to open a linked red gate for the rest of the shot.
-- **66–75 · Polarity Lab:** one-way shields admit a ball only in the direction of their arrow. The final levels combine the new mechanics with moving targets, echoes, and portals.
-- **Gradual difficulty:** from 7 targets at stage 51 to 11 at stage 75, with new mechanics introduced one chapter at a time.
-- **Flight limits:** 8.4 seconds for stages 1–34 and 12 seconds for stages 35–75, with the existing visible countdown.
-- All earlier levels, stars, personal-best times, and flight challenges remain in place.
+- Installable Progressive Web App: standalone home-screen experience, app manifest, 192/512 PNG icons and iOS touch icon.
+- Offline service worker: caches the complete self-contained game and every icon; handles offline navigation and clears old-version caches.
+- Mobile polish: menu button with generous touch targets, safe-area spacing, fullscreen option where supported, and responsive mission-control panel.
+- Achievements: 10 badges derived from existing level clears, stars, and flight times.
+- Progress backup: export a human-readable JSON file, and restore through a validated **merge**. Existing stars/unlocked levels cannot decrease and existing best times cannot get slower. No cloud account required.
+- All existing 75 levels, scoring, physics and the 8.4s/12s flight clock are unchanged.
 
-## Saving and progress migration
+## Install
 
-Progress is stored locally under `echoshot-progress-v1` in the same browser and device. Existing settings, stars, best times, and unlocked levels survive the upgrade. A previously completed level 50 (indicated by its stored stars) automatically unlocks level 51, even if the prior save ended at `unlocked: 50`.
+**Android (Chrome):** visit the site, open the menu in ECHOSHOT and tap Install when offered; alternatively use Chrome's ⋮ > Add to Home screen > Install app.
 
-## Tests
+**iPhone (Safari):** visit the site in Safari, tap Share > Add to Home Screen > Add. Launch from the home screen for the standalone display.
 
-Run `node test_levels.cjs` to verify all 75 reference solutions, one-shot clear times, and mechanics activated in their corresponding chapters. The release was also smoke-tested in Chromium at 390×844, 375×667, and 1280×900 for mobile layout, level unlocking, HUD, and the stage selector.
+**Offline:** load the game successfully at least once while online and allow its install cache to finish. You can subsequently reopen the game without a network connection on the same device. Some browsers remove offline data when storage is cleared or under storage pressure; export a backup if progress matters.
 
-## Hosting
+## Backup and privacy
 
-Render deploys `main` of `alithux/echoshot` as a static site.
+Open the top-right menu > Export Backup. To restore, open the same menu > Restore Backup and choose the exported `.json` file. Backups are local downloads; they include unlocked stages, star scores, best times and the sound setting. Restore merges star scores and best times, without deleting better local progress. Progress remains in `localStorage` under the original `echoshot-progress-v1` key; it is **not** automatically synced between browsers/devices. Exported data is not sent to a backend.
 
-- **Build command:** `mkdir -p public && cp index.html public/index.html`
+## Build and hosting
+
+All PWA assets are checked into the repo under `public/`, while the playable root `index.html` is copied into the deployment's publish folder.
+
+- **Render build:** `mkdir -p public && cp index.html public/index.html`
 - **Publish directory:** `public`
-- **Live URL:** https://echoshot-game.onrender.com
+- **Service:** https://echoshot-game.onrender.com
 
-Best times and stars are not synchronized across devices.
+The root `index.html` must be copied into `public/index.html` so that `/` is playable; other `public/` assets are already present in the repo. Bump `CACHE_NAME` in `public/sw.js` when changing assets for future releases.
+
+## Testing
+
+- 390×844 Chromium in-memory mobile UX, with the menu, achievements, and layout verified.
+- Legacy level-50 progress correctly migrates to level 51.
+- JSON export/import, invalid input rejection, preserving better records and unlocks.
+- Physics wins confirmed on stages 1, 51 and 75; all 75 levels and mechanics were validated in v0.4 and remain unchanged.
+- The service worker was tested in Node with simulated cache/install/activate/online and offline navigation; an independent full browser offline install test is still recommended on Android/iOS.
