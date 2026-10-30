@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#080d1c" />
-  <meta name="description" content="ECHOSHOT v0.2 — 50 original physics puzzles with wormhole portals, echo splits and moving targets." />
+  <meta name="description" content="ECHOSHOT v0.4 — 75 original ricochet puzzles with breakable crystals, circuit switches and one-way shields." />
   
-  <title>ECHOSHOT v0.3 — 50 ricochet puzzles</title>
+  <title>ECHOSHOT v0.4 — 75 ricochet puzzles</title>
   <style>
 :root{color-scheme:dark;--bg:#080d1c;--panel:#111a2b;--muted:#7b8ba7;--text:#eef4ff;--gold:#f4cb86;--cyan:#56e6f4;--purple:#bc8cff;--border:#26344c;font-family:'DM Sans',system-ui,-apple-system,sans-serif}
 *{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;color:var(--text);background:radial-gradient(ellipse 60% 34% at 51% 18%,#1a253a 0%,#080d1c 100%);min-height:100vh;min-height:100svh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible,canvas:focus-visible{outline:2px solid #79eefa;outline-offset:3px}.ambient{pointer-events:none;position:fixed;filter:blur(90px);border-radius:50%;z-index:0}.ambient-one{width:380px;height:380px;background:#47335c33;top:17%;right:-200px}.ambient-two{width:340px;height:340px;background:#153a5433;bottom:6%;left:-190px}.shell{position:relative;z-index:1;max-width:1390px;margin:auto;padding:0 38px}.topbar{height:104px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #23314999}.identity{display:flex;align-items:center;gap:14px}.brandicon{position:relative;width:38px;height:38px;border-radius:12px;border:1px solid #375f73;background:linear-gradient(140deg,#123448,#11172a);overflow:hidden;display:grid;place-items:center}.brandicon span{position:absolute;display:block;border:2px solid #76e6ed;border-radius:50%;width:25px;height:25px;transform:translate(7px,7px)}.brandicon span:nth-child(2){width:15px;height:15px;transform:translate(2px,2px);border-color:#c2a0fa}.brandicon span:nth-child(3){width:5px;height:5px;transform:translate(-5px,-5px);background:#f8d399;border:0}.wordmark{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:.16em;font-size:21px;line-height:1.1}.wordmark span{color:#6bd9eb}.brand-sub{color:#72829e;letter-spacing:.19em;font-size:8px;font-weight:700;margin-top:7px}.top-actions{display:flex;align-items:center;gap:18px}.build-tag{color:#8b9ab1;font-size:9px;letter-spacing:.12em;font-weight:700;white-space:nowrap}.version{border:1px solid #34435c;border-radius:4px;padding:4px 6px;margin-left:7px;color:#e4d3b3}.icon-btn{width:40px;height:40px;border:1px solid #2e3b52;background:#131c2d;border-radius:12px;color:#bdcbe0;display:grid;place-items:center;transition:.2s}.icon-btn svg{width:19px;height:19px}.icon-btn:hover,.control-btn:hover,.close-btn:hover{background:#202d45;border-color:#6c819d}.sound-wave{display:none}.sound-cross{display:block}.sound-on .sound-wave{display:block}.sound-on .sound-cross{display:none}.layout{display:grid;grid-template-columns:minmax(210px,1fr) minmax(330px,420px) minmax(190px,1fr);gap:54px;align-items:start;justify-content:center;padding-top:33px}.sidebar{padding-top:85px}.eyebrow,.kicker{font-weight:700;font-size:10px;letter-spacing:.18em;color:#a9bad3}.eyebrow{color:var(--gold);display:flex;align-items:center;gap:10px}.gold-dot{height:6px;width:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px #f1c888}.left-sidebar h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(31px,3.2vw,49px);line-height:1.06;letter-spacing:-.055em;margin:28px 0 22px;font-weight:700}.left-sidebar h1 span{color:var(--cyan)}.intro{line-height:1.8;color:#91a0bb;font-size:13px;margin:0 0 36px;max-width:290px}.how-card{display:flex;align-items:flex-start;gap:16px;margin:0 0 22px}.how-icon{height:33px;min-width:33px;border:1px solid #34445d;background:#172237;border-radius:9px;color:#b8c9e5;display:grid;place-items:center;font-size:19px}.how-card strong{display:block;font-size:10px;letter-spacing:.14em;margin:2px 0 6px}.how-card p{margin:0;color:#8798b3;font-size:12px;line-height:1.55}.sidebar-footer{display:flex;align-items:center;gap:10px;color:#576983;font-size:9px;letter-spacing:.14em;margin-top:48px}.tiny-orbit{width:20px;height:20px;border:1px solid #446176;border-radius:50%;position:relative}.tiny-orbit:after{content:'';position:absolute;left:7px;top:-4px;width:6px;height:6px;border-radius:50%;background:var(--cyan)}.game-column{min-width:0;display:flex;flex-direction:column;align-items:stretch}.game-header{display:flex;justify-content:space-between;align-items:flex-end;margin:0 2px 17px}.kicker{color:#95a5bd;display:block}.level-title-block h2{font-family:'Space Grotesk',sans-serif;font-size:20px;letter-spacing:-.025em;margin:7px 0 0}.stat-cluster{display:flex;align-items:center;gap:19px}.stat{text-align:right}.stat-label{display:block;letter-spacing:.13em;color:#73849f;font-size:8px;font-weight:700;margin-bottom:5px}.stat strong{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#eaf3ff}.stat-slash{font-size:14px;padding:0 3px;color:#58718c}.frame-wrap{width:100%}.game-frame{width:100%;position:relative;aspect-ratio:3/5;border-radius:22px;background:#0c182a;border:1px solid #33415b;box-shadow:0 22px 65px #02040890,0 0 0 7px #152035b0,inset 0 0 40px #38d1ff08;overflow:hidden}.game-frame canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;user-select:none;outline-offset:-5px}.flight-hud{position:absolute;z-index:3;top:14px;left:50%;transform:translateX(-50%);width:calc(100% - 38px);max-width:370px;padding:9px 13px 10px;background:linear-gradient(115deg,#0d1b30ee,#111e36ee);border:1px solid #4a6380;border-radius:11px;box-shadow:0 5px 22px #02071288,0 0 18px #32d5ff12;pointer-events:none;user-select:none;transition:border-color .15s,box-shadow .15s}
@@ -31,6 +31,13 @@
 .par-progress{font-size:10px;color:#8ac8d4;margin:12px 0 0;line-height:1.4}
 .level-tile .tile-best{color:#89ddeb;font:600 9px 'Space Grotesk',sans-serif;letter-spacing:0}
 @media(max-width:480px){.record-strip{margin-top:8px;padding:8px 9px}.record-item{gap:5px}.record-item .record-label{font-size:8px;letter-spacing:.02em}.record-item strong{font-size:12px}.record-divider{height:16px}}
+
+.stage-tip{display:none;padding:9px 12px;margin:10px 1px 0;background:#172438;border:1px solid #394f63;border-radius:10px;color:#b4d8ea;font-size:10px;font-weight:600;line-height:1.5;text-align:center;letter-spacing:.015em}
+.stage-tip.active{display:block}
+.crystal-dot{background:#bb75d8;border:4px solid #7d479b;box-shadow:0 0 14px #d29aef66}
+.circuit-dot{background:#71ddbf;border:4px solid #426c76;box-shadow:0 0 14px #72f5b966}
+.diode-dot{background:#f1d091;border:4px solid #8b6544;box-shadow:0 0 14px #f4c57866}
+@media (max-width:480px){.stage-tip{font-size:9px;padding:8px 10px;margin-top:10px}}
 </style>
 </head>
 <body>
@@ -42,7 +49,7 @@
         <div><div class="wordmark">ECHO<span>SHOT</span></div><div class="brand-sub">ONE SHOT · INFINITE POSSIBILITIES</div></div>
       </div>
       <div class="top-actions">
-        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.3</span></span>
+        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.4</span></span>
         <button id="soundBtn" class="icon-btn" type="button" aria-label="Turn sound on" title="Toggle sound">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-wave" d="M15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"/><path class="sound-cross" d="m16 9 5 6m0-6-5 6"/></svg>
         </button>
@@ -61,7 +68,7 @@
       <section class="game-column" aria-label="Game">
         <div class="game-header">
           <div class="level-title-block">
-            <span class="kicker"><span id="chapterNotice">ORBITAL BASICS</span> · STAGE <span id="levelNumber">01</span> / <span id="levelTotal">50</span></span>
+            <span class="kicker"><span id="chapterNotice">ORBITAL BASICS</span> · STAGE <span id="levelNumber">01</span> / <span id="levelTotal">75</span></span>
             <h2 id="levelTitle">FIRST SPARK</h2>
           </div>
           <div class="stat-cluster">
@@ -91,6 +98,7 @@
             </div>
           </div>
           <div class="game-caption"><span><span class="live-dot"></span> PHYSICS SIMULATION ONLINE</span><span id="statusText">READY TO LAUNCH</span></div>
+          <div class="stage-tip" id="stageTip" aria-live="polite"></div>
           <div class="record-strip" aria-label="Level flight time challenge">
             <div class="record-item"><span class="par-icon" aria-hidden="true">◎</span><span class="record-label">TARGET</span><strong id="parTarget">—</strong></div>
             <span class="record-divider" aria-hidden="true"></span>
@@ -112,19 +120,22 @@
         <div class="legend"><span class="legend-dot echo-dot"></span><div><strong>RESONATOR</strong><small>Splits your ball into two echoes</small></div></div>
         <div class="legend"><span class="legend-dot portal-dot"></span><div><strong>WORMHOLE GATE</strong><small>Teleport to its paired gate · from stage 25</small></div></div>
         <div class="legend"><span class="legend-dot moving-dot"></span><div><strong>DRIFTING TARGET</strong><small>Moves along a small path · from stage 35</small></div></div>
+        <div class="legend"><span class="legend-dot crystal-dot"></span><div><strong>BREAKABLE CRYSTAL</strong><small>Breaks on first hit · stage 51</small></div></div>
+        <div class="legend"><span class="legend-dot circuit-dot"></span><div><strong>CIRCUIT SWITCH</strong><small>Opens a linked red gate · stage 58</small></div></div>
+        <div class="legend"><span class="legend-dot diode-dot"></span><div><strong>ONE-WAY SHIELD</strong><small>Only passes in arrow direction · stage 66</small></div></div>
         <div class="side-line"></div>
         <div class="side-heading">YOUR JOURNEY</div>
-        <div class="progress-summary"><span>LEVELS CLEARED</span><strong id="levelsCleared">0 <small>/ 50</small></strong></div>
+        <div class="progress-summary"><span>LEVELS CLEARED</span><strong id="levelsCleared">0 <small>/ 75</small></strong></div>
         <div class="progress-track"><div id="progressFill"></div></div>
         <p class="par-progress" id="parWins">0 / 50 flight challenges beaten</p>
-        <p class="right-footnote">No lives. One visible flight timer. No paywalls.<br/>Just one more shot.</p>
+        <p class="right-footnote">No lives. A visible timer. New challenges to master.<br/>Just one more shot.</p>
         <div class="keyboard-note">DESKTOP <span>← → AIM · SPACE FIRE · R RETRY</span></div>
       </aside>
     </div>
     <footer class="footer"><span>© ECHOSHOT — AN ORIGINAL ONE-FINGER PUZZLE</span><span>BUILT FOR TOUCH · MADE TO REPLAY</span></footer>
   </main>
   <div id="levelsModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="levelsHeading">
-    <div class="modal-card"><div class="modal-header"><div><span class="kicker">SELECT YOUR SIGNAL</span><h2 id="levelsHeading">STAGES</h2></div><button type="button" class="close-btn" id="closeLevels" aria-label="Close level selection">✕</button></div><p>Complete a stage to unlock the next. Stars reflect attempts; your fastest single-shot clear appears below each finished level.</p><div class="level-grid" id="levelGrid"></div></div>
+    <div class="modal-card"><div class="modal-header"><div><span class="kicker">SELECT YOUR SIGNAL</span><h2 id="levelsHeading">STAGES</h2></div><button type="button" class="close-btn" id="closeLevels" aria-label="Close level selection">✕</button></div><p>Complete stages to unlock new mechanics. Stars reward fewer attempts; records reward faster shots.</p><div class="level-grid" id="levelGrid"></div></div>
   </div>
   <script>
 // ECHOSHOT – deterministic, original 2D collision system. No dependencies.
@@ -140,7 +151,7 @@ const MAX_BALLS = 12;
 const EPS = 0.001;
 function velocityForAngle(angle) { return {vx: Math.sin(angle)*SPEED, vy:-Math.cos(angle)*SPEED}; }
 function ballFor(angle, id=0, kind='prime', x=WORLD.launchX,y=WORLD.launchY){return { id,kind,x,y,...velocityForAngle(angle),age:0, trail:[], cooldown: {}, dead:false };}
-function makeShot(level,angle){return { level, angle, balls:[ballFor(angle)], nextId:1, elapsed:0, timeLimit:shotTimeLimit(level), events:[], echoesUsed:new Set(), portalsUsed:0, removed:new Set(), particles:[], done:false, success:false };}
+function makeShot(level,angle){return { level, angle, balls:[ballFor(angle)], nextId:1, elapsed:0, timeLimit:shotTimeLimit(level), events:[], echoesUsed:new Set(), portalsUsed:0, shattered:new Set(), switches:new Set(), diodePasses:new Set(), removed:new Set(), particles:[], done:false, success:false };}
 // Dynamic positions are always relative to elapsed SHOT time; the puzzle is deterministic.
 function targetPosition(t,elapsed){
  if(!t.moving)return {x:t.x,y:t.y};
@@ -176,8 +187,24 @@ function advanceBall(s,b,dt){
     }
   }
   for(const o of s.level.obstacles){
+    // Collisions are shot-local; the shared geometry is never mutated.
+    if(o.type==='crystal'&&s.shattered.has(o.id))continue;
+    if(o.type==='gate'&&s.switches.has(o.link))continue;
     const dx=b.x-o.x,dy=b.y-o.y,dist=Math.hypot(dx,dy),limit=RADIUS+o.r;
     if(dist >= limit)continue;
+    if(o.type==='crystal'){
+      s.shattered.add(o.id);emit(s,'shatter',{id:o.id,x:o.x,y:o.y});continue;
+    }
+    if(o.type==='switch'){
+      if(!s.switches.has(o.id)){s.switches.add(o.id);emit(s,'switch',{id:o.id,x:o.x,y:o.y});}
+      continue;
+    }
+    if(o.type==='diode'){
+      if(b.vx*o.dx+b.vy*o.dy>0){
+        if(!s.diodePasses.has(o.id)){s.diodePasses.add(o.id);emit(s,'pass',{id:o.id,x:o.x,y:o.y});}
+        continue;
+      }
+    }
     let nx,ny;
     if(dist<EPS){const sp=Math.hypot(b.vx,b.vy)||1;nx=-b.vx/sp;ny=-b.vy/sp;}
     else{nx=dx/dist;ny=dy/dist;}
@@ -251,8 +278,9 @@ function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
 const ANGLES=[0,-0.32,0.14,-0.25,0.43,-0.48,0.26,-0.04,0.53,-0.39,0.18,-0.50,0.37,-0.12,0.48,-0.29,0.10,-0.44,0.30,0.0];
 const TITLES=['FIRST SPARK','SIDEWINDER','THE FIRST ECHO','TWIN PATHS','AFTERGLOW','CROSSCURRENT','BOUNCE THEORY','HALO','DOUBLE DOWN','SPLIT SECOND','ECHO CHAMBER','GLASSHOUSE','NEON WEATHER','THE LONG WAY','CRESCENDO','PINBALL MIND','SUPERNOVA','ONE LAST SHOT','RESONANCE','INFINITE LOOP'];
 const cache=new Map();
-const LEVEL_COUNT=50;
+const LEVEL_COUNT=75;
 function geometry(n){
+ if(n>50)return geometryV3(n);
  if(n>20)return geometryV2(n);
  const i=(n-1)%20;
  const random=rng(n*9277+619);const angle=ANGLES[i];
@@ -344,11 +372,75 @@ function geometryV2(n){
  }
  return {id:n,name:EXTRA_TITLES[index],angle,obstacles,portals,echoSpread:.53+((n%3)*.024)};
 }
+
+// V0.4 — independent puzzles with teach-one-mechanic-at-a-time progression.
+// 51–57: shatter a crystal and keep moving. 58–65: switches open a closed gate.
+// 66–75: one-way shields let the ball through in the arrow direction only.
+const V4_ANGLES=[.11,-.41,.28,-.17,.52,-.34,.06,.43,-.29,.20,-.53,.31,-.10,.39,-.22,.47,-.35,.14,-.46,.23,-.05,.37,-.26,.50,-.15];
+const V4_TITLES=[
+ 'A CRACK IN SPACE','FIRST FRACTURE','CRYSTAL LINE','DIAMOND DUST','SHATTER PATH',
+ 'A LIGHT THROUGH','THE GLASS GATE','CIRCUIT START','SWITCHBACK','OPEN SESAME',
+ 'LIVE WIRE','CLOSED CIRCUIT','THE SECOND KEY','HALF A SECOND','POWER PLAY',
+ 'POLARITY','FOLLOW THE ARROW','ONE WAY OUT','DIRECTION SHIFT','REVERSE CURRENT',
+ 'SPLIT DECISION','CRYSTAL CIRCUIT','SIGNAL CROSSING','THE LAST SWITCH','THE OTHER SIDE'
+];
+function geometryV3(n){
+ const index=n-51,angle=V4_ANGLES[index],random=rng(n*63391+2417);
+ const dir={x:Math.sin(angle),y:-Math.cos(angle)};
+ const obstacles=[],portals=[];
+ let exit=null;
+ if(n>=57){
+   const entry={id:'gate-a',mate:'gate-b',x:WORLD.launchX+dir.x*190,y:WORLD.launchY+dir.y*190,r:17};
+   exit={id:'gate-b',mate:'gate-a',x:dir.x>=0?83+(n%4)*9:277-(n%4)*9,y:322+(n%4)*10,r:17};
+   portals.push(entry,exit);
+ }
+ const anchor=exit??{x:WORLD.launchX,y:WORLD.launchY};
+ const resonatorDistance=exit?124:215;
+ obstacles.push({id:'r1',type:'resonator',x:anchor.x+dir.x*resonatorDistance,y:anchor.y+dir.y*resonatorDistance,r:17});
+ if(n>=62){
+   const first=obstacles[0],base=Math.atan2(-dir.y,-dir.x)-.53;
+   const candidate={x:first.x+Math.cos(base)*111,y:first.y+Math.sin(base)*111};
+   if(candidate.x>55&&candidate.x<305&&candidate.y>121&&candidate.y<509&&portals.every(p=>dist(candidate,p)>65))
+      obstacles.push({id:'r2',type:'resonator',x:candidate.x,y:candidate.y,r:15});
+ }
+ if(n<=57){
+   obstacles.push({id:'glass-1',type:'crystal',x:WORLD.launchX+dir.x*75,y:WORLD.launchY+dir.y*75,r:12});
+ }
+ if(n>=58){
+   // The order of the circuit elements along the guaranteed seed path is intentional.
+   obstacles.push({id:'circuit-1',type:'switch',x:WORLD.launchX+dir.x*94,y:WORLD.launchY+dir.y*94,r:11});
+   obstacles.push({id:'circuit-gate-1',type:'gate',link:'circuit-1',x:WORLD.launchX+dir.x*143,y:WORLD.launchY+dir.y*143,r:13});
+ }
+ if(n>=66){
+   obstacles.push({id:'diode-1',type:'diode',x:WORLD.launchX+dir.x*54,y:WORLD.launchY+dir.y*54,r:13,dx:dir.x,dy:dir.y});
+ }
+ if(n>=70 && exit){
+   obstacles.push({id:'glass-2',type:'crystal',x:exit.x+dir.x*62,y:exit.y+dir.y*62,r:12});
+ }
+ const count=n<58?3:n<66?3:4;
+ let tries=0;
+ while(obstacles.filter(o=>o.type==='bumper').length<count && tries++<260){
+   const x=51+random()*258,y=137+random()*330,c={x,y};
+   if(dist(c,{x:WORLD.launchX,y:WORLD.launchY})<78)continue;
+   if(obstacles.some(o=>dist(c,o)<65)||portals.some(p=>dist(c,p)<62))continue;
+   // Protect the seed's opening and post-portal lanes to give every stage a verified solution.
+   const corridors=[{start:{x:WORLD.launchX,y:WORLD.launchY},length:exit?212:230}];
+   if(exit)corridors.push({start:exit,length:153});
+   if(corridors.some(path=>{
+     const vx=x-path.start.x,vy=y-path.start.y;
+     const projection=vx*dir.x+vy*dir.y;
+     return projection>0&&projection<path.length&&Math.abs(vx*dir.y-vy*dir.x)<42;
+   }))continue;
+   obstacles.push({id:'b'+obstacles.length,type:'bumper',x,y,r:15+(n%3)*2});
+ }
+ return {id:n,name:V4_TITLES[index],angle,obstacles,portals,echoSpread:.54+((n%4)*.019)};
+}
+
 function placeTargets(level){
  const trace=traceShot(level,level.angle,6.3);
  const selected=[];
  const groups=trace.byBall;
- const count=level.id<=20?Math.min(11,4+Math.floor((level.id-1)/2)):Math.min(11,6+Math.floor((level.id-21)/5));
+ const count=level.id>50?Math.min(12,7+Math.floor((level.id-51)/5)):level.id<=20?Math.min(11,4+Math.floor((level.id-1)/2)):Math.min(11,6+Math.floor((level.id-21)/5));
  function allowed(p){
    if(p.x<49||p.x>311||p.y<124||p.y>492)return false;
    if(p.age<.10)return false;
@@ -446,7 +538,7 @@ const $=id=>document.getElementById(id);
 const canvas=$('game'),ctx=canvas.getContext('2d',{alpha:false});
 const TAU=Math.PI*2;
 const STORAGE='echoshot-progress-v1'; // v0.2 uses the same key to preserve every player's progress.
-function safeLoad(){try{const v=JSON.parse(localStorage.getItem(STORAGE)||'{}');return {unlocked:Math.max(1,Math.min(LEVEL_COUNT,Math.max(v.unlocked||1,v.best?.[20]?21:1))),best:v.best||{},times:v.times&&typeof v.times==='object'&&!Array.isArray(v.times)?v.times:{},sound:!!v.sound}}catch{return {unlocked:1,best:{},times:{},sound:false}}}
+function safeLoad(){try{const v=JSON.parse(localStorage.getItem(STORAGE)||'{}');return {unlocked:Math.max(1,Math.min(LEVEL_COUNT,Math.max(v.unlocked||1,v.best?.[20]?21:1,v.best?.[50]?51:1))),best:v.best||{},times:v.times&&typeof v.times==='object'&&!Array.isArray(v.times)?v.times:{},sound:!!v.sound}}catch{return {unlocked:1,best:{},times:{},sound:false}}}
 let save=safeLoad();
 let levelIndex=save.unlocked,level=getLevel(levelIndex),attempts=0,shot=null,mode='ready',aimAngle=0,aiming=false,aimPointer=null;
 let preview=[],particles=[],floating=[],last=performance.now(),time=0,hitFlash=0,toastTimeout=0,hintUntil=0,winPending=false;
@@ -462,7 +554,10 @@ function setSound(){const b=$('soundBtn');b.classList.toggle('sound-on',save.sou
 function updateProgress(){
  $('levelNumber').textContent=String(levelIndex).padStart(2,'0');$('levelTotal').textContent=LEVEL_COUNT;
  $('levelTitle').textContent=level.name;$('targetTotal').textContent=level.targets.length;
- $('chapterNotice').textContent=levelIndex<=20?'ORBITAL BASICS':levelIndex<25?'SIGNAL REBORN':levelIndex<35?'WORMHOLE GATES':levelIndex<45?'MOVING TARGETS':'THE FINAL FREQUENCY';
+ const tip=$('stageTip');
+ tip.textContent=levelIndex>69?'➤ Follow gold arrows · ◉ open red gates · ✧ shatter crystals':levelIndex>65?'➤ Follow the gold arrow; ◉ open the red gate':levelIndex>57?'◉ Touch the blue switch to open the red gate':levelIndex>50?'✧ Crystal obstacles break when struck':' ';
+ tip.classList.toggle('active',levelIndex>50);
+ $('chapterNotice').textContent=levelIndex<=20?'ORBITAL BASICS':levelIndex<25?'SIGNAL REBORN':levelIndex<35?'WORMHOLE GATES':levelIndex<45?'MOVING TARGETS':levelIndex<=50?'FINAL FREQUENCY':levelIndex<58?'CRYSTAL RUN':levelIndex<66?'CIRCUIT SHIFT':'POLARITY LAB';
  $('remaining').textContent=level.targets.length-(shot?.removed.size??0);$('attempts').textContent=attempts;
  const cleared=Object.keys(save.best).filter(k=>Number(k)>=1&&Number(k)<=LEVEL_COUNT).length;
  $('levelsCleared').innerHTML=`${cleared} <small>/ ${LEVEL_COUNT}</small>`;$('progressFill').style.width=`${(cleared/LEVEL_COUNT)*100}%`;
@@ -520,6 +615,9 @@ function handleEvents(events){
     burst(e.x,e.y,'#bd8fff',34,165);spawnFloat(e.x,e.y,'ECHO ×2','#d5aaff');
     toast('◈  RESONANCE ACTIVATED');beep(310,.28,'triangle',.09);vibrate([20,45,20]);
   } else if(e.type==='portal'){burst(e.x,e.y,'#59edd3',25,130);spawnFloat(e.x,e.y,'WARP','#68e9c7');beep(880,.17,'sine',.06);}
+  else if(e.type==='shatter'){burst(e.x,e.y,'#f5a8ff',27,155);spawnFloat(e.x,e.y,'SHATTER','#f8b9ff');beep(760,.17,'triangle',.06);}
+  else if(e.type==='switch'){burst(e.x,e.y,'#8cf5a8',25,130);spawnFloat(e.x,e.y,'GATE OPEN','#a9ffcf');toast('◉ CIRCUIT OPEN');beep(620,.18,'sine',.06);}
+  else if(e.type==='pass'){burst(e.x,e.y,'#f4cb86',9,45);spawnFloat(e.x,e.y,'ONE WAY','#f5deab');}
   else if(e.type==='bumper'){if(random()<.35)burst(e.x,e.y,'#7bc4dd',3,40);}
   else if(e.type==='win'){if(!winPending){winPending=true;mode='complete';setTimeout(()=>showResult(true),700);}}
   else if(e.type==='end'){if(!winPending){winPending=true;mode='complete';setTimeout(()=>showResult(false),480);}}
@@ -558,9 +656,9 @@ function openLevels(){
  const grid=$('levelGrid');grid.textContent='';
  for(let n=1;n<=LEVEL_COUNT;n++){
   const unlocked=n<=save.unlocked;
-  if([1,21,25,35,45].includes(n)){
+  if([1,21,25,35,45,51,58,66].includes(n)){
     const heading=document.createElement('div');heading.className='chapter-tile';
-    heading.textContent=n===1?'ORBITAL BASICS · 01–20':n===21?'SIGNAL REBORN · 21–24':n===25?'WORMHOLE GATES · 25–34':n===35?'MOVING TARGETS · 35–44':'FINAL FREQUENCY · 45–50';
+    heading.textContent=n===1?'ORBITAL BASICS · 01–20':n===21?'SIGNAL REBORN · 21–24':n===25?'WORMHOLE GATES · 25–34':n===35?'MOVING TARGETS · 35–44':n===45?'FINAL FREQUENCY · 45–50':n===51?'CRYSTAL RUN · 51–57':n===58?'CIRCUIT SHIFT · 58–65':'POLARITY LAB · 66–75';
     grid.appendChild(heading);
   }
   const b=document.createElement('button');b.type='button';b.className='level-tile' +(n===levelIndex?' current':'')+(unlocked?'':' locked');
@@ -668,6 +766,30 @@ function drawPortal(p){
 }
 function drawObstacle(o){
  const r=o.r;
+ if(o.type==='crystal'){
+   if(shot?.shattered.has(o.id))return;
+   ctx.save();ctx.translate(o.x,o.y);ctx.shadowColor='#f3a2fd';ctx.shadowBlur=18;
+   ctx.fillStyle='#954bb9';ctx.strokeStyle='#edb6ff';ctx.lineWidth=2;
+   ctx.beginPath();ctx.moveTo(0,-r-5);ctx.lineTo(r,0);ctx.lineTo(0,r+5);ctx.lineTo(-r,0);ctx.closePath();ctx.fill();ctx.stroke();
+   ctx.shadowBlur=0;line(-5,-8,5,7,'#ffe4ff',1.6);ctx.restore();return;
+ }
+ if(o.type==='switch'){
+   const on=shot?.switches.has(o.id);ctx.save();ctx.translate(o.x,o.y);ctx.shadowColor=on?'#72f5bb':'#80c8ed';ctx.shadowBlur=15;
+   ctx.fillStyle=on?'#216c52':'#20466b';ctx.strokeStyle=on?'#a9ffd3':'#9ad9ff';ctx.lineWidth=2.5;
+   circle(0,0,r+2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle=on?'#b0ffdd':'#bde4ff';circle(0,0,5);ctx.fill();ctx.restore();return;
+ }
+ if(o.type==='gate'){
+   const open=shot?.switches.has(o.link);ctx.save();ctx.globalAlpha=open?.30:1;ctx.translate(o.x,o.y);
+   ctx.shadowColor='#76f7ab';ctx.shadowBlur=open?3:16;ctx.strokeStyle=open?'#b3fbd5':'#ff8c8c';ctx.lineWidth=3;
+   circle(0,0,r+3);ctx.stroke();ctx.shadowBlur=0;
+   if(!open){line(-r*.6,0,r*.6,0,'#ffb7b7',3);line(0,-r*.6,0,r*.6,'#ffb7b7',3);}ctx.restore();return;
+ }
+ if(o.type==='diode'){
+   ctx.save();ctx.translate(o.x,o.y);ctx.shadowColor='#f4c578';ctx.shadowBlur=12;
+   ctx.fillStyle='#664c30';ctx.strokeStyle='#f3d28c';ctx.lineWidth=2;
+   circle(0,0,r);ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.rotate(Math.atan2(o.dy,o.dx));
+   ctx.beginPath();ctx.moveTo(8,0);ctx.lineTo(-4,-6);ctx.lineTo(-4,6);ctx.closePath();ctx.fillStyle='#ffe6a5';ctx.fill();ctx.restore();return;
+ }
  if(o.type==='resonator'){
    const used=shot?.echoesUsed.has(o.id);const pulse=.5+.5*Math.sin(time*3+o.x*.06);
    const rad=r+7+3*pulse;ctx.save();ctx.translate(o.x,o.y);
@@ -751,7 +873,7 @@ function tick(now){
  render(dt);requestAnimationFrame(tick);
 }
 setSound();refreshPreview();updateProgress();requestAnimationFrame(tick);
-window.__ECHOSHOT_DEBUG__={levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
+window.__ECHOSHOT_DEBUG__={levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,switches:shot?.switches.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
 
 </script>
 </body>
