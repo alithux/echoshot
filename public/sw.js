@@ -1,5 +1,5 @@
-/* ECHOSHOT v0.5.1 — offline application shell. All gameplay is bundled in index.html. */
-const CACHE_NAME = 'echoshot-static-v0.5.1';
+/* ECHOSHOT v0.5.2 — offline application shell. All gameplay is bundled in index.html. */
+const CACHE_NAME = 'echoshot-static-v0.5.2';
 const ASSETS = ['/', '/index.html', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/apple-touch-icon.png'];
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
