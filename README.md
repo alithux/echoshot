@@ -1,5 +1,23 @@
-# ECHOSHOT v0.5.1 — Crystal Rework and Offline PWA
+# ECHOSHOT v0.5.2 — Circuit Wiring Clarity
 
+**Play:** https://echoshot-game.onrender.com
+
+## New in v0.5.2
+
+- A softly glowing, pulsing **blue connection** shows which switch controls each red gate from stage 58 onward.
+- Once a ball or echo touches the blue switch, the gate opens and the connection changes **green** for the rest of that shot.
+- A small traveling spark makes the connection visible without obscuring targets or the aiming trajectory.
+- The on-screen circuit instruction describes the blue-switch/red-gate relationship.
+- The physics, all **75 stages**, crystal behavior, time challenges, stars, saved progress, offline PWA, and backup/restore remain unchanged.
+- The service-worker cache is bumped to **v0.5.2** so installed PWA players can receive the updated visuals when opening online.
+
+## Quality checks
+
+- `node test_crystals.cjs` — all 75 verified solutions pass.
+- `node test_sw.cjs` — installation cache and offline fallback pass.
+- `python test_circuit_links.py` — mobile Chromium confirms a blue link for a closed gate, a green link after activating the switch, no link on crystal-only stages, and no JavaScript exceptions.
+
+---
 **Play:** https://echoshot-game.onrender.com
 
 ## New in v0.5.1 — Breakable reflectors
