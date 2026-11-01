@@ -1,32 +1,31 @@
-# ECHOSHOT v0.6 — Circuit Timing
+# ECHOSHOT v0.6.1 — iPhone Touch Aim Fix
 
 **Play:** https://echoshot-game.onrender.com
 
-This release makes blue switches and red gates a more meaningful gameplay mechanic while preserving the original 75 stages, the arcade audio, and the installable offline PWA.
+## What changed
 
-## New gameplay
+A bug in the previous touch aiming formula subtracted the launcher position twice, artificially restricting the angles that direct taps could reach on an iPhone.
 
-- Hit a blue switch to **charge** its red gate for **0.27 seconds**.
-- During charging the gate **remains solid** and can bounce the ball. This early deflection changes shot paths in circuit stages 58–75.
-- The circuit wire progresses **blue (idle) → amber (charging) → green (open)**, with animations and sound cues for the gate ricochet and activation.
-- A gate opens automatically when charging ends; a subsequent ball/echo can then pass through. No change to the 12-second flight limit in later stages.
-- All 18 circuit levels have a verified closed-gate bounce *before* opening. Fourteen levels also demonstrate a ball crossing an opened gate.
-- Stage 62 maintains **nine targets** after a targeted spacing adjustment. All 75 levels remain solvable with the deterministic seed shot.
-- Early levels **1–57 are unchanged**. No player data is reset. Existing stars, unlocked levels, best times, achievements, sound preferences and backup files remain. Older personal-best times on redesigned late levels are retained for continuity.
+- **True −90° to +90° range:** Touch near the bottom launcher, then swipe horizontally to rotate the shot from far left to far right. Approximately a 110 CSS-pixel horizontal swipe reaches the limit on a 330px wide game board.
+- **Direct targeting preserved:** Tap or drag elsewhere on the canvas to aim directly toward your chosen point, now using the correct geometric bearing.
+- **Angle readout:** While aiming, a live readout shows the degrees and direction (for example, `AIM 90° RIGHT`). Release to launch, as before.
+- **Desktop unchanged in principle:** Mouse point-to-aim and keyboard arrows still work, now supporting the complete upper 180° arc.
+- No alterations to the game physics, difficulty, 75 levels, time limits, SFX, achievements, stars, personal-best records, saved progress, or backup format.
 
-## Quality verification
+## Testing
 
-- `node test_circuit.cjs`: 75/75 seeded levels solvable; every circuit stage blocks before charging completes and opens at 0.27 s. Stages 1–57 match the old version exactly.
-- Mobile Chromium checks (390×844, 375×667) and desktop (1280×900) pass without JavaScript exceptions; wire and gate state tracked through an actual shot.
-- `node test_sw.cjs`: 6 PWA shell assets cached with offline navigation fallback.
+- `node test_circuit.cjs`: **75/75** reference shots solve; all 18 timed circuit gates function, and legacy levels remain unchanged.
+- `python test_aim.py` (included in the downloadable release): mobile Chromium **390×844 and 375×667** real touch events verify **−90°, +90°, straight up, direct taps**, release-to-fire, HUD angle display, and no JavaScript errors.
+- `node test_sw.cjs`: the PWA caches its six files and serves the offline application shell.
 
-## Install and play
+## PWA refresh
 
-**Web:** https://echoshot-game.onrender.com
+PWA service worker cache changes from `echoshot-static-v0.6` to `echoshot-static-v0.6.1`. Launch the installed ECHOSHOT app while online to receive the latest release; closing and reopening the app might be necessary before the new controls take effect. Game saves remain in `echoshot-progress-v1` in the same browser.
 
-**iPhone:** Open in Safari > Share > Add to Home Screen. **Android:** Chrome > Install app / Add to Home screen. If already installed, open online once to receive the **v0.6** offline-cache update (`echoshot-static-v0.6`). Progress remains locally stored in `echoshot-progress-v1` and is not synced between devices.
+## Hosting
 
-## Repository and deploy
+Render static site: https://echoshot-game.onrender.com
 
-Source: https://github.com/alithux/echoshot
-Render static site build command: `mkdir -p public && cp index.html public/index.html`, publish directory: `public`.
+GitHub: https://github.com/alithux/echoshot
+
+Build: `mkdir -p public && cp index.html public/index.html`; publish: `public`.
