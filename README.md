@@ -1,28 +1,32 @@
-# ECHOSHOT v0.5.3 — Arcade SFX
+# ECHOSHOT v0.6 — Circuit Timing
 
 **Play:** https://echoshot-game.onrender.com
 
-## Arcade audio upgrade
+This release makes blue switches and red gates a more meaningful gameplay mechanic while preserving the original 75 stages, the arcade audio, and the installable offline PWA.
 
-- New original, layered Web Audio effects: **launch, bounce, target, echo, portal, crystal, switch/gate, one-way shield, victory, defeat, hints, and menu taps**.
-- Synthesized tones plus filtered noise give each event a distinct arcade sci-fi character, including a four-note victory melody.
-- **iPhone-friendly:** audio is initialized/resumed during user pointer/touch/keyboard gestures, and never autoplays on load.
-- **Mute preference preserved:** the existing sound button controls playback; sound status still lives alongside your levels/stars/times under `echoshot-progress-v1`. New users start muted.
-- Repeated collision sounds are rate limited; a compressor softens loud overlaps.
-- **PWA/offline:** no sound downloads or third-party audio libraries. All effects are generated inside the cached `index.html`. The offline cache is bumped to `echoshot-static-v0.5.3`.
-- All **75 stages, physics, crystal requirements, circuit wiring, timers, stars, achievements and progress backups** are unchanged.
+## New gameplay
 
-## Testing
+- Hit a blue switch to **charge** its red gate for **0.27 seconds**.
+- During charging the gate **remains solid** and can bounce the ball. This early deflection changes shot paths in circuit stages 58–75.
+- The circuit wire progresses **blue (idle) → amber (charging) → green (open)**, with animations and sound cues for the gate ricochet and activation.
+- A gate opens automatically when charging ends; a subsequent ball/echo can then pass through. No change to the 12-second flight limit in later stages.
+- All 18 circuit levels have a verified closed-gate bounce *before* opening. Fourteen levels also demonstrate a ball crossing an opened gate.
+- Stage 62 maintains **nine targets** after a targeted spacing adjustment. All 75 levels remain solvable with the deterministic seed shot.
+- Early levels **1–57 are unchanged**. No player data is reset. Existing stars, unlocked levels, best times, achievements, sound preferences and backup files remain. Older personal-best times on redesigned late levels are retained for continuity.
 
-- `node test_crystals.cjs`: all 75 seeded levels and crystal mechanics still pass.
-- `node test_sw.cjs`: offline PWA app-shell caching passes.
-- Playwright Chromium mobile checks at 390px and 375px: all 13 SFX event types fire, toggle respects mute, no JS exceptions; an actual stage-51 playthrough produces launch/target/crystal sound events.
-- Browser storage checks: sound ON/OFF survives serialization, while unlocked stage, scores, and best times remain unchanged.
+## Quality verification
 
-## Install
+- `node test_circuit.cjs`: 75/75 seeded levels solvable; every circuit stage blocks before charging completes and opens at 0.27 s. Stages 1–57 match the old version exactly.
+- Mobile Chromium checks (390×844, 375×667) and desktop (1280×900) pass without JavaScript exceptions; wire and gate state tracked through an actual shot.
+- `node test_sw.cjs`: 6 PWA shell assets cached with offline navigation fallback.
 
-Open [ECHOSHOT](https://echoshot-game.onrender.com) in Safari or Chrome. Tap the top **speaker** icon to enable/disable sound. For home-screen installs, open **online once** to update the offline game before playing without internet access.
+## Install and play
 
-## Building
+**Web:** https://echoshot-game.onrender.com
 
-No external runtime dependencies. All gameplay and audio live in `index.html`. Render publishes the `public/` directory; build command: `mkdir -p public && cp index.html public/index.html`.
+**iPhone:** Open in Safari > Share > Add to Home Screen. **Android:** Chrome > Install app / Add to Home screen. If already installed, open online once to receive the **v0.6** offline-cache update (`echoshot-static-v0.6`). Progress remains locally stored in `echoshot-progress-v1` and is not synced between devices.
+
+## Repository and deploy
+
+Source: https://github.com/alithux/echoshot
+Render static site build command: `mkdir -p public && cp index.html public/index.html`, publish directory: `public`.
