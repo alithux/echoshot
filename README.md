@@ -1,31 +1,25 @@
-# ECHOSHOT v0.6.1 — iPhone Touch Aim Fix
+# ECHOSHOT v0.7 — Puzzle Design Overhaul (Phase 1)
 
 **Play:** https://echoshot-game.onrender.com
 
-## What changed
+## Shipped changes
+- Portal-dependent curated target placements in stages 28, 30, and 32.
+- A moving-target dependency in stage 67.
+- Explicit circuit mastery objectives in stages 58–75: bounce off the charging gate and open it; cross after opening on designated stages; follow a one-way shield in stages 66–75.
+- No changes to the 75 stage IDs, existing saved unlocks, star ratings, best times, arcade SFX, offline PWA, or tested ±90° iPhone aiming.
+- Updated service-worker cache `echoshot-static-v0.7` so home-screen installs can update while online.
 
-A bug in the previous touch aiming formula subtracted the launcher position twice, artificially restricting the angles that direct taps could reach on an iPhone.
+## Internal level editor
+Open **`tools/level-editor.html`** locally in a desktop browser (or serve it from a local development server). It is in the GitHub repository but **not** in the Render `public/` publish directory. The editor loads 75 levels, supports drag/reposition, object tools, movement parameters, angle tuning, full-physics one-shot validation, original audit warnings, and standalone level JSON import/export. Exporting a proposal does not change the shipped game. There is no deployment or user-account access from the editor.
 
-- **True −90° to +90° range:** Touch near the bottom launcher, then swipe horizontally to rotate the shot from far left to far right. Approximately a 110 CSS-pixel horizontal swipe reaches the limit on a 330px wide game board.
-- **Direct targeting preserved:** Tap or drag elsewhere on the canvas to aim directly toward your chosen point, now using the correct geometric bearing.
-- **Angle readout:** While aiming, a live readout shows the degrees and direction (for example, `AIM 90° RIGHT`). Release to launch, as before.
-- **Desktop unchanged in principle:** Mouse point-to-aim and keyboard arrows still work, now supporting the complete upper 180° arc.
-- No alterations to the game physics, difficulty, 75 levels, time limits, SFX, achievements, stars, personal-best records, saved progress, or backup format.
+## Audit
+See [AUDIT.md](AUDIT.md) for the baseline/post-change findings, exact definitions, caveats, and future playtest tasks.
 
-## Testing
+## Test
+- `node test_v07.cjs` — 75 level solvability, portal/motion dependencies, circuit objectives, save key, iPhone angle limit.
+- `node test_sw.cjs` — PWA offline cache integration.
+- `node audit_fast.cjs index.html` — reproduce seeded-shot comparisons.
+- Mobile Chromium at 390 px; internal editor desktop Chromium, 75 stage loading and drag/field/export UI smoke tests.
 
-- `node test_circuit.cjs`: **75/75** reference shots solve; all 18 timed circuit gates function, and legacy levels remain unchanged.
-- `python test_aim.py` (included in the downloadable release): mobile Chromium **390×844 and 375×667** real touch events verify **−90°, +90°, straight up, direct taps**, release-to-fire, HUD angle display, and no JavaScript errors.
-- `node test_sw.cjs`: the PWA caches its six files and serves the offline application shell.
-
-## PWA refresh
-
-PWA service worker cache changes from `echoshot-static-v0.6` to `echoshot-static-v0.6.1`. Launch the installed ECHOSHOT app while online to receive the latest release; closing and reopening the app might be necessary before the new controls take effect. Game saves remain in `echoshot-progress-v1` in the same browser.
-
-## Hosting
-
-Render static site: https://echoshot-game.onrender.com
-
-GitHub: https://github.com/alithux/echoshot
-
-Build: `mkdir -p public && cp index.html public/index.html`; publish: `public`.
+## Deployment
+Render static site build: `mkdir -p public && cp index.html public/index.html` ; publish directory: `public`. The internal editor stays under `tools/`, outside the public directory. The PWA should be opened online once to fetch v0.7.
