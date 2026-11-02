@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ECHOSHOT Lab · Internal Level Editor</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,Arial,sans-serif;background:#080e1d;color:#e3edff}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#1c3146,#08101c 70%)}
+header{padding:18px 24px;border-bottom:1px solid #2f4156;display:flex;justify-content:space-between;gap:12px;align-items:center}header h1{font-size:20px;margin:0;letter-spacing:.08em}small,.hint{color:#98abc6}main{display:grid;grid-template-columns:minmax(300px,360px) minmax(330px,1fr);gap:22px;padding:24px;max-width:1100px;margin:auto}
+button,select,input{font:inherit;color:#eef6ff;background:#18263c;border:1px solid #46617b;border-radius:9px;padding:9px;min-width:0}button{cursor:pointer}button:hover{border-color:#70dce8}button.primary{background:#1d6673;border-color:#39cbd6}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #5bfff0}
+label{display:grid;gap:5px;font-size:12px;color:#b2cce0}input[type=range]{padding:0;width:100%}input[type=checkbox]{width:18px;height:18px}section{padding:16px;border:1px solid #32455d;background:#0d192bd9;border-radius:14px;display:grid;grid-template-columns:minmax(0,1fr);gap:13px;align-content:start;min-width:0}
+.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap;min-width:0}.row>label{min-width:0}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}canvas{display:block;width:100%;max-width:100%;min-width:0;touch-action:none;aspect-ratio:3/5;cursor:crosshair;border:1px solid #43637b;border-radius:12px;background:#0b182b}strong{color:#7ff2f0}
+#feedback{white-space:pre-wrap;font:12px/1.6 ui-monospace,monospace;background:#0a1425;border:1px solid #263951;padding:12px;border-radius:8px;min-height:90px;min-width:0;overflow-wrap:anywhere}
+.note{font-size:12px;line-height:1.6;color:#a9b9d0}.separator{height:1px;background:#263b54}.inline-check{display:flex;align-items:center;gap:7px}
+@media(max-width:800px){main{grid-template-columns:1fr;max-width:530px;padding:13px}header{padding:13px}canvas{max-height:70vh}header h1{font-size:17px}}
+</style></head>
+<body><header><div><h1>ECHOSHOT / LEVEL LAB</h1><small>Internal tool · v0.7 · local JSON only</small></div><span class="hint">NOT INCLUDED IN THE PUBLIC GAME</span></header>
+<main>
+<section><div class="row"><label style="flex:1">Source stage<select id="stage"></select></label><button id="reload" type="button">Reset board</button></div>
+<canvas id="board" width="360" height="600" aria-label="Editable ECHOSHOT level"></canvas>
+<div class="row"><label style="flex:1">Tool<select id="tool"><option value="select">Select / drag</option><option value="target">Add target</option><option value="bumper">Add bumper</option><option value="resonator">Add echo resonator</option><option value="crystal">Add crystal</option><option value="switch">Add blue switch</option><option value="gate">Add red gate</option><option value="diode">Add one-way shield</option><option value="portal">Add paired portals</option><option value="erase">Erase object</option></select></label><label class="inline-check"><input id="paths" type="checkbox" checked> Show shot route</label></div>
+<div class="row"><button class="primary" id="verify">Test solution</button><button id="download">Export JSON</button><button id="importBtn">Import JSON</button><input id="importFile" type="file" accept=".json,application/json" hidden></div>
+<div id="feedback" role="status" aria-live="polite">Load a stage to begin.</div>
+</section>
+<section><h2 style="margin:0;font-size:18px">Puzzle properties</h2><div class="grid2"><label>Level name<input id="name" type="text"></label><label>Stage ID<input id="id" disabled></label><label>Seed angle (degrees)<input id="angle" type="number" min="-90" max="90" step="0.1"></label><label>Echo spread (radians)<input id="spread" type="number" min="0.1" max="1.5" step="0.01"></label></div>
+<div class="separator"></div>
+<h2 style="margin:0;font-size:16px">Selected object</h2><div class="grid2"><label>Kind<input id="kind" disabled></label><label>Object ID<input id="objId" disabled></label><label>X<input id="x" type="number" min="20" max="340" step="0.1"></label><label>Y<input id="y" type="number" min="90" max="570" step="0.1"></label><label>Radius<input id="radius" type="number" min="4" max="32" step="0.5"></label><label>Gate links to switch ID<input id="link" type="text"></label></div>
+<label class="inline-check"><input id="moving" type="checkbox"> Moving target</label>
+<div class="grid2"><label>Movement axis<select id="axis"><option value="x">Horizontal</option><option value="y">Vertical</option></select></label><label>Amplitude<input id="amp" type="number" min="0" max="70" step="0.1"></label><label>Frequency<input id="freq" type="number" min="0.2" max="5" step="0.01"></label><label>Phase<input id="phase" type="number" step="0.01"></label></div>
+<button id="remove">Delete selected object</button>
+<div class="separator"></div>
+<h2 style="margin:0;font-size:16px">Audit insights</h2><p class="note" id="audit">Choose a stage.</p>
+<p class="note">Drag objects directly on the canvas. Click <b>Test solution</b> to simulate the seed shot with the real ECHOSHOT physics. An export is a standalone design proposal; it does not modify the shipped game or any player's progress. Imported JSON is validated before loading.</p>
+</section>
+</main>
+<script>
+/* Embedded copy of the gameplay physics used by this build; runs without network calls. */
+
+// ECHOSHOT – deterministic, original 2D collision system. No dependencies.
+const WORLD = Object.freeze({ width:360, height:600, left:24, right:336, top:94, bottom:560, launchX:180, launchY:518 });
+const SPEED = 485;
+const RADIUS = 7.2;
+const SUBSTEP = 1/180;
+// One shared shot clock: older boards retain their original window; final chapters allow 12 seconds.
+const STANDARD_SHOT_TIME = 8.4;
+const HARD_SHOT_TIME = 12.0;
+function shotTimeLimit(level){return level.id>=35?HARD_SHOT_TIME:STANDARD_SHOT_TIME;}
+const MAX_BALLS = 12;
+const EPS = 0.001;
+function velocityForAngle(angle) { return {vx: Math.sin(angle)*SPEED, vy:-Math.cos(angle)*SPEED}; }
+function ballFor(angle, id=0, kind='prime', x=WORLD.launchX,y=WORLD.launchY){return { id,kind,x,y,...velocityForAngle(angle),age:0, trail:[], cooldown: {}, dead:false };}
+const CIRCUIT_CHARGE_TIME = 0.27;
+function gateIsOpen(shot, link){return !!shot?.switches.has(link)&&shot.elapsed>=shot.gateReadyAt.get(link);}
+function makeShot(level,angle){return { level, angle, balls:[ballFor(angle)], nextId:1, elapsed:0, timeLimit:shotTimeLimit(level), events:[], echoesUsed:new Set(), portalsUsed:0, shattered:new Set(), switches:new Set(),gateReadyAt:new Map(),gateCharged:new Set(),gateBlocked:new Set(),gateTraversed:new Set(), diodePasses:new Set(), removed:new Set(), particles:[], done:false, success:false };}
+// Dynamic positions are always relative to elapsed SHOT time; the puzzle is deterministic.
+function targetPosition(t,elapsed){
+ if(!t.moving)return {x:t.x,y:t.y};
+ const delta=t.amp*Math.sin(elapsed*t.freq+t.phase);
+ return {x:t.x+(t.axis==='x'?delta:0),y:t.y+(t.axis==='y'?delta:0)};
+}
+function crystalCount(level){return level.obstacles.filter(o=>o.type==='crystal').length;}
+function emit(s,type,extra={}) {s.events.push({type, t:s.elapsed,...extra});}
+function reflect(b,nx,ny){ const dot = b.vx*nx+b.vy*ny; if(dot<0){b.vx -= 2*dot*nx; b.vy -= 2*dot*ny; return true;} return false; }
+function advanceBall(s,b,dt){
+  b.age += dt;
+  if(b.age > s.timeLimit){b.dead=true; return;}
+  const w=WORLD;
+  b.x += b.vx*dt; b.y += b.vy*dt;
+  let hitwall=false;
+  if(b.x<RADIUS+w.left){b.x=RADIUS+w.left;b.vx=Math.abs(b.vx);hitwall=true;}
+  if(b.x>w.right-RADIUS){b.x=w.right-RADIUS;b.vx=-Math.abs(b.vx);hitwall=true;}
+  if(b.y<w.top+RADIUS){b.y=w.top+RADIUS;b.vy=Math.abs(b.vy);hitwall=true;}
+  if(b.y>w.bottom-RADIUS){b.y=w.bottom-RADIUS;b.vy=-Math.abs(b.vy);hitwall=true;}
+  if(hitwall && b.age>0.05) emit(s,'wall',{x:b.x,y:b.y,kind:b.kind});
+  // Paired teal gates teleport a ball without changing its direction or speed.
+  if(s.level.portals && b.age>=(b.cooldown.portal||0)){
+    for(const p of s.level.portals){
+      if(Math.hypot(b.x-p.x,b.y-p.y)>p.r+RADIUS)continue;
+      const mate=s.level.portals.find(q=>q.id===p.mate);
+      if(!mate)continue;
+      const speed=Math.hypot(b.vx,b.vy)||1;
+      b.x=mate.x+(b.vx/speed)*(mate.r+RADIUS+3);
+      b.y=mate.y+(b.vy/speed)*(mate.r+RADIUS+3);
+      b.cooldown.portal=b.age+.24;
+      s.portalsUsed++;
+      emit(s,'portal',{from:p.id,x:b.x,y:b.y,kind:b.kind});
+      break;
+    }
+  }
+  for(const o of s.level.obstacles){
+    // Collisions are shot-local; the shared geometry is never mutated.
+    if(o.type==='crystal'&&s.shattered.has(o.id))continue;
+    if(o.type==='gate'&&gateIsOpen(s,o.link)){
+      if(Math.hypot(b.x-o.x,b.y-o.y)<RADIUS+o.r && !s.gateTraversed.has(o.id)){
+        s.gateTraversed.add(o.id);emit(s,'gatePass',{x:o.x,y:o.y,id:o.id});
+      }
+      continue;
+    }
+    const dx=b.x-o.x,dy=b.y-o.y,dist=Math.hypot(dx,dy),limit=RADIUS+o.r;
+    if(dist >= limit)continue;
+    if(o.type==='crystal'){
+      // A crystal is a one-use mirror: its first collision changes direction and
+      // breaks it. All subsequent balls (including echoes) pass through the gap.
+      const sp=Math.hypot(b.vx,b.vy)||1;
+      const nx=dist<EPS?-b.vx/sp:dx/dist,ny=dist<EPS?-b.vy/sp:dy/dist;
+      b.x=o.x+nx*(limit+0.15);b.y=o.y+ny*(limit+0.15);
+      const reflected=reflect(b,nx,ny);
+      if(reflected){
+        s.shattered.add(o.id);
+        emit(s,'shatter',{id:o.id,x:o.x,y:o.y,kind:b.kind});
+      }
+      continue;
+    }
+    if(o.type==='switch'){
+      if(!s.switches.has(o.id)){s.switches.add(o.id);s.gateReadyAt.set(o.id,s.elapsed+CIRCUIT_CHARGE_TIME);emit(s,'switch',{id:o.id,x:o.x,y:o.y});}
+      continue;
+    }
+    if(o.type==='diode'){
+      if(b.vx*o.dx+b.vy*o.dy>0){
+        if(!s.diodePasses.has(o.id)){s.diodePasses.add(o.id);emit(s,'pass',{id:o.id,x:o.x,y:o.y});}
+        continue;
+      }
+    }
+    let nx,ny;
+    if(dist<EPS){const sp=Math.hypot(b.vx,b.vy)||1;nx=-b.vx/sp;ny=-b.vy/sp;}
+    else{nx=dx/dist;ny=dy/dist;}
+    b.x=o.x+nx*(limit+0.15); b.y=o.y+ny*(limit+0.15);
+    const collided=reflect(b,nx,ny);
+    if(collided){
+      if(o.type==='gate') { s.gateBlocked.add(o.id);emit(s,'gateBlock',{x:o.x,y:o.y,id:o.id}); }
+      emit(s,'bumper',{x:b.x,y:b.y,kind:b.kind, id:o.id});
+      if(o.type==='resonator' && !s.echoesUsed.has(o.id) && s.balls.length<MAX_BALLS-1){
+        s.echoesUsed.add(o.id);
+        emit(s,'resonance',{x:o.x,y:o.y,id:o.id});
+        const baseAngle=Math.atan2(b.vy,b.vx);
+        const spread=s.level.echoSpread??0.52;
+        for(const direction of [-1,1]){
+          const a=baseAngle+direction*spread;
+          const echo={id:s.nextId++,kind:'echo',x:b.x+Math.cos(a)*9,y:b.y+Math.sin(a)*9,vx:Math.cos(a)*SPEED,vy:Math.sin(a)*SPEED,age:0,trail:[],cooldown:{},dead:false};
+          s.balls.push(echo);
+          emit(s,'spawn',{x:echo.x,y:echo.y,id:echo.id});
+        }
+      }
+    }
+  }
+  for (const t of s.level.targets){
+    if(s.removed.has(t.id))continue;
+    const position=targetPosition(t,s.elapsed);
+    if(Math.hypot(b.x-position.x,b.y-position.y)<=RADIUS+t.r){
+      s.removed.add(t.id);
+      emit(s,'target',{id:t.id,x:position.x,y:position.y,kind:b.kind});
+    }
+  }
+  if(b.age>0.012){
+    b.trail.push({x:b.x,y:b.y});
+    if(b.trail.length>28)b.trail.shift();
+  }
+}
+function stepShot(s, dt){
+  if(s.done)return s;
+  s.events.length=0;
+  let remain=Math.min(Math.max(0,dt),0.2);
+  while(remain>0 && !s.done){
+    const h=Math.min(SUBSTEP,remain);s.elapsed+=h;
+    for(const [link,readyAt] of s.gateReadyAt){
+      if(s.elapsed>=readyAt&&!s.gateCharged.has(link)){
+        s.gateCharged.add(link);emit(s,'gateOpen',{link});
+      }
+    }
+    // Iterate snapshot: new echoes advance starting next simulation step.
+    for(const b of [...s.balls]) if(!b.dead)advanceBall(s,b,h);
+    remain-=h;
+    if(s.removed.size===s.level.targets.length && s.shattered.size===crystalCount(s.level) && objectivesMet(s)){s.done=true;s.success=true;emit(s,'win');}
+    else if(s.elapsed>=s.timeLimit || s.balls.every(b=>b.dead)){s.done=true;emit(s,'end');}
+  }
+  return s;
+}
+// Tracing uses the exact gameplay engine and geometry, not separate approximations.
+function traceShot(level,angle,duration=5.8){
+  const blank={...level,targets:[]};
+  const s=makeShot(blank,angle);
+  const points=[];const byBall=new Map();
+  while(s.elapsed<duration){
+    stepShot(s,1/180);
+    for (const b of s.balls){
+      if(!byBall.has(b.id))byBall.set(b.id,{id:b.id,kind:b.kind,points:[]});
+      const p={x:b.x,y:b.y,t:s.elapsed,age:b.age,kind:b.kind,id:b.id};
+      byBall.get(b.id).points.push(p);
+      points.push(p);
+    }
+    // blank level wins immediately because target count=0, so don't allow it to terminate.
+    if(s.done){s.done=false;s.success=false;}
+  }
+  return {points,byBall:[...byBall.values()], echoes:s.echoesUsed.size};
+}
+
+
+function rng(seed){let t=seed>>>0;return()=>{t+=0x6D2B79F5;let z=t;z=Math.imul(z^(z>>>15),z|1);z^=z+Math.imul(z^(z>>>7),z|61);return ((z^(z>>>14))>>>0)/4294967296;};}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
+const ANGLES=[0,-0.32,0.14,-0.25,0.43,-0.48,0.26,-0.04,0.53,-0.39,0.18,-0.50,0.37,-0.12,0.48,-0.29,0.10,-0.44,0.30,0.0];
+const TITLES=['FIRST SPARK','SIDEWINDER','THE FIRST ECHO','TWIN PATHS','AFTERGLOW','CROSSCURRENT','BOUNCE THEORY','HALO','DOUBLE DOWN','SPLIT SECOND','ECHO CHAMBER','GLASSHOUSE','NEON WEATHER','THE LONG WAY','CRESCENDO','PINBALL MIND','SUPERNOVA','ONE LAST SHOT','RESONANCE','INFINITE LOOP'];
+const cache=new Map();
+const LEVEL_COUNT=75;
+function geometry(n){
+ if(n>50)return geometryV3(n);
+ if(n>20)return geometryV2(n);
+ const i=(n-1)%20;
+ const random=rng(n*9277+619);const angle=ANGLES[i];
+ const obstacles=[];
+ const dir={x:Math.sin(angle),y:-Math.cos(angle)};
+ if(n>=3){
+   const distance=190+(n%4)*11;
+   obstacles.push({id:'r1',type:'resonator',x:WORLD.launchX+dir.x*distance,y:WORLD.launchY+dir.y*distance,r:17});
+ }
+ if(n>=11){
+   // Second resonator catches the rightward echo from the first resonator.
+   const o=obstacles[0];const original=Math.atan2(-dir.y,-dir.x); // reflected direction (opposite incoming)
+   const newDir=original-0.53;
+   const rad=115;
+   const x=o.x+Math.cos(newDir)*rad, y=o.y+Math.sin(newDir)*rad;
+   if(x>48 && x<312 && y>122 && y<530)obstacles.push({id:'r2',type:'resonator',x,y,r:15});
+ }
+ const bumperCount=n<=2?0:n<=5?1:n<=10?2:n<=15?3:4;
+ let attempts=0;
+ while(obstacles.filter(o=>o.type==='bumper').length<bumperCount && attempts++<180){
+   const x=62+random()*236,y=142+random()*315;
+   const c={x,y};
+   if(dist(c,{x:WORLD.launchX,y:WORLD.launchY})<85)continue;
+   if(obstacles.some(o=>dist(c,o)<69))continue;
+   // Keep the seed's initial path clear until the resonator.
+   const vx=x-WORLD.launchX,vy=y-WORLD.launchY;
+   const projection=vx*dir.x+vy*dir.y;
+   const perp=Math.abs(vx*dir.y-vy*dir.x);
+   if(projection>0 && projection<260 && perp<33)continue;
+   obstacles.push({id:'b'+obstacles.length,type:'bumper',x,y,r:15+(n%3)*2});
+ }
+ return {id:n,name:TITLES[i],angle,obstacles,echoSpread:0.53+(n%4)*0.035};
+}
+// V0.2: the original 20 boards remain intact, and each new board is independently seeded.
+const EXTRA_ANGLES=[
+  -.21,.29,-.42,.14, -.28,.34,-.13,.46,-.36,.08,
+  .23,-.49,.39,-.18,.31,-.27,.13,-.38,.45,-.10,
+  .36,-.33,.19,-.47,.06,.42,-.24,.30,-.40,.16
+];
+const EXTRA_TITLES=[
+  'A NEW SIGNAL','CLEAN REFLECTION','TWIN RIPPLES','TURNING POINT',
+  'THE FIRST GATE','THROUGH THE FOLD','LOOPBACK','BLUE HORIZON','TUNNEL VISION','AFTER THE GATE',
+  'REVERSE COURSE','QUANTUM TURN','THREE WAYS','BEND THE LIGHT',
+  'FIRST MOTION','DRIFT SIGNAL','SHIFTING ORBIT','CHASING LIGHT','MOVING THROUGH','CHOREOGRAPHY',
+  'DANCING STARS','THE LONG SWING','TIMING WINDOW','ECHO BALLET','IN PERFECT MOTION',
+  'THE CONVERGENCE','RIFT AND RICOCHET','SHATTERED SPACE','FINAL FREQUENCY','BEYOND THE ECHO'
+];
+function geometryV2(n){
+ const stage=n-20,index=stage-1,angle=EXTRA_ANGLES[index];
+ const random=rng(n*37813+117);const dir={x:Math.sin(angle),y:-Math.cos(angle)};
+ const obstacles=[];const portals=[];
+ let seedStart={x:WORLD.launchX,y:WORLD.launchY};
+ if(n>=25){
+   const distance=127+(n%3)*9;
+   const entry={id:'gate-a',mate:'gate-b',x:WORLD.launchX+dir.x*distance,y:WORLD.launchY+dir.y*distance,r:17};
+   const ex={id:'gate-b',mate:'gate-a',x:dir.x>=0?88+(n%4)*12:272-(n%4)*12,y:308+(n%4)*11,r:17};
+   portals.push(entry,ex); seedStart=ex;
+   obstacles.push({id:'r1',type:'resonator',x:ex.x+dir.x*108,y:ex.y+dir.y*108,r:17});
+ }else{
+   obstacles.push({id:'r1',type:'resonator',x:WORLD.launchX+dir.x*205,y:WORLD.launchY+dir.y*205,r:17});
+ }
+ if(n>=32){
+   const first=obstacles[0];
+   // A second resonator is reachable along one branch of the first echo.
+   const base=Math.atan2(-dir.y,-dir.x)+(-.53);
+   const x=first.x+Math.cos(base)*111,y=first.y+Math.sin(base)*111;
+   if(x>55&&x<305&&y>125&&y<510&&portals.every(p=>dist({x,y},p)>66)){
+     obstacles.push({id:'r2',type:'resonator',x,y,r:15});
+   }
+ }
+ const bumperCount=n<25?2:n<31?2:n<36?3:n<43?3:n<47?4:5;
+ let attempts=0;
+ while(obstacles.filter(o=>o.type==='bumper').length<bumperCount&&attempts++<240){
+   const x=56+random()*248,y=127+random()*345,c={x,y};
+   if(dist(c,{x:WORLD.launchX,y:WORLD.launchY})<78)continue;
+   if(obstacles.some(o=>dist(c,o)<69)||portals.some(p=>dist(c,p)<59))continue;
+   // Avoid blocking the guaranteed portal entrance and post-portal resonator path.
+   const paths=n>=25?[
+     {start:{x:WORLD.launchX,y:WORLD.launchY},length:175},
+     {start:seedStart,length:135}
+   ]:[{start:{x:WORLD.launchX,y:WORLD.launchY},length:225}];
+   if(paths.some(path=>{
+     const vx=x-path.start.x,vy=y-path.start.y;
+     const projection=vx*dir.x+vy*dir.y;
+     const perp=Math.abs(vx*dir.y-vy*dir.x);
+     return projection>0&&projection<path.length&&perp<39;
+   }))continue;
+   obstacles.push({id:'b'+obstacles.length,type:'bumper',x,y,r:15+(n%3)*2});
+ }
+ return {id:n,name:EXTRA_TITLES[index],angle,obstacles,portals,echoSpread:.53+((n%3)*.024)};
+}
+
+// V0.6 — timed circuit gates now create real early-shot deflections; crystals remain breakable reflectors.
+// 51–57: shatter a crystal and keep moving. 58–65: switches open a closed gate.
+// 66–75: one-way shields let the ball through in the arrow direction only.
+const V4_ANGLES=[.11,-.41,.28,-.17,.52,-.34,.06,.43,-.29,.20,-.53,.31,-.10,.39,-.22,.47,-.35,.14,-.46,.23,-.05,.37,-.26,.50,-.15];
+const V4_TITLES=[
+ 'A CRACK IN SPACE','FIRST FRACTURE','CRYSTAL LINE','DIAMOND DUST','SHATTER PATH',
+ 'A LIGHT THROUGH','THE GLASS GATE','CIRCUIT START','SWITCHBACK','OPEN SESAME',
+ 'LIVE WIRE','CLOSED CIRCUIT','THE SECOND KEY','HALF A SECOND','POWER PLAY',
+ 'POLARITY','FOLLOW THE ARROW','ONE WAY OUT','DIRECTION SHIFT','REVERSE CURRENT',
+ 'SPLIT DECISION','CRYSTAL CIRCUIT','SIGNAL CROSSING','THE LAST SWITCH','THE OTHER SIDE'
+];
+const GATE_TRAVERSAL_STAGES=new Set([61,63,64,65,66,67,68,69,70,71,72,73,74,75]);
+function geometryV3(n){
+ const index=n-51,angle=V4_ANGLES[index],random=rng(n*63391+2417);
+ const dir={x:Math.sin(angle),y:-Math.cos(angle)};
+ const obstacles=[],portals=[];
+ let exit=null;
+ if(n>=57){
+   const entry={id:'gate-a',mate:'gate-b',x:WORLD.launchX+dir.x*190,y:WORLD.launchY+dir.y*190,r:17};
+   exit={id:'gate-b',mate:'gate-a',x:dir.x>=0?83+(n%4)*9:277-(n%4)*9,y:322+(n%4)*10,r:17};
+   portals.push(entry,exit);
+ }
+ const anchor=exit??{x:WORLD.launchX,y:WORLD.launchY};
+ const resonatorDistance=exit?124:215;
+ obstacles.push({id:'r1',type:'resonator',x:anchor.x+dir.x*resonatorDistance,y:anchor.y+dir.y*resonatorDistance,r:17});
+ if(n>=62){
+   const first=obstacles[0],base=Math.atan2(-dir.y,-dir.x)-.53;
+   const candidate={x:first.x+Math.cos(base)*111,y:first.y+Math.sin(base)*111};
+   if(candidate.x>55&&candidate.x<305&&candidate.y>121&&candidate.y<509&&portals.every(p=>dist(candidate,p)>65))
+      obstacles.push({id:'r2',type:'resonator',x:candidate.x,y:candidate.y,r:15});
+ }
+ if(n<=57){
+   obstacles.push({id:'glass-1',type:'crystal',x:WORLD.launchX+dir.x*75-dir.y*10,y:WORLD.launchY+dir.y*75+dir.x*10,r:12});
+ }
+ if(n>=58){
+   // The order of the circuit elements along the guaranteed seed path is intentional.
+   obstacles.push({id:'circuit-1',type:'switch',x:WORLD.launchX+dir.x*94,y:WORLD.launchY+dir.y*94,r:11});
+   obstacles.push({id:'circuit-gate-1',type:'gate',link:'circuit-1',x:WORLD.launchX+dir.x*143,y:WORLD.launchY+dir.y*143,r:13});
+ }
+ if(n>=66){
+   obstacles.push({id:'diode-1',type:'diode',x:WORLD.launchX+dir.x*54,y:WORLD.launchY+dir.y*54,r:13,dx:dir.x,dy:dir.y});
+ }
+ if(n>=70 && exit){
+   obstacles.push({id:'glass-2',type:'crystal',x:exit.x+dir.x*62-dir.y*4,y:exit.y+dir.y*62+dir.x*4,r:12});
+ }
+ const count=n<58?3:n<66?3:4;
+ let tries=0;
+ while(obstacles.filter(o=>o.type==='bumper').length<count && tries++<260){
+   const x=51+random()*258,y=137+random()*330,c={x,y};
+   if(dist(c,{x:WORLD.launchX,y:WORLD.launchY})<78)continue;
+   if(obstacles.some(o=>dist(c,o)<65)||portals.some(p=>dist(c,p)<62))continue;
+   // Protect the seed's opening and post-portal lanes to give every stage a verified solution.
+   const corridors=[{start:{x:WORLD.launchX,y:WORLD.launchY},length:exit?212:230}];
+   if(exit)corridors.push({start:exit,length:153});
+   if(corridors.some(path=>{
+     const vx=x-path.start.x,vy=y-path.start.y;
+     const projection=vx*dir.x+vy*dir.y;
+     return projection>0&&projection<path.length&&Math.abs(vx*dir.y-vy*dir.x)<42;
+   }))continue;
+   obstacles.push({id:'b'+obstacles.length,type:'bumper',x,y,r:15+(n%3)*2});
+ }
+ return {id:n,name:V4_TITLES[index],angle,obstacles,portals,echoSpread:.54+((n%4)*.019),
+  objectives:n>=58?{gateBounce:true,gateOpen:true,gateTraverse:GATE_TRAVERSAL_STAGES.has(n),diodePass:n>=66}:undefined};
+}
+
+function placeTargets(level){
+ const trace=traceShot(level,level.angle,6.3);
+ const selected=[];
+ const groups=trace.byBall;
+ const count=level.id>50?Math.min(12,7+Math.floor((level.id-51)/5)):level.id<=20?Math.min(11,4+Math.floor((level.id-1)/2)):Math.min(11,6+Math.floor((level.id-21)/5));
+ function allowed(p){
+   if(p.x<49||p.x>311||p.y<124||p.y>492)return false;
+   if(p.age<.10)return false;
+   if(dist(p,{x:WORLD.launchX,y:WORLD.launchY})<70)return false;
+   if(level.obstacles.some(o=>dist(o,p)<o.r+RADIUS+19))return false;
+   if((level.portals||[]).some(o=>dist(o,p)<o.r+RADIUS+15))return false;
+   if(selected.some(q=>dist(p,q)<(level.id===62?39:49)))return false;
+   return true;
+ }
+ function addFrom(group,want,from=0,to=2.8){
+   if(!group)return;
+   const candidates=group.points.filter(p=>p.age>=from&&p.age<=to&&allowed(p));
+   for(let k=0;k<want;k++){
+     if(!candidates.length)return;
+     const pos=Math.min(candidates.length-1,Math.round((k+1)*candidates.length/(want+1)));
+     let best=null,score=-1e10;
+     for(let j=0;j<candidates.length;j++){
+       const p=candidates[j];if(!allowed(p))continue;
+       const penalty=Math.abs(j-pos)*0.018;
+       const spacing=selected.length?Math.min(...selected.map(q=>dist(p,q))):150;
+       const s=Math.min(spacing,120)-penalty;
+       if(s>score){score=s;best=p;}
+     }
+     if(best)selected.push({...best});
+   }
+ }
+ const prime=groups.find(g=>g.kind==='prime');
+ const echoes=groups.filter(g=>g.kind==='echo');
+ addFrom(prime,level.id<=2?Math.min(count,4):2,0.12,level.id<=2?3.2:1.4);
+ if(echoes.length){
+   for(const echo of echoes)addFrom(echo,Math.min(2,Math.max(1,Math.floor((count-2)/echoes.length))),0.17,2.2);
+ }
+ if(selected.length<count){
+   for(const group of [prime,...echoes]){
+     const remaining=count-selected.length;
+     if(remaining<=0)break;
+     addFrom(group,remaining,0.12,5.3);
+   }
+ }
+ // Fallback: level is only as full as trace makes independently solvable.
+ return selected.map((p,i)=>{
+   const t={id:'t'+i,x:Math.round(p.x*10)/10,y:Math.round(p.y*10)/10,r:10.5,kind:p.kind};
+   // One gentle moving target is introduced on stage 35; later boards add a second.
+   if(level.id>=35 && (i===selected.length-1 || (level.id>=43 && i===Math.floor(selected.length/2)))){
+     const axis=level.id%2===0?'y':'x';
+     const margin=axis==='x'?Math.min(p.x-49,311-p.x):Math.min(p.y-124,492-p.y);
+     const amp=Math.max(2,Math.min(12+(level.id-35)*.27,margin*.38));
+     const freq=1.4+(level.id%4)*.18,phase=(i+level.id)*.77;
+     const offset=amp*Math.sin(p.t*freq+phase);
+     if(axis==='x')t.x=Math.round((p.x-offset)*10)/10;
+     else t.y=Math.round((p.y-offset)*10)/10;
+     Object.assign(t,{moving:true,axis,amp,freq,phase});
+   }
+   return t;
+ });
+}
+// Audited special-case placements: keep the verified route and remove accidentally
+// optional mechanics. The original level IDs and local save schema never change.
+const CURATED_V07={
+  28:{index:2,x:244.2,y:241,kind:'echo'},
+  30:{index:2,x:256.6,y:411.5,kind:'echo'},
+  32:{index:2,x:222.8,y:345.2,kind:'echo'}
+};
+function applyCuratedObjectives(level){
+  const c=CURATED_V07[level.id];
+  if(c&&level.targets[c.index]){
+    level.targets[c.index]={id:level.targets[c.index].id,x:c.x,y:c.y,
+      r:level.targets[c.index].r,kind:c.kind};
+  }
+  if(level.id===67){
+    const t=level.targets.find(t=>t.id==='t5');
+    if(t&&t.moving)Object.assign(t,{x:254.1,y:354.9,amp:55,phase:56.24});
+  }
+}
+function objectivesMet(s){
+  const o=s.level.objectives;
+  return !o||(!o.gateBounce||s.gateBlocked.size>0)
+    &&(!o.gateOpen||s.gateCharged.size>0)
+    &&(!o.gateTraverse||s.gateTraversed.size>0)
+    &&(!o.diodePass||s.diodePasses.size>0);
+}
+function verify(level){
+ const s=makeShot(level,level.angle);
+ for(let k=0;k<1500&&!s.done;k++)stepShot(s,1/180);
+ return s.success;
+}
+function getLevel(n){
+ const id=Math.max(1,Math.min(LEVEL_COUNT,Math.round(n)||1));
+ if(!cache.has(id)){
+   const level=geometry(id);level.targets=placeTargets(level);applyCuratedObjectives(level);
+   if(!verify(level)){
+     // Remove only targets that are not hit by the seed shot, keeping every level provably winnable.
+     const probe=makeShot(level,level.angle);
+     for(let k=0;k<1700&&!probe.done;k++)stepShot(probe,1/180);
+     level.targets=level.targets.filter(t=>probe.removed.has(t.id));
+     if(!level.targets.length || !verify(level))throw new Error('Level '+id+' failed solvability validation');
+   }
+   cache.set(id,level);
+ }
+ return JSON.parse(JSON.stringify(cache.get(id)));
+}
+function levelSummary(){return Array.from({length:LEVEL_COUNT},(_,i)=>{const l=getLevel(i+1);return {level:l.id,title:l.name,targets:l.targets.length,resonators:l.obstacles.filter(o=>o.type==='resonator').length,answerDegrees:Math.round(l.angle*180/Math.PI)};});}
+// Level-specific target time: the verified seed shot plus a small, achievable margin.
+// Memoized so the target stays stable across retries and level-selector visits.
+const parCache=new Map();
+function parTime(l){
+ if(parCache.has(l.id))return parCache.get(l.id);
+ const probe=makeShot(l,l.angle);
+ for(let k=0;k<Math.ceil(probe.timeLimit*180)+5&&!probe.done;k++)stepShot(probe,1/180);
+ const base=probe.success?Math.max(.8,probe.elapsed*1.22+.35):probe.timeLimit*.8;
+ const target=Math.round(Math.min(probe.timeLimit-.1,base)*10)/10;
+ parCache.set(l.id,target);
+ return target;
+}
+function recordTime(n){const t=Number(save.times?.[n]);return Number.isFinite(t)&&t>0&&t<=shotTimeLimit({id:n})+.01?t:null;}
+
+
+
+
+/* End gameplay physics */
+const auditFlags={"7":["5/5 near-angle successes \u00b14.6\u00b0"],"11":["5/5 near-angle successes \u00b14.6\u00b0"],"12":["5/5 near-angle successes \u00b14.6\u00b0"],"14":["5/5 near-angle successes \u00b14.6\u00b0"],"15":["5/5 near-angle successes \u00b14.6\u00b0"],"17":["5/5 near-angle successes \u00b14.6\u00b0"],"18":["5/5 near-angle successes \u00b14.6\u00b0"],"19":["5/5 near-angle successes \u00b14.6\u00b0"],"21":["noRes: reference shot still clears stage","5/5 near-angle successes \u00b14.6\u00b0"],"24":["noRes: reference shot still clears stage"],"26":["5/5 near-angle successes \u00b14.6\u00b0"],"28":["noPortals: reference shot still clears stage"],"30":["noPortals: reference shot still clears stage"],"32":["noPortals: reference shot still clears stage"],"35":["noRes: reference shot still clears stage","noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage","5/5 near-angle successes \u00b14.6\u00b0"],"36":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage","5/5 near-angle successes \u00b14.6\u00b0"],"37":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage","5/5 near-angle successes \u00b14.6\u00b0"],"38":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"39":["staticTargets: reference shot still clears stage"],"40":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"41":["staticTargets: reference shot still clears stage"],"42":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"43":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage","5/5 near-angle successes \u00b14.6\u00b0"],"44":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage","5/5 near-angle successes \u00b14.6\u00b0"],"45":["staticTargets: reference shot still clears stage","5/5 near-angle successes \u00b14.6\u00b0"],"46":["staticTargets: reference shot still clears stage"],"47":["staticTargets: reference shot still clears stage"],"48":["staticTargets: reference shot still clears stage"],"49":["staticTargets: reference shot still clears stage","5/5 near-angle successes \u00b14.6\u00b0"],"50":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage","5/5 near-angle successes \u00b14.6\u00b0"],"51":["staticTargets: reference shot still clears stage"],"52":["noRes: reference shot still clears stage","staticTargets: reference shot still clears stage"],"53":["staticTargets: reference shot still clears stage"],"54":["noRes: reference shot still clears stage","staticTargets: reference shot still clears stage"],"55":["staticTargets: reference shot still clears stage"],"56":["staticTargets: reference shot still clears stage"],"57":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"58":["noRes: reference shot still clears stage","noPortals: reference shot still clears stage","noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage"],"59":["noPortals: reference shot still clears stage","noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage"],"60":["noRes: reference shot still clears stage","noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage"],"61":["noRes: reference shot still clears stage","noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage","5/5 near-angle successes \u00b14.6\u00b0"],"62":["noRes: reference shot still clears stage","noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage"],"63":["noPortals: reference shot still clears stage","noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage"],"64":["noRes: reference shot still clears stage","noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage"],"65":["staticTargets: reference shot still clears stage"],"66":["noPortals: reference shot still clears stage","noCircuit: reference shot still clears stage","noDiode: reference shot still clears stage","staticTargets: reference shot still clears stage"],"67":["noRes: reference shot still clears stage","noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage"],"68":["noPortals: reference shot still clears stage","noCircuit: reference shot still clears stage","noDiode: reference shot still clears stage","staticTargets: reference shot still clears stage"],"69":["noCircuit: reference shot still clears stage","noDiode: reference shot still clears stage","staticTargets: reference shot still clears stage"],"70":["noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage"],"71":["noRes: reference shot still clears stage","noPortals: reference shot still clears stage","noCircuit: reference shot still clears stage","noDiode: reference shot still clears stage","staticTargets: reference shot still clears stage"],"72":["noRes: reference shot still clears stage","noPortals: reference shot still clears stage","noCircuit: reference shot still clears stage","noDiode: reference shot still clears stage","staticTargets: reference shot still clears stage"],"73":["noRes: reference shot still clears stage","noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage"],"74":["noRes: reference shot still clears stage","noPortals: reference shot still clears stage","noCircuit: reference shot still clears stage","noDiode: reference shot still clears stage","staticTargets: reference shot still clears stage"],"75":["noRes: reference shot still clears stage","noCircuit: reference shot still clears stage","staticTargets: reference shot still clears stage"]};
+const $=id=>document.getElementById(id),canvas=$('board'),ctx=canvas.getContext('2d');
+let level=null,selected=null,drag=null,lastPath=[],lastTest=null;
+function copy(v){return JSON.parse(JSON.stringify(v));}
+function objects(){return [
+ ...level.targets.map(o=>({o,kind:'target'})),
+ ...level.obstacles.map(o=>({o,kind:o.type})),
+ ...(level.portals||[]).map(o=>({o,kind:'portal'}))
+];}
+function refSelected(){return objects().find(x=>selected&&x.kind===selected.kind&&x.o.id===selected.id)||null;}
+function num(id,def){const n=Number($(id).value);return Number.isFinite(n)?n:def;}
+function unique(prefix){const ids=new Set(objects().map(x=>x.o.id));let i=1;while(ids.has(prefix+i))i++;return prefix+i;}
+function load(n){level=copy(getLevel(n));selected=null;lastPath=[];lastTest=null;populate();draw();test();}
+function populate(){
+ $('name').value=level.name;$('id').value=level.id;$('angle').value=(level.angle*180/Math.PI).toFixed(1);$('spread').value=(level.echoSpread||.53).toFixed(2);
+ $('stage').value=level.id;selectedInfo();
+ const warnings=auditFlags[String(level.id)]||[];
+ $('audit').textContent=warnings.length?warnings.join(' · '):'No weak-mechanic flags in the baseline automated audit. That is not a guarantee of perfect puzzle design.';
+}
+function selectedInfo(){
+ const entry=refSelected(),o=entry?.o;const entries=['kind','objId','x','y','radius','link','moving','axis','amp','freq','phase'];
+ for(const id of entries)$(id).disabled=!o;
+ $('kind').value=entry?.kind||'';$('objId').value=o?.id||'';$('x').value=o?o.x.toFixed(1):'';$('y').value=o?o.y.toFixed(1):'';$('radius').value=o?.r??'';
+ $('link').value=o?.link||'';$('moving').checked=!!o?.moving;$('axis').value=o?.axis||'x';$('amp').value=o?.amp??12;$('freq').value=o?.freq??1.6;$('phase').value=o?.phase??0;
+ for(const id of ['link'])$(id).disabled=entry?.kind!=='gate';
+ for(const id of ['moving','axis','amp','freq','phase'])$(id).disabled=entry?.kind!=='target';
+ $('remove').disabled=!o;
+}
+function pos(e){const r=canvas.getBoundingClientRect();return{x:Math.max(30,Math.min(330,(e.clientX-r.left)*360/r.width)),y:Math.max(100,Math.min(554,(e.clientY-r.top)*600/r.height))};}
+function findHit(p){return [...objects()].reverse().find(({o})=>Math.hypot(p.x-o.x,p.y-o.y)<Math.max(17,(o.r||10)+7));}
+function add(p,type){let o,kind=type;const id=unique(type==='target'?'t':type[0]);
+ if(type==='target'){o={id,x:p.x,y:p.y,r:10.5,kind:'prime'};level.targets.push(o);}
+ else if(type==='portal'){
+  const id1=unique('portal-a-'),id2=unique('portal-b-');
+  o={id:id1,mate:id2,x:Math.max(50,p.x-35),y:p.y,r:17};
+  level.portals??=[];level.portals.push(o,{id:id2,mate:id1,x:Math.min(305,p.x+35),y:p.y,r:17});}
+ else {o={id,type,x:p.x,y:p.y,r:type==='bumper'?17:type==='crystal'?12:13};
+ if(type==='switch')o.r=11;
+ if(type==='gate')o.link=level.obstacles.filter(a=>a.type==='switch').slice(-1)[0]?.id||'';
+ if(type==='diode'){o.dx=0;o.dy=-1;}
+ level.obstacles.push(o);
+ }
+ selected={id:o.id,kind};selectedInfo();lastPath=[];draw();
+}
+canvas.addEventListener('pointerdown',e=>{
+ e.preventDefault();const p=pos(e),tool=$('tool').value,h=findHit(p);
+ if(tool==='erase'){
+  if(h){level.targets=level.targets.filter(o=>!(h.kind==='target'&&o.id===h.o.id));level.obstacles=level.obstacles.filter(o=>!(h.kind!=='target'&&h.kind!=='portal'&&o.id===h.o.id));
+    if(h.kind==='portal')level.portals=level.portals.filter(o=>o.id!==h.o.id&&o.id!==h.o.mate);selected=null;}
+  selectedInfo();lastPath=[];draw();return;
+ }
+ if(tool!=='select'){add(p,tool);$('tool').value='select';return;}
+ selected=h?{id:h.o.id,kind:h.kind}:null;drag=h?{pointer:e.pointerId,dx:p.x-h.o.x,dy:p.y-h.o.y}:null;
+ if(drag)canvas.setPointerCapture(e.pointerId);selectedInfo();draw();
+});
+canvas.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.pointer)return;const o=refSelected()?.o;if(!o)return;const p=pos(e);o.x=Math.round((p.x-drag.dx)*10)/10;o.y=Math.round((p.y-drag.dy)*10)/10;lastPath=[];selectedInfo();draw();});
+for(const ev of ['pointerup','pointercancel'])canvas.addEventListener(ev,()=>{drag=null;});
+function draw(){
+ if(!level)return;ctx.clearRect(0,0,360,600);ctx.fillStyle='#0d1d31';ctx.fillRect(0,0,360,600);
+ ctx.strokeStyle='#385470';ctx.strokeRect(24,94,312,466);
+ for(let x=47;x<330;x+=26)for(let y=115;y<550;y+=26){ctx.fillStyle='#274056';ctx.beginPath();ctx.arc(x,y,1,0,Math.PI*2);ctx.fill();}
+ if($('paths').checked&&lastPath.length){ctx.strokeStyle='#67e5e8bb';ctx.lineWidth=1.4;ctx.setLineDash([3,3]);ctx.beginPath();lastPath.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();ctx.setLineDash([]);}
+ const colors={target:'#ffc77a',bumper:'#6ea9c2',resonator:'#ae79ef',crystal:'#f1a2fc',switch:'#66dddf',gate:'#fe7889',diode:'#ffe19a',portal:'#3ce4b9'};
+ for(const {o,kind} of objects()){
+  const active=selected?.id===o.id&&selected.kind===kind;
+  ctx.save();ctx.beginPath();ctx.arc(o.x,o.y,o.r||12,0,Math.PI*2);ctx.fillStyle=colors[kind]+'44';ctx.fill();ctx.strokeStyle=active?'#fff':colors[kind];ctx.lineWidth=active?4:2.5;ctx.stroke();
+  if(kind==='crystal'){ctx.strokeRect(o.x-5,o.y-5,10,10);}
+  if(kind==='gate'){ctx.beginPath();ctx.moveTo(o.x-8,o.y);ctx.lineTo(o.x+8,o.y);ctx.moveTo(o.x,o.y-8);ctx.lineTo(o.x,o.y+8);ctx.stroke();}
+  if(kind==='diode'){ctx.beginPath();ctx.moveTo(o.x,o.y-8);ctx.lineTo(o.x+5,o.y+3);ctx.lineTo(o.x-5,o.y+3);ctx.closePath();ctx.stroke();}
+  if(o.moving){ctx.setLineDash([2,3]);ctx.strokeStyle='#f5c67a';ctx.beginPath();ctx.moveTo(o.x+(o.axis==='x'?-o.amp:0),o.y+(o.axis==='y'?-o.amp:0));ctx.lineTo(o.x+(o.axis==='x'?o.amp:0),o.y+(o.axis==='y'?o.amp:0));ctx.stroke();}
+  ctx.restore();
+ }
+ const theta=level.angle;ctx.strokeStyle='#8bf2f8';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(180,518);ctx.lineTo(180+Math.sin(theta)*39,518-Math.cos(theta)*39);ctx.stroke();ctx.beginPath();ctx.arc(180,518,9,0,2*Math.PI);ctx.fillStyle='#64e0e9';ctx.fill();
+}
+function editField(){const o=refSelected()?.o;if(!o)return;
+ o.x=num('x',o.x);o.y=num('y',o.y);o.r=num('radius',o.r);
+ if(o.type==='gate')o.link=$('link').value.trim();
+ if(refSelected().kind==='target'){o.moving=$('moving').checked;if(o.moving){o.axis=$('axis').value;o.amp=num('amp',12);o.freq=num('freq',1.6);o.phase=num('phase',0);}else for(const key of ['axis','amp','freq','phase'])delete o[key];}
+ lastPath=[];draw();}
+for(const field of ['x','y','radius','link','moving','axis','amp','freq','phase'])$(field).addEventListener('change',editField);
+$('name').addEventListener('input',()=>level.name=$('name').value);
+$('angle').addEventListener('change',()=>{level.angle=Math.max(-Math.PI/2,Math.min(Math.PI/2,num('angle',0)*Math.PI/180));lastPath=[];draw();});
+$('spread').addEventListener('change',()=>{level.echoSpread=num('spread',.53);lastPath=[];draw();});
+$('paths').addEventListener('change',draw);
+$('stage').addEventListener('change',()=>load(Number($('stage').value)));
+$('reload').addEventListener('click',()=>load(Number($('stage').value)));
+$('remove').addEventListener('click',()=>{const o=refSelected();if(!o)return;level.targets=level.targets.filter(x=>!(o.kind==='target'&&x.id===o.o.id));level.obstacles=level.obstacles.filter(x=>!(o.kind!=='target'&&o.kind!=='portal'&&x.id===o.o.id));level.portals=(level.portals||[]).filter(x=>!(o.kind==='portal'&&(x.id===o.o.id||x.id===o.o.mate)));selected=null;selectedInfo();lastPath=[];draw();});
+function validate(l){const errors=[];if(!l||typeof l!=='object'||!Array.isArray(l.targets)||!Array.isArray(l.obstacles)||!Number.isFinite(l.angle))return ['Missing level, targets, obstacles or angle.'];
+ if(l.targets.length<1)errors.push('Add at least one target.');if(l.targets.length>30)errors.push('Maximum 30 targets per design.');if(l.obstacles.length>55)errors.push('Maximum 55 obstacles.');
+ const obs=l.obstacles;for(const o of obs){if(!Number.isFinite(o.x)||!Number.isFinite(o.y)||!Number.isFinite(o.r))errors.push('Invalid obstacle coordinates/radius.');if(o.type==='gate'&&!obs.some(x=>x.type==='switch'&&x.id===o.link))errors.push('Gate '+o.id+' has no linked switch.');}
+ for(const p of l.portals||[])if(!(l.portals||[]).some(q=>q.id===p.mate&&q.mate===p.id))errors.push('Portal '+p.id+' needs a matching portal.');
+ for(const t of l.targets)if(!Number.isFinite(t.x)||!Number.isFinite(t.y)||!Number.isFinite(t.r))errors.push('Invalid target.');
+ return errors;
+}
+function test(){const problems=validate(level);if(problems.length){$('feedback').textContent='INVALID DESIGN\n'+problems.join('\n');return;}
+ const s=makeShot(level,level.angle),path=[];let steps=0;const eventStats={};while(!s.done&&steps++<720){stepShot(s,1/60);for(const e of s.events)eventStats[e.type]=(eventStats[e.type]||0)+1;const prime=s.balls.find(b=>b.kind==='prime'&&!b.dead);if(prime)path.push({x:prime.x,y:prime.y});}
+ const remaining=level.targets.length-s.removed.size,crystals=level.obstacles.filter(o=>o.type==='crystal').length-s.shattered.size;
+ lastPath=path;lastTest={success:s.success,time:s.elapsed,events:eventStats};draw();
+ $('feedback').textContent=(s.success?'PASS · one-shot solution':'FAIL · reference angle does not clear this design')+'\n'+s.removed.size+'/'+level.targets.length+' targets · '+s.shattered.size+' crystals broken · '+s.elapsed.toFixed(2)+'s\nMechanics: '+JSON.stringify(eventStats)+'\n'+(remaining||crystals?'Remaining: '+remaining+' targets and '+crystals+' crystals.':'All required objectives satisfied.');
+}
+$('verify').addEventListener('click',test);
+function exportJSON(){const blob=new Blob([JSON.stringify({schema:'echoshot-level-v1',level},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='echoshot-level-'+level.id+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+$('download').addEventListener('click',exportJSON);
+$('importBtn').addEventListener('click',()=>$('importFile').click());
+$('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>150000)throw Error('File is too large');const data=JSON.parse(await f.text());const imported=data.schema==='echoshot-level-v1'?data.level:data;const problems=validate(imported);if(problems.length)throw Error(problems.join('; '));level=copy(imported);selected=null;lastPath=[];populate();test();}catch(err){$('feedback').textContent='Import rejected: '+err.message;}e.target.value='';});
+for(let n=1;n<=75;n++){const opt=document.createElement('option');opt.value=n;opt.textContent=String(n).padStart(2,'0')+' · '+getLevel(n).name;$('stage').append(opt);}
+load(58);
+</script></body></html>
