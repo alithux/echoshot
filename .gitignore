@@ -1,0 +1,11 @@
+# Generated Capacitor and npm files; do not commit build artifacts or secrets.
+node_modules/
+www/
+android/
+.gradle/
+*.jks
+*.keystore
+*.apk
+*.aab
+*.log
+.DS_Store
