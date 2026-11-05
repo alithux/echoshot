@@ -30,3 +30,8 @@ The PWA cache is now `echoshot-static-v0.9.1`. Open the installed app online, th
 ## Deploy
 
 Repo: https://github.com/alithux/echoshot. Render build copies root `index.html` into `public/index.html` and publishes `public/`. The internal level editor remains in `tools/level-editor.html`.
+
+
+## Android test app
+
+The Capacitor 8 Android wrapper is available in this repository. See [ANDROID.md](ANDROID.md) for Windows/Android Studio build steps or use the **ECHOSHOT Android debug APK** workflow under GitHub Actions to build a test APK. No Android build artifacts are checked into the web release; the playable Render site remains unchanged.
