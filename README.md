@@ -1,30 +1,39 @@
-# ECHOSHOT v0.8 — Visual & Gameplay Polish
+# ECHOSHOT v0.9 — Master Runs & Chapter Seals
 
 **Play:** https://echoshot-game.onrender.com
 
-The original 75-stage, one-shot ricochet puzzle is playable on the web and installable as an offline PWA.
+ECHOSHOT is a one-finger, 75-stage ricochet puzzle that works on the web and as an offline PWA.
 
-## What's new in v0.8
+## Changes in v0.9
 
-- **Energy trails:** brighter, smoother two-pass trails for the prime ball and echoes. Trails stop across teleport jumps, preventing a misleading line connecting two portals.
-- **Impact feedback:** brief expanding rings for targets, walls, bumpers, echoes, crystals, switches, gates, and one-way shields. Rapid impacts are throttled.
-- **Portal transition:** matching ripples at entry and exit, a short traveling light arc, and a subtle orbiting highlight around wormhole rims.
-- **Success moments:** a light sweep on the board and a more polished level-clear display with animated stars and a victory symbol.
-- **Accessibility and efficiency:** bounded visual-effects arrays, no external dependencies, and support for reduced-motion settings.
+- **Smaller ripples:** impact rings and secondary rings are roughly 25% smaller, with softer glow.
+- **Master Run:** after clearing a level, players may replay it without the trajectory preview or hint. Clear every normal level objective within the existing target time to earn a separate ✧ Master Run badge and best time.
+- **Chapter mastery:** eight chapter progress panels and ✧ seals earned by completing every Master Run in a chapter. The menu can jump to the next cleared but unmastered stage.
+- **Five new achievements:** on top of the previous ten, recognizing Master Runs and chapter seals. The level picker identifies mastered stages.
+- **Separate saved progress:** the new optional `master` map lives in the existing `echoshot-progress-v1` local storage record. Existing unlocked stages, stars, personal-best times, audio settings, and level clears remain unchanged.
+- **Backup compatibility:** format-1 export now includes Master Run times. Older JSON backups without `master` are still supported; restored records are merged without losing faster or higher progress.
+- **PWA refresh:** the service-worker cache is `echoshot-static-v0.9`; open the installed app online once to update it before offline use.
 
-All of these improvements are **presentation-only**. Collision physics, all **75 levels**, shot timers, 180° iPhone aiming, required objectives, arcade audio, achievements, the internal editor, and personal progress are unchanged. The original `echoshot-progress-v1` storage key and player data are preserved.
+## How to earn Master Runs
 
-The installed PWA's offline cache is updated to `echoshot-static-v0.8`. Open online to receive the update before playing offline.
+1. Clear any level in ordinary play.
+2. Replay that stage, then tap the new **MASTER RUN** control below its board. The preview disappears and HINT is disabled. The familiar iPhone ±90° aiming remains.
+3. Clear the level within its existing time target to earn ✧. A slower clear still counts as an ordinary stage clear.
+4. Track Master Runs, eight chapter seals and achievements in the menu.
 
-## Validation
+All game physics, 75 level layouts, timers, required objectives, arc aiming controls, arcade sounds, and offline functionality remain unchanged.
 
-- `node test_phase2.cjs`: verifies **75/75 solvable reference shots**, unchanged target counts, chapter mechanic dependencies, and preserved goals and controls.
-- `node test_sw.cjs`: verifies the offline cache installation, activation, and offline navigation.
-- `python test_mobile_v08.py`: Playwright Chromium checks at **375px, 390px, and 1280px** for real portal ripples, successful level-clear animation, no horizontal scroll/JavaScript errors, and reduced-motion behavior.
-- The engine section is byte-identical to v0.7.2: there are no changes to simulation or puzzle generation.
+## Tests
 
-## Build and deploy
+- `node test_phase2.cjs`: 75/75 reference solutions pass; physics and level progression preserved.
+- `node test_sw.cjs`: 6 PWA assets precached and offline fallback works.
+- `python test_mobile_v09.py`: 375px, 390px, desktop—Master Run unlocking, no-preview/no-hint behavior, successful timed Master Run, badges, menu and layout.
+- `python test_save_v09.py`: migration from old saves, local persistence, new backup export, old backup import, and invalid backup rejection.
 
-- Repository: https://github.com/alithux/echoshot
-- Render build: `mkdir -p public && cp index.html public/index.html`, publish `public/`.
-- Internal editor: `tools/level-editor.html` (not part of the public game shell).
+The tests and standalone source are packaged in the v0.9 source archive.
+
+## Hosting
+
+GitHub: https://github.com/alithux/echoshot
+
+Render deploys root `index.html` using `mkdir -p public && cp index.html public/index.html` and publishes `public/`. The internal editor remains separately available under `tools/level-editor.html`.
