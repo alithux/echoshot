@@ -1,0 +1,24 @@
+{
+  "name": "echoshot-android",
+  "version": "0.9.1",
+  "private": true,
+  "description": "Android Capacitor wrapper for ECHOSHOT. The public web game is unchanged.",
+  "scripts": {
+    "android:prepare": "node scripts/prepare-android.mjs",
+    "android:init": "npm run android:prepare && npx cap add android && npx cap sync android",
+    "android:sync": "npm run android:prepare && npx cap sync android",
+    "android:open": "npx cap open android",
+    "test:android": "node --test test/android-prep.test.mjs"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/filesystem": "^8.0.0",
+    "@capacitor/share": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.0",
+    "esbuild": "^0.25.0"
+  }
+}
