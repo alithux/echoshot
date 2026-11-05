@@ -1,37 +1,37 @@
-# ECHOSHOT v0.9.1 — Elastic Portal Warp
+# ECHOSHOT v0.9.2 — Deeper Warp & Better Portal Spacing
 
 **Play:** https://echoshot-game.onrender.com
 
-This update makes the wormhole portal stretch and swallow the ball going in, then push it out in an elastic, elongated shape.
+This release addresses two iPhone playtest observations: the elastic portal effect was hard to notice, and many portal pairs were visually too close together.
 
-## Elastic warp
+## Warp animation
 
-- **Entry (~120 ms):** a visual copy of the ball elongates in its incoming direction, narrows and fades into the mouth while the portal rim contracts.
-- **Exit (~170 ms):** the *actual ball* stretches along its outgoing velocity, then springs smoothly back into a round shape. The destination rim briefly flares outward.
-- Teal prime balls and purple echoes retain their separate colors. Each ball's portal transition is tracked by its own ID.
-- The earlier portal-to-portal energy arc is now subtler; the smaller v0.9 impact ripples stay.
-- The new morphs have a bounded lifecycle and are removed when a stage restarts.
-- **Reduced motion:** the elastic deformation is skipped when the browser requests reduced motion.
+- **Entrance suction:** the entering ball lengthens dramatically, pulls a bright tapered ribbon behind it, narrows and fades into the mouth. Approximately **235 ms**.
+- **Exit release:** the actual outgoing ball stays elongated longer and springs back to circular, with a brighter expanding portal throat and directed streaks. Approximately **310 ms**.
+- All deformation is visual. The ball teleports instantly in the same physics step as before, with unchanged velocity, collision rules, flight time and difficulty settings. Reduced-motion users see no elastic morph.
 
-**Physics and progression are unchanged.** Portal destination, speed, angle, shot timers, collision logic, all 75 stage layouts, Master Runs and chapter seals, personal records, offline play, mute preference and iPhone ±90° aiming are preserved. Only extra metadata was added to the portal event to connect the animation with the appropriate ball.
+## Portal separation
 
-## Tests
+- **33 of 45 portal stages** have verified widened pairs. The remaining 12 retain their original layouts where no sufficiently safe adjustment was found or sufficient spacing was already present.
+- The average pair separation across all 45 portal levels rises from **133.2 to 169.1** world units.
+- Pairs under **140** units fall from **29 to 5**; pairs at least 160 units apart rise from **9 to 34**.
+- The entry shifts along the known launch trajectory or the exit moves together with its linked resonator/crystal lane, maintaining coherent puzzles.
+- All original target counts and stage objectives remain. The seeded solution wins all **75/75 stages** and the iPhone ±90° aiming and Master Run modes are preserved.
+- Levels **1–24 and 51–56** remain unchanged.
 
-- `node test_phase2.cjs`: 75/75 seeded level solutions, same target counts and required mechanics.
-- `python test_warp.py`: 375px/390px iPhone-sized and 1280px desktop Chromium; portal entry and exit on real shots, no JavaScript exceptions, no horizontal overflow, and reduced-motion fallback.
-- `python test_save_v091.py`: legacy save migration, Master Run records, backup export, old-backup import and invalid backup rejection.
-- `node test_sw.cjs`: six assets precached and offline navigation works.
-- `node --check inline.js`: inline JavaScript syntax valid.
+## Saved progress
 
-## Offline updates
+The existing `echoshot-progress-v1` localStorage key and stars, unlocks, personal records, Master Runs, and sound preferences are preserved. Earlier records on changed portal levels remain in place but may be harder to compare with the new layouts.
 
-The PWA cache is now `echoshot-static-v0.9.1`. Open the installed app online, then close and reopen it to receive the new effect. There are **no extra audio/image downloads**.
+The separate editor in `tools/level-editor.html` now uses exactly the same 75 level definitions as the public game.
 
-## Deploy
+## Validation
 
-Repo: https://github.com/alithux/echoshot. Render build copies root `index.html` into `public/index.html` and publishes `public/`. The internal level editor remains in `tools/level-editor.html`.
+- `node test_portal_spacing.cjs` — 75/75 intended shots succeed with full target counts and objectives; checks 45 portal pair distances.
+- Internal editor cross-check: 75/75 stage definitions match between editor and game.
+- Playwright Chromium at 375×812, 390×844 and 1280×900: observes warp morph on real portal travel, no JS errors or horizontal overflow, and proper reduced-motion handling.
+- Offline service-worker cache bumped to `echoshot-static-v0.9.2` with the same six preloaded assets (no extra downloads).
 
+## Hosting
 
-## Android test app
-
-The Capacitor 8 Android wrapper is available in this repository. See [ANDROID.md](ANDROID.md) for Windows/Android Studio build steps or use the **ECHOSHOT Android debug APK** workflow under GitHub Actions to build a test APK. No Android build artifacts are checked into the web release; the playable Render site remains unchanged.
+Render static site copies `index.html` into `public/index.html`, with build `mkdir -p public && cp index.html public/index.html` and publish directory `public`. Android Capacitor starter remains in the repository; regenerating its bundled web assets picks up the new version.
