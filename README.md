@@ -1,39 +1,32 @@
-# ECHOSHOT v0.9 — Master Runs & Chapter Seals
+# ECHOSHOT v0.9.1 — Elastic Portal Warp
 
 **Play:** https://echoshot-game.onrender.com
 
-ECHOSHOT is a one-finger, 75-stage ricochet puzzle that works on the web and as an offline PWA.
+This update makes the wormhole portal stretch and swallow the ball going in, then push it out in an elastic, elongated shape.
 
-## Changes in v0.9
+## Elastic warp
 
-- **Smaller ripples:** impact rings and secondary rings are roughly 25% smaller, with softer glow.
-- **Master Run:** after clearing a level, players may replay it without the trajectory preview or hint. Clear every normal level objective within the existing target time to earn a separate ✧ Master Run badge and best time.
-- **Chapter mastery:** eight chapter progress panels and ✧ seals earned by completing every Master Run in a chapter. The menu can jump to the next cleared but unmastered stage.
-- **Five new achievements:** on top of the previous ten, recognizing Master Runs and chapter seals. The level picker identifies mastered stages.
-- **Separate saved progress:** the new optional `master` map lives in the existing `echoshot-progress-v1` local storage record. Existing unlocked stages, stars, personal-best times, audio settings, and level clears remain unchanged.
-- **Backup compatibility:** format-1 export now includes Master Run times. Older JSON backups without `master` are still supported; restored records are merged without losing faster or higher progress.
-- **PWA refresh:** the service-worker cache is `echoshot-static-v0.9`; open the installed app online once to update it before offline use.
+- **Entry (~120 ms):** a visual copy of the ball elongates in its incoming direction, narrows and fades into the mouth while the portal rim contracts.
+- **Exit (~170 ms):** the *actual ball* stretches along its outgoing velocity, then springs smoothly back into a round shape. The destination rim briefly flares outward.
+- Teal prime balls and purple echoes retain their separate colors. Each ball's portal transition is tracked by its own ID.
+- The earlier portal-to-portal energy arc is now subtler; the smaller v0.9 impact ripples stay.
+- The new morphs have a bounded lifecycle and are removed when a stage restarts.
+- **Reduced motion:** the elastic deformation is skipped when the browser requests reduced motion.
 
-## How to earn Master Runs
-
-1. Clear any level in ordinary play.
-2. Replay that stage, then tap the new **MASTER RUN** control below its board. The preview disappears and HINT is disabled. The familiar iPhone ±90° aiming remains.
-3. Clear the level within its existing time target to earn ✧. A slower clear still counts as an ordinary stage clear.
-4. Track Master Runs, eight chapter seals and achievements in the menu.
-
-All game physics, 75 level layouts, timers, required objectives, arc aiming controls, arcade sounds, and offline functionality remain unchanged.
+**Physics and progression are unchanged.** Portal destination, speed, angle, shot timers, collision logic, all 75 stage layouts, Master Runs and chapter seals, personal records, offline play, mute preference and iPhone ±90° aiming are preserved. Only extra metadata was added to the portal event to connect the animation with the appropriate ball.
 
 ## Tests
 
-- `node test_phase2.cjs`: 75/75 reference solutions pass; physics and level progression preserved.
-- `node test_sw.cjs`: 6 PWA assets precached and offline fallback works.
-- `python test_mobile_v09.py`: 375px, 390px, desktop—Master Run unlocking, no-preview/no-hint behavior, successful timed Master Run, badges, menu and layout.
-- `python test_save_v09.py`: migration from old saves, local persistence, new backup export, old backup import, and invalid backup rejection.
+- `node test_phase2.cjs`: 75/75 seeded level solutions, same target counts and required mechanics.
+- `python test_warp.py`: 375px/390px iPhone-sized and 1280px desktop Chromium; portal entry and exit on real shots, no JavaScript exceptions, no horizontal overflow, and reduced-motion fallback.
+- `python test_save_v091.py`: legacy save migration, Master Run records, backup export, old-backup import and invalid backup rejection.
+- `node test_sw.cjs`: six assets precached and offline navigation works.
+- `node --check inline.js`: inline JavaScript syntax valid.
 
-The tests and standalone source are packaged in the v0.9 source archive.
+## Offline updates
 
-## Hosting
+The PWA cache is now `echoshot-static-v0.9.1`. Open the installed app online, then close and reopen it to receive the new effect. There are **no extra audio/image downloads**.
 
-GitHub: https://github.com/alithux/echoshot
+## Deploy
 
-Render deploys root `index.html` using `mkdir -p public && cp index.html public/index.html` and publishes `public/`. The internal editor remains separately available under `tools/level-editor.html`.
+Repo: https://github.com/alithux/echoshot. Render build copies root `index.html` into `public/index.html` and publishes `public/`. The internal level editor remains in `tools/level-editor.html`.
