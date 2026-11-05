@@ -11,9 +11,9 @@
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" sizes="192x192" type="image/png" href="/icons/icon-192.png" />
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-  <meta name="description" content="ECHOSHOT v0.8 — 75 curated puzzles with meaningful echo, portal and moving-target challenges." />
+  <meta name="description" content="ECHOSHOT v0.9 — 75 puzzle stages with optional no-preview Master Runs and chapter seals." />
   
-  <title>ECHOSHOT v0.8 — 75 curated ricochet puzzles</title>
+  <title>ECHOSHOT v0.9 — 75 curated ricochet puzzles</title>
   <style>
 :root{color-scheme:dark;--bg:#080d1c;--panel:#111a2b;--muted:#7b8ba7;--text:#eef4ff;--gold:#f4cb86;--cyan:#56e6f4;--purple:#bc8cff;--border:#26344c;font-family:'DM Sans',system-ui,-apple-system,sans-serif}
 *{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;color:var(--text);background:radial-gradient(ellipse 60% 34% at 51% 18%,#1a253a 0%,#080d1c 100%);min-height:100vh;min-height:100svh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible,canvas:focus-visible{outline:2px solid #79eefa;outline-offset:3px}.ambient{pointer-events:none;position:fixed;filter:blur(90px);border-radius:50%;z-index:0}.ambient-one{width:380px;height:380px;background:#47335c33;top:17%;right:-200px}.ambient-two{width:340px;height:340px;background:#153a5433;bottom:6%;left:-190px}.shell{position:relative;z-index:1;max-width:1390px;margin:auto;padding:0 38px}.topbar{height:104px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #23314999}.identity{display:flex;align-items:center;gap:14px}.brandicon{position:relative;width:38px;height:38px;border-radius:12px;border:1px solid #375f73;background:linear-gradient(140deg,#123448,#11172a);overflow:hidden;display:grid;place-items:center}.brandicon span{position:absolute;display:block;border:2px solid #76e6ed;border-radius:50%;width:25px;height:25px;transform:translate(7px,7px)}.brandicon span:nth-child(2){width:15px;height:15px;transform:translate(2px,2px);border-color:#c2a0fa}.brandicon span:nth-child(3){width:5px;height:5px;transform:translate(-5px,-5px);background:#f8d399;border:0}.wordmark{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:.16em;font-size:21px;line-height:1.1}.wordmark span{color:#6bd9eb}.brand-sub{color:#72829e;letter-spacing:.19em;font-size:8px;font-weight:700;margin-top:7px}.top-actions{display:flex;align-items:center;gap:18px}.build-tag{color:#8b9ab1;font-size:9px;letter-spacing:.12em;font-weight:700;white-space:nowrap}.version{border:1px solid #34435c;border-radius:4px;padding:4px 6px;margin-left:7px;color:#e4d3b3}.icon-btn{width:40px;height:40px;border:1px solid #2e3b52;background:#131c2d;border-radius:12px;color:#bdcbe0;display:grid;place-items:center;transition:.2s}.icon-btn svg{width:19px;height:19px}.icon-btn:hover,.control-btn:hover,.close-btn:hover{background:#202d45;border-color:#6c819d}.sound-wave{display:none}.sound-cross{display:block}.sound-on .sound-wave{display:block}.sound-on .sound-cross{display:none}.layout{display:grid;grid-template-columns:minmax(210px,1fr) minmax(330px,420px) minmax(190px,1fr);gap:54px;align-items:start;justify-content:center;padding-top:33px}.sidebar{padding-top:85px}.eyebrow,.kicker{font-weight:700;font-size:10px;letter-spacing:.18em;color:#a9bad3}.eyebrow{color:var(--gold);display:flex;align-items:center;gap:10px}.gold-dot{height:6px;width:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px #f1c888}.left-sidebar h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(31px,3.2vw,49px);line-height:1.06;letter-spacing:-.055em;margin:28px 0 22px;font-weight:700}.left-sidebar h1 span{color:var(--cyan)}.intro{line-height:1.8;color:#91a0bb;font-size:13px;margin:0 0 36px;max-width:290px}.how-card{display:flex;align-items:flex-start;gap:16px;margin:0 0 22px}.how-icon{height:33px;min-width:33px;border:1px solid #34445d;background:#172237;border-radius:9px;color:#b8c9e5;display:grid;place-items:center;font-size:19px}.how-card strong{display:block;font-size:10px;letter-spacing:.14em;margin:2px 0 6px}.how-card p{margin:0;color:#8798b3;font-size:12px;line-height:1.55}.sidebar-footer{display:flex;align-items:center;gap:10px;color:#576983;font-size:9px;letter-spacing:.14em;margin-top:48px}.tiny-orbit{width:20px;height:20px;border:1px solid #446176;border-radius:50%;position:relative}.tiny-orbit:after{content:'';position:absolute;left:7px;top:-4px;width:6px;height:6px;border-radius:50%;background:var(--cyan)}.game-column{min-width:0;display:flex;flex-direction:column;align-items:stretch}.game-header{display:flex;justify-content:space-between;align-items:flex-end;margin:0 2px 17px}.kicker{color:#95a5bd;display:block}.level-title-block h2{font-family:'Space Grotesk',sans-serif;font-size:20px;letter-spacing:-.025em;margin:7px 0 0}.stat-cluster{display:flex;align-items:center;gap:19px}.stat{text-align:right}.stat-label{display:block;letter-spacing:.13em;color:#73849f;font-size:8px;font-weight:700;margin-bottom:5px}.stat strong{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#eaf3ff}.stat-slash{font-size:14px;padding:0 3px;color:#58718c}.frame-wrap{width:100%}.game-frame{width:100%;position:relative;aspect-ratio:3/5;border-radius:22px;background:#0c182a;border:1px solid #33415b;box-shadow:0 22px 65px #02040890,0 0 0 7px #152035b0,inset 0 0 40px #38d1ff08;overflow:hidden}.game-frame canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;user-select:none;outline-offset:-5px}.flight-hud{position:absolute;z-index:3;top:14px;left:50%;transform:translateX(-50%);width:calc(100% - 38px);max-width:370px;padding:9px 13px 10px;background:linear-gradient(115deg,#0d1b30ee,#111e36ee);border:1px solid #4a6380;border-radius:11px;box-shadow:0 5px 22px #02071288,0 0 18px #32d5ff12;pointer-events:none;user-select:none;transition:border-color .15s,box-shadow .15s}
@@ -87,6 +87,35 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
 @keyframes starRise{from{opacity:0;transform:translateY(10px);letter-spacing:.3em}to{opacity:1;transform:translateY(0);letter-spacing:.16em}}
 @keyframes resultNudge{0%,100%{transform:translateX(0)}35%{transform:translateX(-3px)}70%{transform:translateX(3px)}}
 @media (prefers-reduced-motion:reduce){.result-panel,.result-panel.result-success .result-symbol,.result-panel.result-success .stars,.result-panel.result-fail .result-symbol{animation:none!important}.game-overlay{transition:none}}
+/* v0.9: optional Master Run; compact so it does not displace the iPhone controls. */
+.master-challenge{margin:9px 0 0;padding:9px 11px;display:flex;align-items:center;gap:10px;border-radius:12px;background:linear-gradient(120deg,#1d2039,#101d30);border:1px solid #485274;min-height:57px}
+.master-challenge.active{border-color:#be9dff;background:linear-gradient(120deg,#30264c,#14253a);box-shadow:0 0 18px #b58aff17}
+.master-challenge.earned{border-color:#4e957f}
+.master-toggle{flex:0 0 auto;min-width:121px;border-radius:9px;border:1px solid #9c7bd2;color:#f1dcff;background:#3a2b51;padding:10px 9px;font-size:10px;font-weight:800;letter-spacing:.04em;min-height:42px;white-space:nowrap}
+.master-toggle span{display:block;color:#c9dfef;font-size:9px;margin-top:2px;letter-spacing:.02em}
+.master-toggle[aria-pressed="true"]{background:#7152a1;border-color:#e1beff;color:white}
+.master-toggle:disabled{opacity:.46;cursor:not-allowed}
+.master-challenge-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.master-challenge-copy strong{font-size:11px;color:#dfe7ff;letter-spacing:.02em}
+.master-challenge-copy small{font-size:10px;line-height:1.35;color:#9fb8cd}
+.master-result{padding:8px 11px;margin:4px 0 14px;background:#2a2340;border:1px solid #8063b3;color:#f2e3ff;border-radius:9px;font-size:12px;line-height:1.4;text-align:center;font-weight:700}
+.master-result.earned{background:#163e39;border-color:#57d2af;color:#b9ffec}
+.mastery-description{font-size:12px;line-height:1.6;color:#aabbd1;margin:3px 0 11px}
+.chapter-mastery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.chapter-mastery-item{border:1px solid #34455e;border-radius:10px;padding:9px 11px;background:#101c30;min-width:0;display:flex;flex-direction:column;gap:6px}
+.chapter-mastery-item.sealed{border-color:#60bea1;background:#14342f}
+.chapter-mastery-item-head{display:flex;justify-content:space-between;gap:7px;align-items:center}
+.chapter-mastery-item-head strong{font-size:10px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#e2edff}
+.chapter-mastery-item-head span{font-size:10px;color:#cbb4ff;white-space:nowrap;font-weight:700}
+.chapter-mastery-item.sealed .chapter-mastery-item-head span{color:#83edc4}
+.chapter-mastery-meter{height:5px;background:#2c3550;border-radius:9px;overflow:hidden}
+.chapter-mastery-meter div{height:100%;width:0;background:linear-gradient(90deg,#8f85dd,#b99aff);border-radius:9px}
+.chapter-mastery-item.sealed .chapter-mastery-meter div{background:#69daba}
+.master-menu-status{font-size:11px;color:#c8bce7;margin-top:8px}
+.level-tile.master-earned{border-color:#8f68c6;box-shadow:inset 0 0 12px #ad8dff12}
+.tile-master{font-size:11px;color:#d3a8ff;font-weight:800;display:block;line-height:1}
+@media(max-width:420px){.master-challenge{gap:9px;padding:8px}.master-toggle{min-width:110px;font-size:9px}.master-challenge-copy strong{font-size:10px}.master-challenge-copy small{font-size:9px}.chapter-mastery{gap:6px}.chapter-mastery-item{padding:8px}}
+@media(prefers-reduced-motion:reduce){.master-challenge,.master-result{transition:none!important}}
 </style>
 </head>
 <body>
@@ -98,7 +127,7 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
         <div><div class="wordmark">ECHO<span>SHOT</span></div><div class="brand-sub">ONE SHOT · INFINITE POSSIBILITIES</div></div>
       </div>
       <div class="top-actions">
-        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.8</span></span>
+        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.9</span></span>
         <button id="soundBtn" class="icon-btn" type="button" aria-label="Turn sound on" title="Toggle sound">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-wave" d="M15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"/><path class="sound-cross" d="m16 9 5 6m0-6-5 6"/></svg>
         </button>
@@ -145,6 +174,7 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
                 <h3 id="resultTitle">PERFECT SHOT</h3>
                 <p id="resultMessage">Every target cleared.</p>
                 <div class="stars" id="resultStars" aria-label="Stars earned">★★★</div>
+                <p class="master-result hidden" id="masterResult" role="status"></p>
                 <button id="primaryResultBtn" class="cta-btn" type="button">NEXT STAGE <span>→</span></button>
                 <button id="secondaryResultBtn" class="text-btn" type="button">RETRY</button>
               </div>
@@ -157,6 +187,10 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
             <div id="objectivesList" class="objective-list" role="list"></div>
             <p class="objective-reminder hidden" id="objectivesReminder" role="status">Targets cleared — finish the other objectives to win.</p>
           </section>
+          <div class="master-challenge" id="masterChallenge" aria-label="Optional replay challenge">
+            <button type="button" id="masterToggle" class="master-toggle" aria-pressed="false" disabled>✧ MASTER RUN <span id="masterToggleState">LOCKED</span></button>
+            <div class="master-challenge-copy"><strong id="masterRecord">CLEAR ONCE TO UNLOCK</strong><small id="masterRule">No path preview · No hints · Beat the target time</small></div>
+          </div>
           <div class="record-strip" aria-label="Level flight time challenge">
             <div class="record-item"><span class="par-icon" aria-hidden="true">◎</span><span class="record-label">TARGET</span><strong id="parTarget">—</strong></div>
             <span class="record-divider" aria-hidden="true"></span>
@@ -193,7 +227,7 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
     <footer class="footer"><span>© ECHOSHOT — AN ORIGINAL ONE-FINGER PUZZLE</span><span>BUILT FOR TOUCH · MADE TO REPLAY</span></footer>
   </main>
   <div id="levelsModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="levelsHeading">
-    <div class="modal-card"><div class="modal-header"><div><span class="kicker">SELECT YOUR SIGNAL</span><h2 id="levelsHeading">STAGES</h2></div><button type="button" class="close-btn" id="closeLevels" aria-label="Close level selection">✕</button></div><p>Complete stages to unlock new mechanics. Stars reward fewer attempts; records reward faster shots.</p><div class="level-grid" id="levelGrid"></div></div>
+    <div class="modal-card"><div class="modal-header"><div><span class="kicker">SELECT YOUR SIGNAL</span><h2 id="levelsHeading">STAGES</h2></div><button type="button" class="close-btn" id="closeLevels" aria-label="Close level selection">✕</button></div><p>Complete stages to unlock new mechanics. Stars reward fewer attempts; records reward faster shots. ✧ marks a completed Master Run.</p><div class="level-grid" id="levelGrid"></div></div>
   </div>
   <div id="menuModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="menuHeading">
     <div class="modal-card mission-modal">
@@ -204,6 +238,13 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
         <p id="installHelp">Add ECHOSHOT to your home screen for a full-screen, app-like experience. Your stages work without internet after the first load.</p>
         <button type="button" class="mission-action primary" id="installBtn">INSTALL ECHOSHOT <span aria-hidden="true">↗</span></button>
         <button type="button" class="mission-action" id="fullscreenBtn">FULL SCREEN <span aria-hidden="true">⛶</span></button>
+      </section>
+      <section class="mission-section" aria-labelledby="masteryHeading">
+        <div class="mission-title"><h3 id="masteryHeading">MASTER RUNS · NO GHOST PATH</h3><span class="mini-pill" id="masteryCount">0 / 75</span></div>
+        <p class="mastery-description">Clear a stage once to unlock its Master Run. Replay with no trajectory preview or hints, and beat the target time to earn ✧. Your normal records and stars are safe.</p>
+        <div id="chapterMastery" class="chapter-mastery" aria-label="Mastery progress by chapter"></div>
+        <button type="button" id="nextMasterBtn" class="mission-action primary">NEXT MASTER CHALLENGE <span aria-hidden="true">↗</span></button>
+        <p id="masterMenuStatus" class="master-menu-status" aria-live="polite"></p>
       </section>
       <section class="mission-section" aria-labelledby="achievementsHeading">
         <div class="mission-title"><h3 id="achievementsHeading">ACHIEVEMENTS</h3><span class="mini-pill" id="achievementCount">0 / 10</span></div>
@@ -715,10 +756,19 @@ function recordTime(n){const t=Number(save.times?.[n]);return Number.isFinite(t)
 const $=id=>document.getElementById(id);
 const canvas=$('game'),ctx=canvas.getContext('2d',{alpha:false});
 const TAU=Math.PI*2;
-const STORAGE='echoshot-progress-v1'; // v0.2 uses the same key to preserve every player's progress.
-function safeLoad(){try{const v=JSON.parse(localStorage.getItem(STORAGE)||'{}');return {unlocked:Math.max(1,Math.min(LEVEL_COUNT,Math.max(v.unlocked||1,v.best?.[20]?21:1,v.best?.[50]?51:1))),best:v.best||{},times:v.times&&typeof v.times==='object'&&!Array.isArray(v.times)?v.times:{},sound:!!v.sound}}catch{return {unlocked:1,best:{},times:{},sound:false}}}
+const STORAGE='echoshot-progress-v1'; // Existing key stays unchanged.
+function cleanMasterMap(value){
+ const result=Object.create(null);
+ if(!value||typeof value!=='object'||Array.isArray(value))return result;
+ for(const [key,t] of Object.entries(value)){
+  const n=Number(key);
+  if(Number.isInteger(n)&&n>=1&&n<=LEVEL_COUNT&&String(n)===key&&typeof t==='number'&&Number.isFinite(t)&&t>0&&t<=shotTimeLimit({id:n})+.02)result[n]=t;
+ }
+ return result;
+}
+function safeLoad(){try{const v=JSON.parse(localStorage.getItem(STORAGE)||'{}');return {unlocked:Math.max(1,Math.min(LEVEL_COUNT,Math.max(v.unlocked||1,v.best?.[20]?21:1,v.best?.[50]?51:1))),best:v.best||{},times:v.times&&typeof v.times==='object'&&!Array.isArray(v.times)?v.times:{},master:cleanMasterMap(v.master),sound:!!v.sound}}catch{return {unlocked:1,best:{},times:{},master:Object.create(null),sound:false}}}
 let save=safeLoad();
-let levelIndex=save.unlocked,level=getLevel(levelIndex),attempts=0,shot=null,mode='ready',aimAngle=0,aiming=false,aimPointer=null;
+let levelIndex=save.unlocked,level=getLevel(levelIndex),attempts=0,shot=null,mode='ready',aimAngle=0,aiming=false,aimPointer=null,masterRun=false;
 let preview=[],particles=[],floating=[],last=performance.now(),time=0,hitFlash=0,toastTimeout=0,hintUntil=0,winPending=false;
 let audioCtx=null;let announceCounter=0;
 // v0.8 visual effects live OUTSIDE the deterministic simulation; they cannot change a shot.
@@ -747,10 +797,10 @@ function drawVisualFX(dt){
   const progress=Math.min(1,w.age/w.life);
   if(progress>=1){impactWaves.splice(i,1);continue;}
   ctx.globalAlpha=(1-progress)*(reducedMotion?.2:.82);
-  ctx.strokeStyle=w.color;ctx.lineWidth=(2.4*(1-progress)+.7)*w.scale;
-  ctx.shadowColor=w.color;ctx.shadowBlur=progress<.6?10:3;
-  ctx.beginPath();ctx.arc(w.x,w.y,7+(33*progress)*w.scale,0,TAU);ctx.stroke();
-  if(w.scale>=1.4){ctx.globalAlpha=(1-progress)*.22;ctx.beginPath();ctx.arc(w.x,w.y,11+47*progress*w.scale,0,TAU);ctx.stroke();}
+  ctx.strokeStyle=w.color;ctx.lineWidth=(1.8*(1-progress)+.55)*w.scale;
+  ctx.shadowColor=w.color;ctx.shadowBlur=progress<.6?7:2;
+  ctx.beginPath();ctx.arc(w.x,w.y,5+(24*progress)*w.scale,0,TAU);ctx.stroke();
+  if(w.scale>=1.4){ctx.globalAlpha=(1-progress)*.22;ctx.beginPath();ctx.arc(w.x,w.y,8+34*progress*w.scale,0,TAU);ctx.stroke();}
  }
  ctx.shadowBlur=0;
  for(let i=warpBridges.length-1;i>=0;i--){
@@ -778,13 +828,27 @@ for(let i=0;i<60;i++)stars.push({x:25+random()*311,y:90+random()*465,r:.3+random
 function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(save))}catch{}}
 // Achievements are derived from existing scores; legacy saves gain their badges immediately.
 const CHAPTERS=[{end:20,name:'Orbital Basics'},{end:34,name:'Wormhole Gates'},{end:50,name:'Final Frequency'},{end:57,name:'Crystal Run'},{end:65,name:'Circuit Shift'},{end:75,name:'Polarity Lab'}];
+// v0.9 chapter seals are earned by mastering *every* stage in a chapter.
+const MASTER_CHAPTERS=[
+ {start:1,end:20,name:'Orbital Basics'},{start:21,end:24,name:'Signal Reborn'},
+ {start:25,end:34,name:'Wormhole Gates'},{start:35,end:44,name:'Moving Targets'},
+ {start:45,end:50,name:'Final Frequency'},{start:51,end:57,name:'Crystal Run'},
+ {start:58,end:65,name:'Circuit Shift'},{start:66,end:75,name:'Polarity Lab'}
+];
+function recordMaster(n){
+ const t=Number(save.master?.[n]);
+ return Number.isFinite(t)&&t>0&&t<=shotTimeLimit({id:n})+.01&&t<=parTime(getLevel(n))+.005?t:null;
+}
+function masterCount(){let count=0;for(let n=1;n<=LEVEL_COUNT;n++)if(recordMaster(n)!==null)count++;return count;}
+function sealedCount(){return MASTER_CHAPTERS.filter(c=>Array.from({length:c.end-c.start+1},(_,i)=>recordMaster(c.start+i)!==null).every(Boolean)).length;}
+
 function masteredCount(){let total=0;for(let n=1;n<=LEVEL_COUNT;n++){const record=recordTime(n);if(record!==null&&record<=parTime(getLevel(n))+.005)total++;}return total;}
 function achievementStats(){
  const cleared=Array.from({length:LEVEL_COUNT},(_,i)=>i+1).filter(n=>Number(save.best[n])>=1);
  const stars=cleared.reduce((sum,n)=>sum+Number(save.best[n]||0),0);
  const perfect=cleared.filter(n=>Number(save.best[n])===3).length;
  const mastery=masteredCount();
- return {cleared:cleared.length,stars,perfect,mastery};
+ return {cleared:cleared.length,stars,perfect,mastery,masterRuns:masterCount(),seals:sealedCount()};
 }
 function achievements(){
  const v=achievementStats(),complete=n=>Number(save.best[n])>=1;
@@ -798,7 +862,13 @@ function achievements(){
   {icon:'➤',title:'POLARITY PILOT',detail:'Clear stage 75',earned:complete(75)},
   {icon:'★',title:'PERFECT TEN',detail:'Earn 3 stars on 10 stages',earned:v.perfect>=10},
   {icon:'↗',title:'TIME BENDER',detail:'Beat 10 flight challenges',earned:v.mastery>=10},
-  {icon:'✷',title:'ALL FREQUENCIES',detail:'Clear all 75 stages',earned:v.cleared===75}
+  {icon:'✷',title:'ALL FREQUENCIES',detail:'Clear all 75 stages',earned:v.cleared===75},
+  {icon:'✧',title:'GHOSTLESS',detail:'Complete your first Master Run',earned:v.masterRuns>=1},
+  {icon:'⬡',title:'FIVE MASTER SHOTS',detail:'Earn 5 Master Runs',earned:v.masterRuns>=5},
+  {icon:'✺',title:'TWENTY MASTERS',detail:'Earn 20 Master Runs',earned:v.masterRuns>=20},
+  {icon:'♛',title:'CHAPTER ARCHITECT',detail:'Earn your first chapter seal',earned:v.seals>=1},
+  {icon:'◆',title:'EIGHT SIGNALS',detail:'Earn all 8 chapter mastery seals',earned:v.seals===8}
+
  ];
 }
 function updateMission(){
@@ -808,6 +878,23 @@ function updateMission(){
  $('missionMastery').textContent=stats.mastery;
  const badges=achievements();
  $('achievementCount').textContent=`${badges.filter(a=>a.earned).length} / ${badges.length}`;
+ $('masteryCount').textContent=`${stats.masterRuns} / ${LEVEL_COUNT}`;
+ const chapterGrid=$('chapterMastery');chapterGrid.replaceChildren();
+ for(const chapter of MASTER_CHAPTERS){
+  const total=chapter.end-chapter.start+1;
+  let count=0;for(let n=chapter.start;n<=chapter.end;n++)if(recordMaster(n)!==null)count++;
+  const item=document.createElement('div');item.className='chapter-mastery-item'+(count===total?' sealed':'');
+  const head=document.createElement('div');head.className='chapter-mastery-item-head';
+  const label=document.createElement('strong');label.textContent=chapter.name;
+  const value=document.createElement('span');value.textContent=count===total?'✧ SEAL':`${count}/${total}`;
+  head.append(label,value);
+  const meter=document.createElement('div');meter.className='chapter-mastery-meter';
+  const fill=document.createElement('div');fill.style.width=`${count/total*100}%`;meter.appendChild(fill);
+  item.append(head,meter);chapterGrid.appendChild(item);
+ }
+ const next=Array.from({length:LEVEL_COUNT},(_,i)=>i+1).find(n=>Number(save.best[n])>=1&&recordMaster(n)===null);
+ const jump=$('nextMasterBtn');jump.disabled=next===undefined;
+ $('masterMenuStatus').textContent=next===undefined?(stats.masterRuns===75?'All stages mastered. Every chapter seal earned!':'Clear another stage to unlock its Master Run.'):`Next available: Level ${next} · no preview · beat its time target`;
  const grid=$('achievementGrid');grid.replaceChildren();
  for(const a of badges){const card=document.createElement('div');card.className='achievement'+(a.earned?' earned':'');
   const symbol=document.createElement('span');symbol.className='achievement-mark';symbol.textContent=a.earned?a.icon:'♢';symbol.setAttribute('aria-hidden','true');
@@ -932,6 +1019,32 @@ function vibrate(pattern){try{navigator.vibrate?.(pattern)}catch{}}
 function textStatus(t){$('statusText').textContent=t;}
 function toast(t){const box=$('toast');box.textContent=t;box.classList.add('show');toastTimeout=performance.now()+1150;}
 function setSound(){const b=$('soundBtn');b.classList.toggle('sound-on',save.sound);b.setAttribute('aria-label',save.sound?'Turn sound off':'Turn sound on');}
+function updateMasterUI(){
+ const eligible=Number(save.best[levelIndex])>=1;
+ const earned=recordMaster(levelIndex);
+ const btn=$('masterToggle'),panel=$('masterChallenge');
+ btn.disabled=mode!=='ready'||!eligible;
+ btn.setAttribute('aria-pressed',String(masterRun));
+ $('masterToggleState').textContent=masterRun?'ON':!eligible?'LOCKED':earned!==null?'EARNED':'OFF';
+ panel.classList.toggle('active',masterRun);
+ panel.classList.toggle('earned',earned!==null);
+ $('masterRecord').textContent=earned!==null?`✧ MASTER BEST ${earned.toFixed(2)}s`:!eligible?'CLEAR ONCE TO UNLOCK':masterRun?'MASTER RUN ARMED':'MASTER RUN AVAILABLE';
+ $('masterRule').textContent=masterRun?`No guide · No hints · Beat ${parTime(level).toFixed(1)}s`:`No guide · No hints · Beat ${parTime(level).toFixed(1)}s`;
+ $('hintBtn').disabled=masterRun;
+ $('hintBtn').title=masterRun?'Hints are disabled during Master Runs':'Show an aiming hint';
+}
+$('masterToggle').addEventListener('click',()=>{
+ if(mode!=='ready'||Number(save.best[levelIndex])<1)return;
+ masterRun=!masterRun;hintUntil=0;refreshPreview();updateMasterUI();
+ textStatus(masterRun?'MASTER RUN · NO GHOST PATH':'NORMAL MODE · PREVIEW ENABLED');
+ toast(masterRun?'✧ MASTER RUN ARMED':'NORMAL AIMING RESTORED');
+});
+$('nextMasterBtn').addEventListener('click',()=>{
+ const n=Array.from({length:LEVEL_COUNT},(_,i)=>i+1).find(x=>Number(save.best[x])>=1&&recordMaster(x)===null);
+ if(n===undefined)return;
+ loadLevel(n);masterRun=true;refreshPreview();updateMasterUI();closeMenu();
+ textStatus('MASTER RUN · NO GHOST PATH');
+});
 function updateProgress(){
  $('levelNumber').textContent=String(levelIndex).padStart(2,'0');$('levelTotal').textContent=LEVEL_COUNT;
  $('levelTitle').textContent=level.name;$('targetTotal').textContent=level.targets.length;
@@ -951,6 +1064,7 @@ function updateProgress(){
  if(!$('menuModal').classList.contains('hidden'))updateMission();
  updateObjectivePanel();
  updateFlightHud();
+ updateMasterUI();
 }
 let lastObjectivesSignature='';
 function updateObjectivePanel(){
@@ -994,6 +1108,7 @@ function updateFlightHud(){
  hud.classList.toggle('urgent',mode==='flight'&&remaining<=1.8);
 }
 function refreshPreview(){
+ if(masterRun){preview=[];return;}
  try{
    const trace=traceShot(level,aimAngle,1.8);
    preview=(trace.byBall.find(g=>g.kind==='prime')?.points||[]).filter((p,i)=>i%5===0);
@@ -1001,7 +1116,7 @@ function refreshPreview(){
 }
 function loadLevel(n){
  levelIndex=Math.max(1,Math.min(LEVEL_COUNT,n));level=getLevel(levelIndex);
- shot=null;mode='ready';aiming=false;attempts=0;aimAngle=0;particles=[];floating=[];clearVisualFX();hintUntil=0;winPending=false;
+ shot=null;mode='ready';masterRun=false;aiming=false;attempts=0;aimAngle=0;particles=[];floating=[];clearVisualFX();hintUntil=0;winPending=false;
  $('resultOverlay').classList.add('hidden');textStatus('READY TO LAUNCH');refreshPreview();updateProgress();
 }
 function resetShot(){
@@ -1074,12 +1189,25 @@ function showResult(success){
  $('resultKicker').textContent=success?'SIGNAL COMPLETE':'SIGNAL LOST';
  $('resultTitle').textContent=success?'LEVEL CLEARED':'ALMOST THERE';
  const earned=attempts===1?3:attempts<=3?2:1;
+ const masterLine=$('masterResult');masterLine.classList.add('hidden');masterLine.classList.remove('earned');
  if(success){
   const elapsed=Number(shot.elapsed.toFixed(2));
   const previousBest=recordTime(levelIndex);
   const personalRecord=previousBest===null||elapsed<previousBest-0.005;
   if(personalRecord)save.times[levelIndex]=elapsed;
   const metPar=elapsed<=parTime(level)+.005;
+  if(masterRun){
+   masterLine.classList.remove('hidden');
+   if(metPar){
+    const old=recordMaster(levelIndex);
+    if(old===null||elapsed<old)save.master[levelIndex]=elapsed;
+    masterLine.classList.add('earned');
+    const total=masterCount(),seals=sealedCount();
+    masterLine.textContent=`✧ MASTER RUN CLEARED · ${total}/${LEVEL_COUNT} mastered${seals?` · ${seals} chapter seal${seals===1?'':'s'}`:''}`;
+   }else{
+    masterLine.textContent=`MASTER RUN: ${elapsed.toFixed(2)}s · beat ${parTime(level).toFixed(1)}s to earn ✧. Normal stage clear saved.`;
+   }
+  }
   save.best[levelIndex]=Math.max(Number(save.best[levelIndex]||0),earned);save.unlocked=Math.max(save.unlocked,Math.min(LEVEL_COUNT,levelIndex+1));persist();updateProgress();
   $('resultMessage').textContent=`All ${level.targets.length} targets${crystalCount(level)?` and ${crystalCount(level)} crystal${crystalCount(level)>1?'s':''}`:''} cleared in ${elapsed.toFixed(2)}s · ${attempts} ${attempts===1?'attempt':'attempts'}. ${personalRecord?'NEW PERSONAL BEST!':`Best: ${previousBest.toFixed(2)}s.`}${metPar?' TARGET TIME BEATEN!':''}`;
   $('resultStars').textContent='★'.repeat(earned)+'☆'.repeat(3-earned);
@@ -1088,9 +1216,10 @@ function showResult(success){
   textStatus('ALL TARGETS CLEARED');playSfx('win');vibrate([20,40,30]);
  }else{
   $('resultMessage').textContent=failureExplanation(level,shot);
+  if(masterRun){masterLine.classList.remove('hidden');masterLine.textContent='MASTER RUN NOT CLEARED · Retry without preview or hints.';}
   $('resultStars').textContent='· · ·';
   $('primaryResultBtn').innerHTML='TRY AGAIN <span>↗</span>';
-  $('secondaryResultBtn').textContent='SHOW HINT';
+  $('secondaryResultBtn').textContent=masterRun?'RETRY MASTER RUN':'SHOW HINT';
   textStatus(shot?.elapsed>=shot?.timeLimit-0.01?'TIME EXPIRED':'SHOT COMPLETE');playSfx('fail');
  }
 }
@@ -1103,12 +1232,13 @@ function openLevels(){
     heading.textContent=n===1?'ORBITAL BASICS · 01–20':n===21?'SIGNAL REBORN · 21–24':n===25?'WORMHOLE GATES · 25–34':n===35?'MOVING TARGETS · 35–44':n===45?'FINAL FREQUENCY · 45–50':n===51?'CRYSTAL RUN · 51–57':n===58?'CIRCUIT SHIFT · 58–65':'POLARITY LAB · 66–75';
     grid.appendChild(heading);
   }
-  const b=document.createElement('button');b.type='button';b.className='level-tile' +(n===levelIndex?' current':'')+(unlocked?'':' locked');
-  b.disabled=!unlocked;b.setAttribute('aria-label',`Level ${n}${unlocked?'':', locked'}`);
+  const b=document.createElement('button');b.type='button';b.className='level-tile' +(n===levelIndex?' current':'')+(unlocked?'':' locked')+(recordMaster(n)!==null?' master-earned':'');
+  b.disabled=!unlocked;b.setAttribute('aria-label',`Level ${n}${unlocked?'':', locked'}${recordMaster(n)!==null?', Master Run earned':''}`);
   const s=document.createElement('small');s.textContent=unlocked?(save.best[n]?'★'.repeat(save.best[n]):'○ ○ ○'):'🔒';
   b.textContent=String(n).padStart(2,'0');b.appendChild(s);
   const bestTime=recordTime(n);
   if(unlocked&&bestTime!==null){const label=document.createElement('span');label.className='tile-best';label.textContent=`${bestTime.toFixed(2)}s`;b.appendChild(label);}
+  if(unlocked&&recordMaster(n)!==null){const seal=document.createElement('span');seal.className='tile-master';seal.textContent='✧ MASTER';b.appendChild(seal);}
   b.addEventListener('click',()=>{loadLevel(n);closeLevels();});grid.appendChild(b);
  }
  $('levelsModal').classList.remove('hidden');$('closeLevels').focus();
@@ -1171,6 +1301,7 @@ window.addEventListener('keydown',e=>{
  else if(e.key==='Escape'){$('resultOverlay').classList.add('hidden');resetShot();}
 });
 function showHint(){
+ if(masterRun){toast('✧ NO HINTS DURING MASTER RUN');return;}
  if(mode!=='ready')resetShot();
  hintUntil=performance.now()+4500;toast('FOLLOW THE GOLDEN GHOST LINE');playSfx('hint');
 }
@@ -1191,7 +1322,7 @@ $('primaryResultBtn').addEventListener('click',()=>{
  if(shot?.success){if(levelIndex<LEVEL_COUNT)loadLevel(levelIndex+1);else openLevels();}
  else resetShot();
 });
-$('secondaryResultBtn').addEventListener('click',()=>{const success=!!shot?.success;resetShot();if(!success)showHint();});
+$('secondaryResultBtn').addEventListener('click',()=>{const success=!!shot?.success,wasMaster=masterRun;resetShot();if(!success&&!wasMaster)showHint();});
 
 function fitCanvas(){const r=canvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);const w=Math.max(1,Math.round(r.width*dpr)),h=Math.max(1,Math.round(r.height*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}}
 new ResizeObserver(fitCanvas).observe(canvas);
@@ -1381,7 +1512,7 @@ function drawBalls(){
  }
 }
 function drawHint(){
- if(mode!=='ready'||performance.now()>hintUntil)return;
+ if(masterRun||mode!=='ready'||performance.now()>hintUntil)return;
  const a=level.angle,origin=WORLD;
  ctx.save();ctx.globalAlpha=.55;ctx.setLineDash([4,8]);ctx.strokeStyle='#ffd48d';ctx.lineWidth=3;
  ctx.beginPath();ctx.moveTo(origin.launchX,origin.launchY);ctx.lineTo(origin.launchX+Math.sin(a)*310,origin.launchY-Math.cos(a)*310);ctx.stroke();ctx.restore();
@@ -1394,13 +1525,13 @@ function renderParticles(dt){
 function drawInstructions(){
  if(mode!=='ready')return;
  ctx.save();ctx.textAlign='center';ctx.font='700 9px "Space Grotesk",sans-serif';ctx.fillStyle='#7894aa';ctx.letterSpacing='1px';
- ctx.fillText(aiming?'RELEASE TO FIRE':'SWIPE FROM LAUNCHER · RELEASE TO FIRE',180,583);ctx.letterSpacing='0px';ctx.restore();
+ ctx.fillText(masterRun?(aiming?'MASTER RUN · RELEASE':'MASTER RUN · NO GHOST PATH'):(aiming?'RELEASE TO FIRE':'SWIPE FROM LAUNCHER · RELEASE TO FIRE'),180,583);ctx.letterSpacing='0px';ctx.restore();
 }
 function render(dt){
  const sx=canvas.width/WORLD.width,sy=canvas.height/WORLD.height;
  ctx.setTransform(sx,0,0,sy,0,0);ctx.clearRect(0,0,360,600);
  renderBackground();
- if(mode==='ready')drawAimPath(preview,'#8ce7ec',aiming?.7:.4);
+ if(mode==='ready'&&!masterRun)drawAimPath(preview,'#8ce7ec',aiming?.7:.4);
  drawHint();
  drawCircuitLinks();
  for(const o of level.obstacles)drawObstacle(o);
@@ -1445,7 +1576,7 @@ $('fullscreenBtn').addEventListener('click',async()=>{
 });
 function reportBackup(message,error=false){const el=$('backupStatus');el.textContent=message;el.classList.toggle('error',error);el.classList.toggle('ok',!error);}
 $('exportBtn').addEventListener('click',()=>{
- const payload={app:'ECHOSHOT',format:1,exportedAt:new Date().toISOString(),progress:{unlocked:save.unlocked,best:save.best,times:save.times,sound:save.sound}};
+ const payload={app:'ECHOSHOT',format:1,exportedAt:new Date().toISOString(),progress:{unlocked:save.unlocked,best:save.best,times:save.times,master:save.master,sound:save.sound}};
  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob),anchor=document.createElement('a');anchor.href=url;anchor.download='ECHOSHOT-progress-'+new Date().toISOString().slice(0,10)+'.json';
  document.body.append(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
@@ -1456,7 +1587,13 @@ function validateBackup(data){
  if(!data||data.app!=='ECHOSHOT'||data.format!==1||!data.progress||typeof data.progress!=='object'||Array.isArray(data.progress))throw new Error('Not a supported ECHOSHOT backup file.');
  const src=data.progress;
  if(!Number.isInteger(src.unlocked)||src.unlocked<1||src.unlocked>LEVEL_COUNT||!src.best||typeof src.best!=='object'||Array.isArray(src.best)||!src.times||typeof src.times!=='object'||Array.isArray(src.times))throw new Error('Backup contains invalid progress fields.');
- const clean={unlocked:src.unlocked,best:Object.create(null),times:Object.create(null),sound:!!src.sound};
+ const clean={unlocked:src.unlocked,best:Object.create(null),times:Object.create(null),master:Object.create(null),sound:!!src.sound};
+ if(src.master!==undefined&&(!src.master||typeof src.master!=='object'||Array.isArray(src.master)))throw new Error('Backup contains invalid Master Run records.');
+ for(const [key,t] of Object.entries(src.master||{})){
+  const n=Number(key);
+  if(!Number.isInteger(n)||n<1||n>LEVEL_COUNT||String(n)!==key||typeof t!=='number'||!Number.isFinite(t)||t<=0||t>shotTimeLimit({id:n})+.02)throw new Error('Backup contains an invalid Master Run time.');
+  clean.master[n]=t;
+ }
  for(const [key,value] of Object.entries(src.best)){
   const n=Number(key);if(!Number.isInteger(n)||n<1||n>LEVEL_COUNT||String(n)!==key||!Number.isInteger(value)||value<1||value>3)throw new Error('Backup contains an invalid star score.');
   clean.best[n]=value;
@@ -1480,6 +1617,11 @@ $('backupInput').addEventListener('change',async event=>{
     const current=recordTime(n);
     save.times[n]=current===null?incoming.times[n]:Math.min(current,incoming.times[n]);
    }
+   if(incoming.master[n]&&incoming.master[n]<=parTime(getLevel(n))+.005){
+    const current=recordMaster(n);
+    save.master[n]=current===null?incoming.master[n]:Math.min(current,incoming.master[n]);
+    save.best[n]=Math.max(Number(save.best[n])||0,1);
+   }
   }
   const highestClear=Math.max(0,...Object.keys(save.best).map(Number).filter(n=>Number.isInteger(n)&&n>0&&n<=LEVEL_COUNT));
   save.unlocked=Math.max(save.unlocked,Math.min(LEVEL_COUNT,highestClear+1));
@@ -1498,7 +1640,7 @@ window.addEventListener('online',()=>{$('offlineBadge').textContent=navigator.se
 window.addEventListener('offline',()=>{$('offlineBadge').textContent='PLAYING OFFLINE';});
 
 setSound();refreshPreview();updateProgress();requestAnimationFrame(tick);
-window.__ECHOSHOT_DEBUG__={visualFxState:()=>({waves:impactWaves.length,bridges:warpBridges.length,completionGlow,counts:{...fxEvents},reducedMotion}),getObjectives:()=>requiredObjectives(level,shot),failureExplanation:()=>failureExplanation(level,shot),objectivesMet:()=>shot?objectivesMet(shot):false,angleFromSwipe,clampAim,AIM_LIMIT,getAim:()=>aimAngle,gateIsOpen:()=>level.obstacles.filter(o=>o.type==='gate').map(o=>({id:o.id,open:gateIsOpen(shot,o.link),charged:!!shot?.switches.has(o.link)})),playSfx,sfxStatus:()=>({enabled:save.sound,contextState:audioCtx?.state||'uninitialized',played:{...sfxStats}}),circuitLinks:()=>circuitLinks(level).map(({controller,gate})=>({switchId:controller.id,gateId:gate.id,open:gateIsOpen(shot,controller.id),charging:!!shot?.switches.has(controller.id)&&!gateIsOpen(shot,controller.id)})),levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,crystalsRequired:crystalCount(level),switches:shot?.switches.size??0,gateBlocked:shot?.gateBlocked.size??0,gateTraversed:shot?.gateTraversed.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
+window.__ECHOSHOT_DEBUG__={masterPreviewLength:()=>preview.length,masterMode:()=>masterRun,masterRecord:()=>recordMaster(levelIndex),masterStats:()=>({count:masterCount(),seals:sealedCount()}),visualFxState:()=>({waves:impactWaves.length,bridges:warpBridges.length,completionGlow,counts:{...fxEvents},reducedMotion}),getObjectives:()=>requiredObjectives(level,shot),failureExplanation:()=>failureExplanation(level,shot),objectivesMet:()=>shot?objectivesMet(shot):false,angleFromSwipe,clampAim,AIM_LIMIT,getAim:()=>aimAngle,gateIsOpen:()=>level.obstacles.filter(o=>o.type==='gate').map(o=>({id:o.id,open:gateIsOpen(shot,o.link),charged:!!shot?.switches.has(o.link)})),playSfx,sfxStatus:()=>({enabled:save.sound,contextState:audioCtx?.state||'uninitialized',played:{...sfxStats}}),circuitLinks:()=>circuitLinks(level).map(({controller,gate})=>({switchId:controller.id,gateId:gate.id,open:gateIsOpen(shot,controller.id),charging:!!shot?.switches.has(controller.id)&&!gateIsOpen(shot,controller.id)})),levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,crystalsRequired:crystalCount(level),switches:shot?.switches.size??0,gateBlocked:shot?.gateBlocked.size??0,gateTraversed:shot?.gateTraversed.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
 
 </script>
 </body>
