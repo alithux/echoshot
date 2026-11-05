@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ECHOSHOT Lab · Internal Level Editor</title>
+<title>ECHOSHOT Lab · v0.9.2 Level Editor</title>
 <style>
 :root{color-scheme:dark;font-family:system-ui,Arial,sans-serif;background:#080e1d;color:#e3edff}*{box-sizing:border-box}
 body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#1c3146,#08101c 70%)}
@@ -435,6 +435,25 @@ const CURATED_V07={
 // v0.7 Phase 2: authored, counterfactual-tested target placements.
 const CURATED_TARGETS_V072={"21":{"index":2,"x":277.7,"y":235,"kind":"echo"},"24":{"index":0,"x":163.4,"y":379.6,"kind":"echo"},"42":{"index":0,"x":276.3,"y":458.3,"kind":"echo"},"59":{"index":0,"x":178.7,"y":173.5,"kind":"prime"},"38":{"index":1,"x":177.5,"y":171.8,"kind":"echo"}};
 const CURATED_MOTION_V072={"39":{"id":"t8","x":134.17,"y":366.78,"r":10.5,"kind":"prime","moving":true,"axis":"y","amp":34,"freq":1.22,"phase":-0.3057756},"43":{"id":"t9","x":116,"y":334.88,"r":10.5,"kind":"prime","moving":true,"axis":"x","amp":40,"freq":1.3699999999999999,"phase":-7.2484733},"45":{"id":"t5","x":171.57,"y":186.02,"r":10.5,"kind":"echo","moving":true,"axis":"y","amp":28,"freq":1.22,"phase":-4.4454467},"47":{"id":"t5","x":86.26,"y":447.51,"r":10.5,"kind":"echo","moving":true,"axis":"y","amp":40,"freq":1.52,"phase":-3.82878},"49":{"id":"t5","x":204.04,"y":202.25,"r":10.5,"kind":"echo","moving":true,"axis":"x","amp":40,"freq":1.3699999999999999,"phase":-7.8934467},"50":{"id":"t5","x":197.26,"y":373.55,"r":10.5,"kind":"echo","moving":true,"axis":"y","amp":46,"freq":1.52,"phase":-5.2658867}};
+// Authored, independently validated portal spacing updates. Applied before target
+// placement, preserving the deterministic physics and all existing objectives.
+const PORTAL_SPACING_V092 = {"25":["exit",-45,12],"26":["exit",-45,-12],"29":["exit",-45,12],"30":["entry",65,0],"33":["exit",-45,-12],"34":["entry",65,0],"35":["exit",-45,-12],"36":["exit",-45,12],"37":["entry",65,0],"38":["exit",-45,12],"39":["exit",-45,-12],"40":["entry",65,0],"41":["exit",-45,-12],"42":["exit",-45,12],"45":["entry",65,0],"46":["exit",-45,-12],"48":["exit",-45,-12],"49":["exit",-45,12],"50":["entry",65,0],"57":["exit",130,-15],"58":["exit",130,-15],"59":["exit",55,15],"60":["exit",130,-15],"62":["exit",130,0],"63":["exit",130,15],"66":["exit",-85,-15],"67":["exit",130,15],"68":["exit",130,-15],"70":["exit",130,-15],"71":["exit",130,0],"72":["exit",-85,-15],"73":["exit",130,15],"75":["exit",130,15]};
+function applyPortalSpacing(level){
+ const spec=PORTAL_SPACING_V092[level.id];
+ if(!spec||!level.portals||level.portals.length!==2)return;
+ const [mode,amount,side]=spec;
+ if(mode==='entry'){
+  level.portals[0].x=WORLD.launchX+Math.sin(level.angle)*amount;
+  level.portals[0].y=WORLD.launchY-Math.cos(level.angle)*amount;
+ }else{
+  level.portals[1].x+=side;
+  level.portals[1].y+=amount;
+  // The downstream resonance/crystal lane travels with the destination portal.
+  // The entrance circuit, obstacles unrelated to the portal and launcher stay put.
+  const linked=level.id<=50?['r1','r2']:['r1','r2','glass-2'];
+  for(const o of level.obstacles){if(linked.includes(o.id)){o.x+=side;o.y+=amount;}}
+ }
+}
 function applyCuratedObjectives(level){
   const c=CURATED_V07[level.id];
   if(c&&level.targets[c.index]){
@@ -497,7 +516,7 @@ function verify(level){
 function getLevel(n){
  const id=Math.max(1,Math.min(LEVEL_COUNT,Math.round(n)||1));
  if(!cache.has(id)){
-   const level=geometry(id);
+   const level=geometry(id);applyPortalSpacing(level);
    if(id>=35&&id<=50&&level.portals?.length)level.objectives={...level.objectives,portalUse:true};
    level.targets=placeTargets(level);applyCuratedObjectives(level);
    if(!verify(level)){
@@ -531,15 +550,7 @@ function recordTime(n){const t=Number(save.times?.[n]);return Number.isFinite(t)
 
 
 /* End gameplay physics */
-const auditFlags=(()=>{
- const rows={};
- const add=(ids,label)=>{for(const id of ids)(rows[id]||=([])).push(label)};
- add([35,58,61,67,71,72,73,74,75],'noRes: reference shot still clears stage');
- add([57,58,63,66,68,71,72,74],'noPortals: reference shot still clears stage');
- add([35,36,37,38,40,41,42,44,46,48,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,68,69,70,71,72,73,74,75],'staticTargets: reference shot still clears stage');
- add([7,11,12,14,15,17,18,19,26,35,36,37,38,39,43,44,45,49,50,54,61],'5/5 near-angle successes ±4.6°');
- return rows;
-})()
+const auditFlags={"7":["5/5 near-angle successes ±4.6°"],"11":["5/5 near-angle successes ±4.6°"],"12":["5/5 near-angle successes ±4.6°"],"14":["5/5 near-angle successes ±4.6°"],"15":["5/5 near-angle successes ±4.6°"],"17":["5/5 near-angle successes ±4.6°"],"18":["5/5 near-angle successes ±4.6°"],"19":["5/5 near-angle successes ±4.6°"],"26":["5/5 near-angle successes ±4.6°"],"35":["noRes: reference shot still clears stage","staticTargets: reference shot still clears stage","5/5 near-angle successes ±4.6°"],"36":["staticTargets: reference shot still clears stage","5/5 near-angle successes ±4.6°"],"37":["staticTargets: reference shot still clears stage","5/5 near-angle successes ±4.6°"],"38":["staticTargets: reference shot still clears stage","5/5 near-angle successes ±4.6°"],"39":["5/5 near-angle successes ±4.6°"],"40":["staticTargets: reference shot still clears stage"],"41":["staticTargets: reference shot still clears stage"],"42":["staticTargets: reference shot still clears stage"],"43":["5/5 near-angle successes ±4.6°"],"44":["staticTargets: reference shot still clears stage","5/5 near-angle successes ±4.6°"],"45":["5/5 near-angle successes ±4.6°"],"46":["staticTargets: reference shot still clears stage"],"48":["staticTargets: reference shot still clears stage"],"49":["5/5 near-angle successes ±4.6°"],"50":["5/5 near-angle successes ±4.6°"],"51":["staticTargets: reference shot still clears stage"],"52":["staticTargets: reference shot still clears stage"],"53":["staticTargets: reference shot still clears stage"],"54":["staticTargets: reference shot still clears stage","5/5 near-angle successes ±4.6°"],"55":["staticTargets: reference shot still clears stage"],"56":["staticTargets: reference shot still clears stage"],"57":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"58":["noRes: reference shot still clears stage","noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"59":["staticTargets: reference shot still clears stage"],"60":["staticTargets: reference shot still clears stage"],"61":["noRes: reference shot still clears stage","staticTargets: reference shot still clears stage","5/5 near-angle successes ±4.6°"],"62":["staticTargets: reference shot still clears stage"],"63":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"64":["staticTargets: reference shot still clears stage"],"65":["staticTargets: reference shot still clears stage"],"66":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"67":["noRes: reference shot still clears stage"],"68":["noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"69":["staticTargets: reference shot still clears stage"],"70":["staticTargets: reference shot still clears stage"],"71":["noRes: reference shot still clears stage","noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"72":["noRes: reference shot still clears stage","noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"73":["noRes: reference shot still clears stage","staticTargets: reference shot still clears stage"],"74":["noRes: reference shot still clears stage","noPortals: reference shot still clears stage","staticTargets: reference shot still clears stage"],"75":["noRes: reference shot still clears stage","staticTargets: reference shot still clears stage"]};
 const $=id=>document.getElementById(id),canvas=$('board'),ctx=canvas.getContext('2d');
 let level=null,selected=null,drag=null,lastPath=[],lastTest=null;
 function copy(v){return JSON.parse(JSON.stringify(v));}
