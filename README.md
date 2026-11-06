@@ -6,7 +6,7 @@ ECHOSHOT is a 75-level, one-shot ricochet puzzle designed for phones, the web, a
 
 ## Focus Mode: a single-screen mobile game
 
-For mobile viewports (up to 940px wide), the entire gameplay interface is fitted inside the visible viewport instead of requiring page scrolling. The central game board takes up most of the available height; the header is reduced to the stage and target count, with a compact timer on the board. A single status line retains the exact aiming-angle feedback.
+For mobile viewports (up to 940px wide), the entire gameplay interface is fitted inside the visible viewport instead of requiring page scrolling. The central game board takes up most of the available height; the header is reduced to the stage and target count, with a compact timer on the board. A single status line retains the exact aiming-angle feedback. During Master Run only, a small PAR badge shows the time benchmark without restoring the large record panel.
 
 **Mission goals:** the existing detailed mission checklist is collapsed into a small **GOALS x/y** button. Tap to expand it over the board, then tap again to close. The status indicator still updates as targets and advanced objectives are completed. Failure results continue to explain unmet objectives.
 
