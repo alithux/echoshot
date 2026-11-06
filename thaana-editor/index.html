@@ -27,15 +27,17 @@ aside{background:white;border-left:1px solid #e0e6ef;padding:24px 20px 80px}.pan
 footer{position:fixed;bottom:13px;left:50%;transform:translateX(-50%);background:#1c2a46;color:#fff;padding:10px 17px;border-radius:30px;font-size:12px;z-index:5;max-width:90vw;box-shadow:0 10px 26px #101b3440;display:none}
 .muted{color:#7d8ba5}.fonttag{display:inline-block;background:#eaf0ff;color:#4a65c4;font-weight:700;border-radius:8px;padding:6px 9px;font-size:12px}.tag{background:#e7edfc;color:#425ab4;padding:6px 9px;border-radius:10px;font-size:11px;font-weight:800}
 hr{border:0;border-top:1px solid #e4e9f2;margin:22px 0}
+.overlay{position:fixed;z-index:20;inset:0;background:#0b1735af;padding:15px;display:grid;place-items:center;overflow:auto}.overlay-card{width:min(650px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:18px;padding:22px;box-shadow:0 25px 80px #17264255}.overlay-card h2{margin:0;font-size:20px}.project-row{display:flex;align-items:center;gap:9px;border-bottom:1px solid #e5eaf3;padding:12px 0}.project-row .details{flex:1;min-width:0}.project-row .details strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.project-row .details small{font-size:11px;color:#677894}.overlay-card .row{flex-wrap:wrap}#saveStatus{white-space:nowrap}
 @media(max-width:780px){header{padding:10px 13px;height:auto;min-height:66px}.brand strong{font-size:19px}.brand small{font-size:8px}.mark{width:36px;height:36px}.topbuttons{gap:5px}.topbuttons .btn{padding:9px 10px;font-size:12px}.hide-mobile{display:none}.bar{padding:8px 10px;gap:6px}.bar .btn{padding:9px 10px;font-size:12px}.bar label{display:none}main{grid-template-columns:1fr}.stage{padding:15px 10px 25px}.sheethead{max-width:595px}aside{border-left:0;border-top:1px solid #e0e6ef;padding:18px 16px 48px}.sheet{width:100%}.seg button{padding:8px 10px}}
 </style>
 </head>
 <body>
 <header>
 <div class="brand"><div class="mark">ދ</div><div><strong>Thaana<span>PDF</span></strong><small>DHIVEHI EDITOR</small></div></div>
-<div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
+<div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="projectsButton" class="btn dark">Projects</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
 </header>
 <div class="bar">
+<span class="tag" id="saveStatus" aria-live="polite">Saved locally</span>
 <div class="seg"><button id="selectMode" class="on">↖ Move / Select</button><button id="addMode">＋ Add text</button></div><button id="doneTop" class="btn primary tiny" hidden>✓ Save text</button>
 <span class="fonttag">ހ Faruma · RTL</span><span class="spacer"></span>
 <button class="btn tiny" id="prev" disabled>‹</button><span id="pages" class="muted" style="font-size:12px">0 / 0</span><button class="btn tiny" id="next" disabled>›</button>
@@ -63,25 +65,26 @@ hr{border:0;border-top:1px solid #e4e9f2;margin:22px 0}
 <p class="notice">Version 1 · Adds text overlays without changing original PDF text. Export added text is not searchable. Check finished PDFs before printing.</p>
 </aside>
 </main>
+<section id="projectsOverlay" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="projectsTitle"><div class="overlay-card"><div class="row" style="justify-content:space-between"><h2 id="projectsTitle">My editable projects</h2><button id="closeProjects" class="btn tiny">Close ✕</button></div><p class="sub">Projects are stored privately in this browser. Export a PDF to share or print. Clearing browser data can remove local projects.</p><div class="row"><button id="saveProject" class="btn primary">Save current project</button><button id="exportBackup" class="btn">Backup project</button><input id="importBackupInput" type="file" accept=".json,.thaanapdf" hidden><button id="importBackup" class="btn">Import backup</button></div><div id="projectsList" style="margin-top:18px"></div></div></section>
 <footer id="toast" role="status"></footer>
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script type="module">
 import * as pdfjs from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.mjs';
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs';
 const $ = id => document.getElementById(id);
-const S = {bytes:null,doc:null,meta:[],items:[],page:0,chosen:null,editing:false,mode:'select',zoom:1,font:false,name:'Untitled'};
+const S = {bytes:null,doc:null,meta:[],items:[],page:0,chosen:null,editing:false,mode:'select',zoom:1,font:false,name:'Untitled',projectId:null,restoring:false};
 const F = "'FarumaUser','FarumaEmbedded','Faruma','Noto Sans Thaana',sans-serif";
 const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
-let nextId=0, task=null, noticeTimer;
+let nextId=0, task=null, noticeTimer, saveTimer=null;
 function say(message){$('toast').textContent=message;$('toast').style.display='block';clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('toast').style.display='none',4500);}
 function mode(next){S.mode=next;$('selectMode').classList.toggle('on',next==='select');$('addMode').classList.toggle('on',next==='add');$('sheet').classList.toggle('adding',next==='add');}
 function metaLabel(){const m=S.meta[S.page];$('pages').textContent=S.doc?(S.page+1)+' / '+S.meta.length:'0 / 0';$('pageSize').textContent=m?Math.round(m.width)+' × '+Math.round(m.height)+' pt':'A4 · RTL';$('filename').textContent=S.doc?S.name:'NO DOCUMENT';$('prev').disabled=!S.doc||S.page===0;$('next').disabled=!S.doc||S.page>=S.meta.length-1;$('export').disabled=!S.doc;$('zoomIn').disabled=!S.doc;$('zoomOut').disabled=!S.doc;$('zoomLabel').textContent=Math.round(S.zoom*100)+'%';}
-async function setPdf(bytes,name){
+async function setPdf(bytes,name,opts={}){
  if(task){try{await task.destroy()}catch(_){}}
- S.bytes=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);S.doc=null;S.meta=[];S.items=[];S.page=0;S.chosen=null;S.editing=false;S.name=name;syncEditor();mode('add');metaLabel();
+ S.bytes=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);S.doc=null;S.meta=[];S.items=Array.isArray(opts.items)?structuredClone(opts.items):[];nextId=Math.max(nextId,0,...S.items.map(x=>Number(x.id)||0));S.page=0;S.chosen=null;S.editing=false;S.name=name;S.projectId=opts.projectId||('project-'+Date.now()+'-'+Math.random().toString(36).slice(2,7));syncEditor();mode('add');metaLabel();
  try{task=pdfjs.getDocument({data:new Uint8Array(S.bytes)});const doc=await task.promise;S.doc=doc;
    for(let i=1;i<=doc.numPages;i++){const p=await doc.getPage(i);const v=p.getViewport({scale:1});S.meta.push({width:v.width,height:v.height,rotation:p.rotate||0});}
-   $('empty').hidden=true;$('pdfCanvas').hidden=false;await render();say('PDF ready. Tap a page to add Dhivehi text.');
+   $('empty').hidden=true;$('pdfCanvas').hidden=false;S.page=clamp(opts.page||0,0,S.meta.length-1);await render();scheduleSave();say(opts.restored?'Editable project reopened.':'PDF ready. Tap a page to add Dhivehi text.');
  }catch(err){S.doc=null;$('empty').hidden=false;$('pdfCanvas').hidden=true;say('PDF could not be opened: '+err.message);}
  metaLabel();
 }
@@ -104,7 +107,7 @@ function drawItems(){
  d.addEventListener('click',e=>e.stopPropagation());
  d.addEventListener('pointerdown',e=>{if(S.mode==='add')return;e.preventDefault();e.stopPropagation();if(document.activeElement=== $('text'))$('text').blur();S.chosen=item.id;S.editing=false;syncEditor();document.querySelectorAll('.ann').forEach(a=>a.classList.remove('active'));d.classList.add('active');try{d.setPointerCapture(e.pointerId)}catch(_){};
  const x=e.clientX,y=e.clientY,ox=item.x,oy=item.y;const move=a=>{if(!d.hasPointerCapture(a.pointerId))return;const b=$('sheet').getBoundingClientRect();item.x=clamp(ox+(a.clientX-x)/b.width,0,1-item.width);item.y=clamp(oy+(a.clientY-y)/b.height,0,.96);d.style.left=(item.x*100)+'%';d.style.top=(item.y*100)+'%';};
- const end=a=>{d.removeEventListener('pointermove',move);d.removeEventListener('pointerup',end);d.removeEventListener('pointercancel',end);drawItems();};
+ const end=a=>{d.removeEventListener('pointermove',move);d.removeEventListener('pointerup',end);d.removeEventListener('pointercancel',end);drawItems();scheduleSave();};
  d.addEventListener('pointermove',move);d.addEventListener('pointerup',end);d.addEventListener('pointercancel',end);
  });
  $('annotations').append(d);
@@ -112,19 +115,19 @@ function drawItems(){
 }
 function choose(id,editing=false){S.chosen=id;S.editing=editing;syncEditor();drawItems();}
 function syncEditor(){const i=S.items.find(x=>x.id===S.chosen);$('editor').hidden=!(i&&S.editing);$('selectedActions').hidden=!i||S.editing;$('doneTop').hidden=!(i&&S.editing);$('help').textContent=i?(S.editing?'Type and format your text, then press Save text.':'Text selected. Drag it on the page or press Edit text.'):'Tap Add text to insert text, or drag an existing text box to move it.';if(i&&S.editing){$('text').value=i.text;$('size').value=i.size;$('color').value=i.color;$('width').value=Math.round(i.width*100);}}
-function finishEditing(){const i=S.items.find(x=>x.id===S.chosen);if(i&&!i.text.trim())S.items=S.items.filter(x=>x.id!==i.id);document.activeElement?.blur?.();S.chosen=null;S.editing=false;mode('select');syncEditor();drawItems();say('Text saved on the page. Drag to move; tap Export PDF to download.');}
+function finishEditing(){const i=S.items.find(x=>x.id===S.chosen);if(i&&!i.text.trim())S.items=S.items.filter(x=>x.id!==i.id);document.activeElement?.blur?.();S.chosen=null;S.editing=false;mode('select');syncEditor();drawItems();scheduleSave();say('Text saved on the page. Drag to move; tap Export PDF to download.');}
 $('saveText').onclick=finishEditing;$('doneTop').onclick=finishEditing;$('doneSelection').onclick=finishEditing;
 $('editSelected').onclick=()=>{if(S.chosen===null)return;S.editing=true;syncEditor();drawItems();$('text').focus({preventScroll:true});};
-function edit(p){const i=S.items.find(x=>x.id===S.chosen);if(!i)return;Object.assign(i,p);drawItems();}
-$('sheet').addEventListener('click',e=>{if(!S.doc||S.mode!=='add')return;const b=$('sheet').getBoundingClientRect(),x=(e.clientX-b.left)/b.width,y=(e.clientY-b.top)/b.height;const i={id:++nextId,page:S.page,x:clamp(x-.35,0,.56),y:clamp(y-.02,0,.91),width:.44,size:22,text:'',color:'#15233f'};S.items.push(i);S.chosen=i.id;S.editing=true;mode('select');syncEditor();drawItems();$('text').focus({preventScroll:true});});
+function edit(p){const i=S.items.find(x=>x.id===S.chosen);if(!i)return;Object.assign(i,p);drawItems();scheduleSave();}
+$('sheet').addEventListener('click',e=>{if(!S.doc||S.mode!=='add')return;const b=$('sheet').getBoundingClientRect(),x=(e.clientX-b.left)/b.width,y=(e.clientY-b.top)/b.height;const i={id:++nextId,page:S.page,x:clamp(x-.35,0,.56),y:clamp(y-.02,0,.91),width:.44,size:22,text:'',color:'#15233f'};S.items.push(i);S.chosen=i.id;S.editing=true;mode('select');syncEditor();drawItems();scheduleSave();$('text').focus({preventScroll:true});});
 $('selectMode').onclick=()=>{S.editing=false;mode('select');syncEditor();drawItems();};$('addMode').onclick=()=>{if(S.doc){document.activeElement?.blur?.();S.chosen=null;S.editing=false;syncEditor();drawItems();mode('add');}else say('Open a PDF or create a blank page first.');};
 $('text').oninput=e=>edit({text:e.target.value});$('size').oninput=e=>edit({size:clamp(Number(e.target.value)||22,8,96)});$('color').oninput=e=>edit({color:e.target.value});$('width').oninput=e=>edit({width:Number(e.target.value)/100});
-$('remove').onclick=()=>{S.items=S.items.filter(x=>x.id!==S.chosen);S.chosen=null;S.editing=false;syncEditor();drawItems();say('Text box deleted.');};
+$('remove').onclick=()=>{S.items=S.items.filter(x=>x.id!==S.chosen);S.chosen=null;S.editing=false;syncEditor();drawItems();scheduleSave();say('Text box deleted.');};
 $('open').onclick=()=>$('pdf-input').click();$('emptyOpen').onclick=()=>$('pdf-input').click();
 $('pdf-input').onchange=async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(f.size>60*1024*1024){say('Maximum PDF size is 60MB.');return;}await setPdf(await f.arrayBuffer(),f.name.replace(/\.pdf$/i,''));};
 async function fresh(){const p=await PDFLib.PDFDocument.create();p.addPage([595.28,841.89]);await setPdf(await p.save(),'New Dhivehi document');}
 $('new').onclick=fresh;$('emptyNew').onclick=fresh;
-$('prev').onclick=async()=>{if(S.page>0){S.page--;S.chosen=null;S.editing=false;syncEditor();await render();}};$('next').onclick=async()=>{if(S.page<S.meta.length-1){S.page++;S.chosen=null;S.editing=false;syncEditor();await render();}};
+$('prev').onclick=async()=>{if(S.page>0){S.page--;S.chosen=null;S.editing=false;syncEditor();await render();scheduleSave();}};$('next').onclick=async()=>{if(S.page<S.meta.length-1){S.page++;S.chosen=null;S.editing=false;syncEditor();await render();scheduleSave();}};
 $('zoomIn').onclick=async()=>{S.zoom=clamp(S.zoom+.15,.7,2);await render();};$('zoomOut').onclick=async()=>{S.zoom=clamp(S.zoom-.15,.7,2);await render();};
 const rows=['ހ ށ ނ ރ ބ ޅ ކ އ ވ މ','ފ ދ ތ ލ ގ ޏ ސ ޑ ޒ ޓ','ޔ ޕ ޖ ޗ ޘ ޙ ޚ ޛ ޜ ޝ','ޞ ޟ ޠ ޡ ޢ ޣ ޤ ޥ','ަ ާ ި ީ ު ޫ ެ ޭ ޮ ޯ ް'];
 rows.join(' ').split(/\s+/).concat(['Space','⌫']).forEach(k=>{const b=document.createElement('button');b.textContent=k;b.type='button';b.onclick=()=>{const t=$('text');const a=t.selectionStart,b=t.selectionEnd;const ch=k==='Space'?' ':k==='⌫'?'':k;let start=a;if(k==='⌫'&&a===b&&a>0)start=a-1;t.value=t.value.slice(0,start)+ch+t.value.slice(b);edit({text:t.value});t.focus();t.setSelectionRange(start+ch.length,start+ch.length);};$('keys').append(b);});
@@ -140,6 +143,24 @@ $('export').onclick=async()=>{if(!S.bytes)return;if(S.editing){document.activeEl
  const bytes=await doc.save(),url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));const a=document.createElement('a');a.href=url;a.download=S.name+'-dhivehi.pdf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);say('Exported PDF successfully.');
  }catch(err){say('Export failed: '+err.message);}finally{button.textContent='Export PDF';button.disabled=false;}};
 window.addEventListener('resize',()=>{if(S.doc)render().catch(()=>{});});
+
+const DBNAME='ThaanaPDFProjects',DBVERSION=1;
+function projectDb(){return new Promise((resolve,reject)=>{const q=indexedDB.open(DBNAME,DBVERSION);q.onupgradeneeded=()=>{if(!q.result.objectStoreNames.contains('projects'))q.result.createObjectStore('projects',{keyPath:'id'});};q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error);});}
+async function projectOp(mode,action){const db=await projectDb();return new Promise((resolve,reject)=>{const tx=db.transaction('projects',mode);let req;try{req=action(tx.objectStore('projects'));}catch(e){db.close();reject(e);return;}req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);tx.oncomplete=()=>db.close();tx.onerror=()=>{db.close();reject(tx.error||Error('Database error'));};});}
+async function saveCurrent(silent=false){if(!S.doc||!S.projectId)return;clearTimeout(saveTimer);$('saveStatus').textContent='Saving…';try{const data={id:S.projectId,name:S.name,bytes:new Uint8Array(S.bytes),items:structuredClone(S.items),page:S.page,modified:Date.now(),version:1};await projectOp('readwrite',st=>st.put(data));localStorage.setItem('thaana-last-project',S.projectId);$('saveStatus').textContent='✓ Saved locally';if(!silent)say('Editable project saved on this device.');}catch(e){$('saveStatus').textContent='Save failed';say('Local save failed: '+e.message);}}
+function scheduleSave(){if(!S.doc)return;$('saveStatus').textContent='Unsaved changes';clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveCurrent(true),700);}
+async function listProjects(){try{const projects=await projectOp('readonly',st=>st.getAll());return projects.sort((a,b)=>b.modified-a.modified);}catch(e){say('Projects unavailable: '+e.message);return [];}}
+function downloadBlob(blob,filename){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),60000);}
+async function showProjects(){$('projectsOverlay').hidden=false;const list=$('projectsList');list.replaceChildren();const projects=await listProjects();if(!projects.length){const p=document.createElement('p');p.className='muted';p.textContent='No saved projects yet. Open a PDF or create an A4 page to get started.';list.append(p);return;}
+for(const p of projects){const row=document.createElement('div');row.className='project-row';const details=document.createElement('div');details.className='details';const title=document.createElement('strong');title.textContent=p.name;const small=document.createElement('small');small.textContent=new Date(p.modified).toLocaleString()+' · '+(p.items?.length||0)+' objects';details.append(title,small);const open=document.createElement('button');open.className='btn tiny primary';open.textContent='Open';open.onclick=async()=>{await saveCurrent(true);$('projectsOverlay').hidden=true;await setPdf(p.bytes,p.name,{projectId:p.id,items:p.items,page:p.page,restored:true});};const del=document.createElement('button');del.className='btn tiny';del.textContent='Delete';del.onclick=async()=>{if(!confirm('Delete "'+p.name+'" from saved projects?'))return;await projectOp('readwrite',st=>st.delete(p.id));if(p.id===S.projectId)localStorage.removeItem('thaana-last-project');showProjects();};row.append(details,open,del);list.append(row);}}
+$('projectsButton').onclick=showProjects;$('closeProjects').onclick=()=>$('projectsOverlay').hidden=true;
+$('projectsOverlay').addEventListener('click',e=>{if(e.target===$('projectsOverlay'))$('projectsOverlay').hidden=true;});
+$('saveProject').onclick=async()=>{await saveCurrent();showProjects();};
+$('exportBackup').onclick=()=>{if(!S.doc){say('Open a project first.');return;}const payload={kind:'ThaanaPDFProject',version:1,name:S.name,bytes:Array.from(S.bytes),items:S.items,page:S.page};downloadBlob(new Blob([JSON.stringify(payload)],{type:'application/json'}),S.name+'.thaanapdf');};
+$('importBackup').onclick=()=>$('importBackupInput').click();$('importBackupInput').onchange=async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;try{if(f.size>90*1024*1024)throw Error('File too large');const j=JSON.parse(await f.text());if(j.kind!=='ThaanaPDFProject'||!Array.isArray(j.bytes)||!Array.isArray(j.items))throw Error('Not a valid ThaanaPDF project');$('projectsOverlay').hidden=true;await setPdf(new Uint8Array(j.bytes),j.name||'Imported',{items:j.items,page:j.page||0});}catch(err){say('Cannot open backup: '+err.message);}};
+window.addEventListener('pagehide',()=>{if(S.doc)saveCurrent(true).catch(()=>{});});
+(async()=>{try{const id=localStorage.getItem('thaana-last-project');if(!id)return;const p=await projectOp('readonly',st=>st.get(id));if(p&&!S.doc)await setPdf(p.bytes,p.name,{projectId:p.id,items:p.items,page:p.page,restored:true});}catch(e){console.warn('Restore:',e);}})();
+
 metaLabel();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
 </script>
 </body>
