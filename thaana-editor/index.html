@@ -35,7 +35,7 @@ hr{border:0;border-top:1px solid #e4e9f2;margin:22px 0}
 <div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
 </header>
 <div class="bar">
-<div class="seg"><button id="selectMode" class="on">↖ Select</button><button id="addMode">＋ Add text</button></div>
+<div class="seg"><button id="selectMode" class="on">↖ Move / Select</button><button id="addMode">＋ Add text</button></div><button id="doneTop" class="btn primary tiny" hidden>✓ Save text</button>
 <span class="fonttag">ހ Faruma · RTL</span><span class="spacer"></span>
 <button class="btn tiny" id="prev" disabled>‹</button><span id="pages" class="muted" style="font-size:12px">0 / 0</span><button class="btn tiny" id="next" disabled>›</button>
 <button class="btn tiny" id="zoomOut" disabled>−</button><span id="zoomLabel" style="font-size:12px">100%</span><button class="btn tiny" id="zoomIn" disabled>＋</button>
@@ -45,12 +45,13 @@ hr{border:0;border-top:1px solid #e4e9f2;margin:22px 0}
 <aside>
 <h2 class="panel-head">Text properties</h2>
 <p class="sub" id="help">Select an existing text box or use Add text to place Dhivehi on your PDF.</p>
+<div id="selectedActions" hidden><div class="row"><button id="editSelected" class="btn primary">✎ Edit text</button><button id="doneSelection" class="btn">✓ Done</button></div><p class="notice">Drag the text directly on the page to reposition it.</p></div>
 <div id="editor" hidden>
 <label class="lab" for="text">Dhivehi text</label><textarea class="field" id="text" lang="dv" dir="rtl" placeholder="މިތަނުގައި ލިޔުއްވާ"></textarea>
 <div class="row"><div><label class="lab" for="size">Font size (pt)</label><input class="field" id="size" type="number" min="8" max="96" value="22"></div><div><label class="lab" for="color">Text color</label><input class="field" id="color" type="color" value="#15233f"></div></div>
 <label class="lab" for="width">Text box width</label><input id="width" type="range" min="15" max="95" value="45">
 <label class="lab">Thaana keyboard</label><div class="keys" id="keys"></div>
-<div class="row" style="margin-top:15px"><button id="remove" class="btn" style="color:#af3542">Delete text box</button></div>
+<div class="row" style="margin-top:15px"><button id="saveText" class="btn primary">✓ Save text</button><button id="remove" class="btn" style="color:#af3542">Delete</button></div><p class="notice">Save text places it on the page. To download the finished document, use Export PDF at the top.</p>
 </div>
 <hr>
 <h2 class="panel-head">Faruma font</h2>
@@ -67,7 +68,7 @@ hr{border:0;border-top:1px solid #e4e9f2;margin:22px 0}
 import * as pdfjs from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.mjs';
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs';
 const $ = id => document.getElementById(id);
-const S = {bytes:null,doc:null,meta:[],items:[],page:0,chosen:null,mode:'select',zoom:1,font:false,name:'Untitled'};
+const S = {bytes:null,doc:null,meta:[],items:[],page:0,chosen:null,editing:false,mode:'select',zoom:1,font:false,name:'Untitled'};
 const F = "'FarumaUser','Faruma','Noto Sans Thaana',sans-serif";
 const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
 let nextId=0, task=null, noticeTimer;
@@ -76,7 +77,7 @@ function mode(next){S.mode=next;$('selectMode').classList.toggle('on',next==='se
 function metaLabel(){const m=S.meta[S.page];$('pages').textContent=S.doc?(S.page+1)+' / '+S.meta.length:'0 / 0';$('pageSize').textContent=m?Math.round(m.width)+' × '+Math.round(m.height)+' pt':'A4 · RTL';$('filename').textContent=S.doc?S.name:'NO DOCUMENT';$('prev').disabled=!S.doc||S.page===0;$('next').disabled=!S.doc||S.page>=S.meta.length-1;$('export').disabled=!S.doc;$('zoomIn').disabled=!S.doc;$('zoomOut').disabled=!S.doc;$('zoomLabel').textContent=Math.round(S.zoom*100)+'%';}
 async function setPdf(bytes,name){
  if(task){try{await task.destroy()}catch(_){}}
- S.bytes=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);S.doc=null;S.meta=[];S.items=[];S.page=0;S.chosen=null;S.name=name;syncEditor();mode('add');metaLabel();
+ S.bytes=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);S.doc=null;S.meta=[];S.items=[];S.page=0;S.chosen=null;S.editing=false;S.name=name;syncEditor();mode('add');metaLabel();
  try{task=pdfjs.getDocument({data:new Uint8Array(S.bytes)});const doc=await task.promise;S.doc=doc;
    for(let i=1;i<=doc.numPages;i++){const p=await doc.getPage(i);const v=p.getViewport({scale:1});S.meta.push({width:v.width,height:v.height,rotation:p.rotate||0});}
    $('empty').hidden=true;$('pdfCanvas').hidden=false;await render();say('PDF ready. Tap a page to add Dhivehi text.');
@@ -99,8 +100,8 @@ function drawItems(){
  const d=document.createElement('div');d.className='ann'+(item.id===S.chosen?' active':'');d.dir='rtl';d.lang='dv';d.textContent=item.text||'މިތަނުގައި ލިޔުއްވާ';
  d.style.left=(item.x*100)+'%';d.style.top=(item.y*100)+'%';d.style.width=(item.width*100)+'%';d.style.fontFamily=F;d.style.fontSize=(item.size*scale)+'px';d.style.color=item.color;
  if(item.id===S.chosen){const h=document.createElement('span');h.className='handle';h.textContent='✥ MOVE';d.append(h);}
- d.addEventListener('click',e=>{e.stopPropagation();choose(item.id);});
- d.addEventListener('pointerdown',e=>{if(S.mode==='add')return;e.preventDefault();e.stopPropagation();S.chosen=item.id;syncEditor();document.querySelectorAll('.ann').forEach(a=>a.classList.remove('active'));d.classList.add('active');d.setPointerCapture(e.pointerId);
+ d.addEventListener('click',e=>e.stopPropagation());
+ d.addEventListener('pointerdown',e=>{if(S.mode==='add')return;e.preventDefault();e.stopPropagation();if(document.activeElement=== $('text'))$('text').blur();S.chosen=item.id;S.editing=false;syncEditor();document.querySelectorAll('.ann').forEach(a=>a.classList.remove('active'));d.classList.add('active');try{d.setPointerCapture(e.pointerId)}catch(_){};
  const x=e.clientX,y=e.clientY,ox=item.x,oy=item.y;const move=a=>{if(!d.hasPointerCapture(a.pointerId))return;const b=$('sheet').getBoundingClientRect();item.x=clamp(ox+(a.clientX-x)/b.width,0,1-item.width);item.y=clamp(oy+(a.clientY-y)/b.height,0,.96);d.style.left=(item.x*100)+'%';d.style.top=(item.y*100)+'%';};
  const end=a=>{d.removeEventListener('pointermove',move);d.removeEventListener('pointerup',end);d.removeEventListener('pointercancel',end);drawItems();};
  d.addEventListener('pointermove',move);d.addEventListener('pointerup',end);d.addEventListener('pointercancel',end);
@@ -108,18 +109,21 @@ function drawItems(){
  $('annotations').append(d);
  });
 }
-function choose(id){S.chosen=id;syncEditor();drawItems();}
-function syncEditor(){const i=S.items.find(x=>x.id===S.chosen);$('editor').hidden=!i;$('help').textContent=i?'Edit, resize or drag the selected text box.':'Select a text box or tap the page in Add text mode.';if(i){$('text').value=i.text;$('size').value=i.size;$('color').value=i.color;$('width').value=Math.round(i.width*100);}}
+function choose(id,editing=false){S.chosen=id;S.editing=editing;syncEditor();drawItems();}
+function syncEditor(){const i=S.items.find(x=>x.id===S.chosen);$('editor').hidden=!(i&&S.editing);$('selectedActions').hidden=!i||S.editing;$('doneTop').hidden=!(i&&S.editing);$('help').textContent=i?(S.editing?'Type and format your text, then press Save text.':'Text selected. Drag it on the page or press Edit text.'):'Tap Add text to insert text, or drag an existing text box to move it.';if(i&&S.editing){$('text').value=i.text;$('size').value=i.size;$('color').value=i.color;$('width').value=Math.round(i.width*100);}}
+function finishEditing(){const i=S.items.find(x=>x.id===S.chosen);if(i&&!i.text.trim())S.items=S.items.filter(x=>x.id!==i.id);document.activeElement?.blur?.();S.chosen=null;S.editing=false;mode('select');syncEditor();drawItems();say('Text saved on the page. Drag to move; tap Export PDF to download.');}
+$('saveText').onclick=finishEditing;$('doneTop').onclick=finishEditing;$('doneSelection').onclick=finishEditing;
+$('editSelected').onclick=()=>{if(S.chosen===null)return;S.editing=true;syncEditor();drawItems();$('text').focus({preventScroll:true});};
 function edit(p){const i=S.items.find(x=>x.id===S.chosen);if(!i)return;Object.assign(i,p);drawItems();}
-$('sheet').addEventListener('click',e=>{if(!S.doc||S.mode!=='add')return;const b=$('sheet').getBoundingClientRect(),x=(e.clientX-b.left)/b.width,y=(e.clientY-b.top)/b.height;const i={id:++nextId,page:S.page,x:clamp(x-.35,0,.56),y:clamp(y-.02,0,.91),width:.44,size:22,text:'',color:'#15233f'};S.items.push(i);S.chosen=i.id;mode('select');syncEditor();drawItems();$('text').focus({preventScroll:true});});
-$('selectMode').onclick=()=>mode('select');$('addMode').onclick=()=>{if(S.doc){S.chosen=null;syncEditor();drawItems();mode('add');}else say('Open a PDF or create a blank page first.');};
+$('sheet').addEventListener('click',e=>{if(!S.doc||S.mode!=='add')return;const b=$('sheet').getBoundingClientRect(),x=(e.clientX-b.left)/b.width,y=(e.clientY-b.top)/b.height;const i={id:++nextId,page:S.page,x:clamp(x-.35,0,.56),y:clamp(y-.02,0,.91),width:.44,size:22,text:'',color:'#15233f'};S.items.push(i);S.chosen=i.id;S.editing=true;mode('select');syncEditor();drawItems();$('text').focus({preventScroll:true});});
+$('selectMode').onclick=()=>{S.editing=false;mode('select');syncEditor();drawItems();};$('addMode').onclick=()=>{if(S.doc){document.activeElement?.blur?.();S.chosen=null;S.editing=false;syncEditor();drawItems();mode('add');}else say('Open a PDF or create a blank page first.');};
 $('text').oninput=e=>edit({text:e.target.value});$('size').oninput=e=>edit({size:clamp(Number(e.target.value)||22,8,96)});$('color').oninput=e=>edit({color:e.target.value});$('width').oninput=e=>edit({width:Number(e.target.value)/100});
-$('remove').onclick=()=>{S.items=S.items.filter(x=>x.id!==S.chosen);S.chosen=null;syncEditor();drawItems();};
+$('remove').onclick=()=>{S.items=S.items.filter(x=>x.id!==S.chosen);S.chosen=null;S.editing=false;syncEditor();drawItems();say('Text box deleted.');};
 $('open').onclick=()=>$('pdf-input').click();$('emptyOpen').onclick=()=>$('pdf-input').click();
 $('pdf-input').onchange=async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(f.size>60*1024*1024){say('Maximum PDF size is 60MB.');return;}await setPdf(await f.arrayBuffer(),f.name.replace(/\.pdf$/i,''));};
 async function fresh(){const p=await PDFLib.PDFDocument.create();p.addPage([595.28,841.89]);await setPdf(await p.save(),'New Dhivehi document');}
 $('new').onclick=fresh;$('emptyNew').onclick=fresh;
-$('prev').onclick=async()=>{if(S.page>0){S.page--;S.chosen=null;syncEditor();await render();}};$('next').onclick=async()=>{if(S.page<S.meta.length-1){S.page++;S.chosen=null;syncEditor();await render();}};
+$('prev').onclick=async()=>{if(S.page>0){S.page--;S.chosen=null;S.editing=false;syncEditor();await render();}};$('next').onclick=async()=>{if(S.page<S.meta.length-1){S.page++;S.chosen=null;S.editing=false;syncEditor();await render();}};
 $('zoomIn').onclick=async()=>{S.zoom=clamp(S.zoom+.15,.7,2);await render();};$('zoomOut').onclick=async()=>{S.zoom=clamp(S.zoom-.15,.7,2);await render();};
 const rows=['ހ ށ ނ ރ ބ ޅ ކ އ ވ މ','ފ ދ ތ ލ ގ ޏ ސ ޑ ޒ ޓ','ޔ ޕ ޖ ޗ ޘ ޙ ޚ ޛ ޜ ޝ','ޞ ޟ ޠ ޡ ޢ ޣ ޤ ޥ','ަ ާ ި ީ ު ޫ ެ ޭ ޮ ޯ ް'];
 rows.join(' ').split(/\s+/).concat(['Space','⌫']).forEach(k=>{const b=document.createElement('button');b.textContent=k;b.type='button';b.onclick=()=>{const t=$('text');const a=t.selectionStart,b=t.selectionEnd;const ch=k==='Space'?' ':k==='⌫'?'':k;let start=a;if(k==='⌫'&&a===b&&a>0)start=a-1;t.value=t.value.slice(0,start)+ch+t.value.slice(b);edit({text:t.value});t.focus();t.setSelectionRange(start+ch.length,start+ch.length);};$('keys').append(b);});
@@ -129,7 +133,7 @@ try{const db=await fontDb();const tx=db.transaction('fonts','readonly');const q=
 $('fontButton').onclick=()=>$('font-input').click();$('font-input').onchange=async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;try{await installFont(await f.arrayBuffer(),true);say('Faruma loaded and saved on this device.');}catch(err){say('Could not load font: '+err.message);}};
 function linesFor(ctx,raw,width){const result=[];for(const paragraph of raw.replace(/\r/g,'').split('\n')){let current='';for(const word of paragraph.split(' ')){const test=current?current+' '+word:word;if(ctx.measureText(test).width<=width){current=test;}else{if(current)result.push(current);current=word;}}result.push(current);}return result;}
 async function stamp(item,points){const scale=3,w=Math.max(35,item.width*points),font=Math.max(8,item.size),tmp=document.createElement('canvas');const c=tmp.getContext('2d');c.font=(font*scale)+'px '+F;c.direction='rtl';const lines=linesFor(c,item.text,(w-9)*scale);const lh=font*1.48,h=Math.max(font*1.6,lines.length*lh+font*.3);tmp.width=Math.ceil(w*scale);tmp.height=Math.ceil(h*scale);const t=tmp.getContext('2d');t.scale(scale,scale);t.font=font+'px '+F;t.direction='rtl';t.textAlign='right';t.textBaseline='alphabetic';t.fillStyle=item.color;lines.forEach((line,n)=>t.fillText(line,w-5,font*1.12+n*lh));const blob=await new Promise(res=>tmp.toBlob(res,'image/png'));if(!blob)throw Error('Canvas rendering failed');return{w,h,data:await blob.arrayBuffer()};}
-$('export').onclick=async()=>{if(!S.bytes)return;const button=$('export');button.disabled=true;button.textContent='Exporting…';try{
+$('export').onclick=async()=>{if(!S.bytes)return;if(S.editing){document.activeElement?.blur?.();S.editing=false;S.chosen=null;syncEditor();drawItems();}const button=$('export');button.disabled=true;button.textContent='Exporting…';try{
  await document.fonts.ready;const doc=await PDFLib.PDFDocument.load(new Uint8Array(S.bytes));const pages=doc.getPages();
  for(const i of S.items){if(!i.text.trim())continue;const m=S.meta[i.page];if(m.rotation%360!==0)throw Error('Rotated pages are not supported yet (page '+(i.page+1)+').');const img=await stamp(i,m.width),png=await doc.embedPng(img.data),p=pages[i.page];const y=m.height*(1-i.y)-img.h;if(y<0)throw Error('Text on page '+(i.page+1)+' extends below the paper.');p.drawImage(png,{x:i.x*m.width,y,width:img.w,height:img.h});}
  const bytes=await doc.save(),url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));const a=document.createElement('a');a.href=url;a.download=S.name+'-dhivehi.pdf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);say('Exported PDF successfully.');
