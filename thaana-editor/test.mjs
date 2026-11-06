@@ -16,6 +16,6 @@ assert.ok(match,'Embedded Faruma font required');
 const binary=Buffer.from(match[1],'base64');assert.ok(binary.byteLength>1000);assert.equal(binary.toString('latin1',0,4),'wOF2');
 assert.match(html,/const DBNAME='ThaanaPDFProjects'/);
 assert.match(html,/original PDF text remains/i);
-assert.match(html,/visual cover-and-replace/i);
+assert.match(html,/Cover &amp; replace/);
 assert.match(html,/beforeinstallprompt/);
 console.log('PASS: embedded font, syntax, HTML IDs, controls, features and user-facing warnings');
