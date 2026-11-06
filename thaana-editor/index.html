@@ -60,7 +60,7 @@ textarea.field{min-height:92px}
 </head>
 <body>
 <header>
-<div class="brand"><div class="mark">ދ</div><div><strong>Thaana<span>PDF</span></strong><small>DHIVEHI EDITOR</small></div></div>
+<div class="brand"><div class="mark">ދ</div><div><strong>Thaana<span>PDF</span></strong><small>DHIVEHI EDITOR · v1.5</small></div></div>
 <div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="installApp" class="btn dark" hidden>Install</button><button id="projectsButton" class="btn dark">Projects</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
 </header>
 <div class="bar">
@@ -90,7 +90,7 @@ textarea.field{min-height:92px}
 <input id="font-input" type="file" accept=".ttf,.otf,.woff,.woff2" hidden>
 <div class="row"><button class="btn" id="fontButton">Change Font (Optional)</button><span id="fontStatus" class="tag">Faruma · Default</span></div>
 <div class="note">Your PDF is processed on your device. Documents are not uploaded to a server. Added Dhivehi text is flattened on export for reliable vowel mark and RTL display.</div>
-<p class="notice">Version 1 · Adds text overlays without changing original PDF text. Export added text is not searchable. Check finished PDFs before printing.</p>
+<p class="notice">v1.5 · Existing PDF text replacement is visual only, not secure redaction. Added text is flattened and may not be searchable in exported PDFs. Always check the output before printing.</p>
 </aside>
 </main>
 <section id="projectsOverlay" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="projectsTitle"><div class="overlay-card"><div class="row" style="justify-content:space-between"><h2 id="projectsTitle">My editable projects</h2><button id="closeProjects" class="btn tiny">Close ✕</button></div><p class="sub">Projects are stored privately in this browser. Export a PDF to share or print. Clearing browser data can remove local projects.</p><div class="row"><button id="saveProject" class="btn primary">Save current project</button><button id="exportBackup" class="btn">Backup project</button><input id="importBackupInput" type="file" accept=".json,.thaanapdf" hidden><button id="importBackup" class="btn">Import backup</button></div><div id="projectsList" style="margin-top:18px"></div></div></section>
@@ -110,6 +110,7 @@ function say(message){$('toast').textContent=message;$('toast').style.display='b
 function mode(next){S.mode=next;$('selectMode').classList.toggle('on',next==='select');$('addMode').classList.toggle('on',next==='add');$('replaceMode').classList.toggle('on',next==='replace');$('sheet').classList.toggle('adding',next==='add');if(next==='replace')drawTextTargets().catch(e=>say('Cannot read PDF text: '+e.message));else $('textTargets').replaceChildren();}
 function metaLabel(){const m=S.meta[S.page];$('pages').textContent=S.doc?(S.page+1)+' / '+S.meta.length:'0 / 0';$('pageSize').textContent=m?Math.round(m.width)+' × '+Math.round(m.height)+' pt':'A4 · RTL';$('filename').textContent=S.doc?S.name:'NO DOCUMENT';$('prev').disabled=!S.doc||S.page===0;$('next').disabled=!S.doc||S.page>=S.meta.length-1;$('export').disabled=!S.doc;$('zoomIn').disabled=!S.doc;$('zoomOut').disabled=!S.doc;$('zoomLabel').textContent=Math.round(S.zoom*100)+'%';}
 async function setPdf(bytes,name,opts={}){
+ if(S.doc&&S.projectId)await saveCurrent(true);
  if(task){try{await task.destroy()}catch(_){}}
  S.bytes=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);S.doc=null;S.meta=[];H.past=[];H.future=[];H.lastEdit=0;H.lastItem=null;historyButtons();S.items=Array.isArray(opts.items)?structuredClone(opts.items):[];nextId=Math.max(nextId,0,...S.items.map(x=>Number(x.id)||0));S.page=0;S.chosen=null;S.editing=false;S.name=name;S.projectId=opts.projectId||('project-'+Date.now()+'-'+Math.random().toString(36).slice(2,7));syncEditor();mode('add');metaLabel();
  try{task=pdfjs.getDocument({data:new Uint8Array(S.bytes)});const doc=await task.promise;S.doc=doc;
