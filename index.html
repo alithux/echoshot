@@ -149,6 +149,8 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
  .crystal-objective{top:49px;font-size:8px;padding:4px 7px}
  .game-caption,.stage-tip,.touch-hint,.record-strip,.master-challenge,.footer{display:none!important}
  .mobile-dock{display:flex;flex:0 0 27px;align-items:center;justify-content:space-between;gap:7px;width:100%;max-width:100%;min-height:27px;padding:2px 2px 1px}
+ .mobile-par{display:inline-block;flex:0 0 auto;font-size:9px;font-weight:800;color:#dfbbff;border:1px solid #78639b;background:#251c39;border-radius:999px;padding:3px 7px;white-space:nowrap}
+ .mobile-par.hidden{display:none!important}
  .mobile-status{font-size:9px;font-weight:700;letter-spacing:.03em;color:#87b4cd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
  .mobile-goals{display:inline-flex;align-items:center;justify-content:center;gap:5px;flex-shrink:0;min-height:25px;padding:2px 9px;border:1px solid #45667d;border-radius:999px;background:#16273c;color:#d4ecf8;font-size:9px;font-weight:700;letter-spacing:.05em;touch-action:manipulation}
  .mobile-goals strong{color:#88eac7;font-size:10px}.mobile-goals[aria-expanded="true"]{background:#25405a;border-color:#6cc9db}
@@ -260,6 +262,7 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
           </div>
           <div class="mobile-dock" id="mobileDock" aria-label="Live game status">
             <span id="mobileStatusText" class="mobile-status">READY TO LAUNCH</span>
+            <span id="mobilePar" class="mobile-par hidden" aria-label="Master Run target time">PAR —</span>
             <button type="button" class="mobile-goals hidden" id="mobileGoalsBtn" aria-label="Show mission objectives" aria-expanded="false" aria-controls="objectivesPanel">GOALS <strong id="mobileGoalsCount">0/0</strong> <span aria-hidden="true">⌃</span></button>
           </div>
           <div class="game-caption"><span><span class="live-dot"></span> PHYSICS SIMULATION ONLINE</span><span id="statusText">READY TO LAUNCH</span></div>
@@ -1219,6 +1222,7 @@ function updateMasterUI(){
  quick.setAttribute('aria-pressed',String(masterRun));
  quick.title=!eligible?'Clear this stage to unlock Master Run':masterRun?'Return to normal play':`Master Run · Beat ${parTime(level).toFixed(1)}s`;
  quick.setAttribute('aria-label',quick.title);
+ const parPill=$('mobilePar');parPill.classList.toggle('hidden',!masterRun);if(masterRun)parPill.textContent=`PAR ${parTime(level).toFixed(1)}s`;
 }
 $('mobileMasterBtn').addEventListener('click',()=>$('masterToggle').click());
 $('masterToggle').addEventListener('click',()=>{
