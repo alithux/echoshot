@@ -1,39 +1,35 @@
-# ECHOSHOT v0.9.3 — Focus Mode
+# ECHOSHOT v0.9.4 — Family Settings
 
 **Play:** https://echoshot-game.onrender.com
 
-ECHOSHOT is a 75-level, one-shot ricochet puzzle designed for phones, the web, and offline home-screen installation.
+## New settings for everyone
 
-## Focus Mode: a single-screen mobile game
+Open the top-right **menu → GAME SETTINGS** to select:
 
-For mobile viewports (up to 940px wide), the entire gameplay interface is fitted inside the visible viewport instead of requiring page scrolling. The central game board takes up most of the available height; the header is reduced to the stage and target count, with a compact timer on the board. A single status line retains the exact aiming-angle feedback. During Master Run only, a small PAR badge shows the time benchmark without restoring the large record panel.
+- **Theme: Classic / Vibrant!** Vibrant gives the interface and board a deep purple color scheme with playful teal, pink, and yellow accents. The color choice is saved automatically.
+- **Timer: Normal / +5s / +10s / No timer (∞).** Normal remains 8.4 seconds in stages 1–34 and 12 seconds in stages 35–75. Extra time and no time limit let younger players practice at their own pace. The selected timer applies to the next shot.
+- **Fun Mode scoring:** Extra-time and no-timer clears unlock the next stage and award at most one star, but never replace personal-best records or award Master Run badges. Normal mode is required for full stars and time challenges.
 
-**Mission goals:** the existing detailed mission checklist is collapsed into a small **GOALS x/y** button. Tap to expand it over the board, then tap again to close. The status indicator still updates as targets and advanced objectives are completed. Failure results continue to explain unmet objectives.
+The existing `echoshot-progress-v1` save key is unchanged. Legacy saves safely default to the Classic theme and Normal timer; new settings also appear in backup exports, while old backups still import. No current scores, stars, Master Runs, or unlocked levels are erased.
 
-**Master Run:** the bottom toolbar now contains **Retry, Hint, Master and Levels**, each independently accessible without scrolling. The Master shortcut activates the existing Master Run, preserving the no-preview / no-hint rules. The mode is locked until that level has been cleared, exactly as before.
+## Preserved
 
-Time records, achievements, help, backups and advanced information are retained in the menus and desktop layout instead of consuming mobile board space. Result dialogs have been tightened so **Next Stage** and **Play Again** fit even on small phones. Modal menus may scroll internally; the normal gameplay screen does not.
-
-## Preserved behavior
-
-- All **75 stages**, physics, portal positions, timers, required objectives, and Master Run benchmarks unchanged.
-- Existing iPhone ±90° aiming, arcade sound effects, and deep-warp animations remain untouched.
-- Save format remains `echoshot-progress-v1`: stars, personal-best times, Master Run records, unlocked levels, sound preference, and backup files are compatible.
-- Desktop layout is unchanged. The new compact UI applies to mobile viewports only.
-- PWA offline cache is now `echoshot-static-v0.9.3`.
+All **75 levels**, existing puzzle physics and intended solutions, Master Runs, portal warp animations, shooting controls including the verified iPhone ±90° gestures, mobile Focus Mode layout, sound effects, achievements, and offline functionality are retained. The internal level editor is unchanged.
 
 ## Tests
 
-- `node test_v092.cjs`: 75/75 reference solutions remain solvable and the wider portal layouts are preserved.
-- `python test_layout.py`: no gameplay-page scrolling at 390×844, 375×667, 320×568, 414×896 and landscape 844×390, plus desktop smoke test. Check expanded/collapsed Goals, Master Run eligibility and mode switch, sound/menu controls, and errors.
-- `python test_result.py`: solved shots and level-clear dialogs fit mobile widths; result actions remain accessible.
-- `node test_sw.cjs`: offline PWA cache installs all six shell resources and serves cached navigation offline.
-- `node --check inline.js`: valid JavaScript.
+- 75/75 original reference-shot solutions pass.
+- Playwright tested 320×568, 375×667, 390×844 and desktop with no mobile page scrolling, theme switching and all timer options.
+- Real no-timer clear preserves an existing 3-star score, personal best and Master Run time; prior saved preferences persist across reload.
+- PWA precaches all six app-shell assets with offline navigation fallback.
+- JavaScript syntax validates with Node.
 
-## Installation and updates
+## Install and offline
 
-Open ECHOSHOT while online, then fully close and reopen the installed home-screen PWA to receive v0.9.3. Data is stored locally in your browser, and is not synchronized across devices.
+Open the installed PWA online and then restart it to receive the `echoshot-static-v0.9.4` cache. All themes and timer modes function offline once the update is cached.
 
-Repo: https://github.com/alithux/echoshot
+## Repository
 
-Render builds the published static game by copying `index.html` to `public/index.html`; PWA files live under `public/`. The internal editor remains in `tools/level-editor.html`.
+GitHub: https://github.com/alithux/echoshot
+
+Render build command: `mkdir -p public && cp index.html public/index.html`, publish folder: `public`. The mobile app starter and internal level editor remain available in their existing directories.
