@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="dv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101b34">
+<meta name="description" content="Write Dhivehi on PDFs using Faruma font, from your browser.">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<title>ThaanaPDF — Dhivehi PDF Editor</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thaana:wght@400;500;600;700&display=swap');
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172642;background:#f3f5fa;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0}button,input,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.42;cursor:not-allowed}
+header{height:72px;background:#101b34;color:white;display:flex;align-items:center;padding:0 22px;justify-content:space-between;gap:12px;box-shadow:0 4px 24px #0a193018;position:relative;z-index:2}
+.brand{display:flex;align-items:center;gap:11px}.mark{width:42px;height:42px;display:grid;place-items:center;color:#fff;background:#5575fa;border-radius:13px;font:26px 'Noto Sans Thaana',sans-serif}.brand strong{font-size:22px;letter-spacing:-.7px}.brand strong span{color:#a1b4ff}.brand small{display:block;font-size:10px;font-weight:700;color:#9ba9c7;letter-spacing:1.7px}
+.topbuttons{display:flex;align-items:center;gap:9px}.btn{border:1px solid #dce3f1;background:white;color:#233653;border-radius:11px;padding:11px 15px;font-weight:650;white-space:nowrap}.btn.primary{background:#536ff3;color:white;border-color:#536ff3}.btn.dark{background:#263451;color:white;border-color:#405071}.btn:hover:not(:disabled){filter:brightness(.96)}.btn.tiny{padding:8px 12px}.hide-mobile{}
+.bar{background:#fff;border-bottom:1px solid #e1e6f0;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bar label{font-size:13px;color:#6b7890}.seg{background:#f0f3fa;border-radius:11px;padding:4px;display:flex;gap:4px}.seg button{border:0;border-radius:8px;background:none;color:#61708a;padding:8px 11px}.seg button.on{background:white;box-shadow:0 1px 6px #23365320;color:#304dea;font-weight:700}.spacer{flex:1}
+main{display:grid;grid-template-columns:minmax(0,1fr) 335px;min-height:calc(100vh - 132px)}.stage{min-width:0;overflow:auto;padding:25px 18px 70px;display:flex;flex-direction:column;align-items:center}.sheethead{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:740px;margin-bottom:10px;color:#78859e;font-size:12px;font-weight:750;letter-spacing:.7px}.sheet{background:white;position:relative;width:100%;max-width:595px;aspect-ratio:595/842;box-shadow:0 9px 36px #1b2c5130;border:1px solid #dce3ee;overflow:hidden;touch-action:pan-y}.sheet.adding{cursor:crosshair}.sheet canvas{width:100%;height:100%;display:block;pointer-events:none}.annotations{position:absolute;inset:0;pointer-events:none}.ann{pointer-events:auto;position:absolute;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.42;text-align:right;direction:rtl;min-height:20px;cursor:move;touch-action:none;padding:2px 4px;border:1px solid transparent;user-select:none}.ann.active{outline:2px solid #5a75f8;background:#708aff12;border-radius:3px}.ann .handle{position:absolute;right:0;top:-3px;border-radius:8px;background:#5a75f8;color:white;transform:translateY(-100%);font:12px system-ui;padding:3px 5px}
+.blank{margin:auto;max-width:450px;text-align:center;color:#71809b;padding:50px 12px}.blank .big{font-size:80px;line-height:1.5;font-family:'Noto Sans Thaana',sans-serif;color:#5d74eb}.blank h2{color:#263753;font-size:24px}.blank p{line-height:1.6;font-size:14px}
+aside{background:white;border-left:1px solid #e0e6ef;padding:24px 20px 80px}.panel-head{font-weight:800;font-size:18px;margin:0 0 8px}.sub{font-size:12px;line-height:1.6;color:#71809b;margin:0 0 21px}.lab{display:block;font-size:12px;font-weight:750;color:#53627d;margin:17px 0 7px}.field{width:100%;border:1px solid #d7deea;border-radius:11px;background:#f8faff;padding:11px;color:#243756}.field:focus{outline:2px solid #b8c3ff}textarea.field{resize:vertical;min-height:104px;font-family:'FarumaUser','Faruma','Noto Sans Thaana',sans-serif;line-height:1.65;font-size:23px;text-align:right;direction:rtl}
+.row{display:flex;align-items:center;gap:10px}.row>div{flex:1}.row input[type=number]{width:100%}.row input[type=color]{height:45px;width:100%;background:white;cursor:pointer}.row input[type=range]{width:100%}
+.note{background:#f4f6fd;border-radius:12px;padding:12px 13px;margin:15px 0;color:#5f6f88;font-size:12px;line-height:1.6}.notice{font-size:12px;color:#65748f;line-height:1.5}
+.keys{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}.keys button{font:20px 'FarumaUser','Faruma','Noto Sans Thaana',sans-serif;border:1px solid #d9dfeb;background:#f8faff;border-radius:8px;min-width:36px;min-height:37px}.keys button:active{background:#dce4ff}
+footer{position:fixed;bottom:13px;left:50%;transform:translateX(-50%);background:#1c2a46;color:#fff;padding:10px 17px;border-radius:30px;font-size:12px;z-index:5;max-width:90vw;box-shadow:0 10px 26px #101b3440;display:none}
+.muted{color:#7d8ba5}.fonttag{display:inline-block;background:#eaf0ff;color:#4a65c4;font-weight:700;border-radius:8px;padding:6px 9px;font-size:12px}.tag{background:#e7edfc;color:#425ab4;padding:6px 9px;border-radius:10px;font-size:11px;font-weight:800}
+hr{border:0;border-top:1px solid #e4e9f2;margin:22px 0}
+@media(max-width:780px){header{padding:10px 13px;height:auto;min-height:66px}.brand strong{font-size:19px}.brand small{font-size:8px}.mark{width:36px;height:36px}.topbuttons{gap:5px}.topbuttons .btn{padding:9px 10px;font-size:12px}.hide-mobile{display:none}.bar{padding:8px 10px;gap:6px}.bar .btn{padding:9px 10px;font-size:12px}.bar label{display:none}main{grid-template-columns:1fr}.stage{padding:15px 10px 25px}.sheethead{max-width:595px}aside{border-left:0;border-top:1px solid #e0e6ef;padding:18px 16px 48px}.sheet{width:100%}.seg button{padding:8px 10px}}
+</style>
+</head>
+<body>
+<header>
+<div class="brand"><div class="mark">ދ</div><div><strong>Thaana<span>PDF</span></strong><small>DHIVEHI EDITOR</small></div></div>
+<div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
+</header>
+<div class="bar">
+<div class="seg"><button id="selectMode" class="on">↖ Select</button><button id="addMode">＋ Add text</button></div>
+<span class="fonttag">ހ Faruma · RTL</span><span class="spacer"></span>
+<button class="btn tiny" id="prev" disabled>‹</button><span id="pages" class="muted" style="font-size:12px">0 / 0</span><button class="btn tiny" id="next" disabled>›</button>
+<button class="btn tiny" id="zoomOut" disabled>−</button><span id="zoomLabel" style="font-size:12px">100%</span><button class="btn tiny" id="zoomIn" disabled>＋</button>
+</div>
+<main>
+<div class="stage"><div class="sheethead"><span id="filename">NO DOCUMENT</span><span id="pageSize">A4 · RTL</span></div><div class="sheet" id="sheet"><div class="blank" id="empty"><div class="big">ދިވެހި</div><h2>Write in Dhivehi on any PDF</h2><p>Open a PDF or create a blank document. Tap Add text, then tap anywhere on the page to insert a right-to-left text box.</p><div class="row" style="justify-content:center"><button class="btn primary" id="emptyOpen">Open PDF</button><button class="btn" id="emptyNew">Blank A4</button></div></div><canvas id="pdfCanvas" hidden></canvas><div class="annotations" id="annotations"></div></div></div>
+<aside>
+<h2 class="panel-head">Text properties</h2>
+<p class="sub" id="help">Select an existing text box or use Add text to place Dhivehi on your PDF.</p>
+<div id="editor" hidden>
+<label class="lab" for="text">Dhivehi text</label><textarea class="field" id="text" lang="dv" dir="rtl" placeholder="މިތަނުގައި ލިޔުއްވާ"></textarea>
+<div class="row"><div><label class="lab" for="size">Font size (pt)</label><input class="field" id="size" type="number" min="8" max="96" value="22"></div><div><label class="lab" for="color">Text color</label><input class="field" id="color" type="color" value="#15233f"></div></div>
+<label class="lab" for="width">Text box width</label><input id="width" type="range" min="15" max="95" value="45">
+<label class="lab">Thaana keyboard</label><div class="keys" id="keys"></div>
+<div class="row" style="margin-top:15px"><button id="remove" class="btn" style="color:#af3542">Delete text box</button></div>
+</div>
+<hr>
+<h2 class="panel-head">Faruma font</h2>
+<p class="sub">Dhivehi writing is RTL by default. Import your own licensed Faruma font (.ttf/.otf/.woff).</p>
+<input id="font-input" type="file" accept=".ttf,.otf,.woff,.woff2" hidden>
+<div class="row"><button class="btn" id="fontButton">Upload Faruma</button><span id="fontStatus" class="tag">Noto Sans fallback</span></div>
+<div class="note">Your PDF is processed on your device. Documents are not uploaded to a server. Added Dhivehi text is flattened on export for reliable vowel mark and RTL display.</div>
+<p class="notice">Version 1 · Adds text overlays without changing original PDF text. Export added text is not searchable. Check finished PDFs before printing.</p>
+</aside>
+</main>
+<footer id="toast" role="status"></footer>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script type="module">
+import * as pdfjs from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs';
+const $ = id => document.getElementById(id);
+const S = {bytes:null,doc:null,meta:[],items:[],page:0,chosen:null,mode:'select',zoom:1,font:false,name:'Untitled'};
+const F = "'FarumaUser','Faruma','Noto Sans Thaana',sans-serif";
+const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
+let nextId=0, task=null, noticeTimer;
+function say(message){$('toast').textContent=message;$('toast').style.display='block';clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('toast').style.display='none',4500);}
+function mode(next){S.mode=next;$('selectMode').classList.toggle('on',next==='select');$('addMode').classList.toggle('on',next==='add');$('sheet').classList.toggle('adding',next==='add');}
+function metaLabel(){const m=S.meta[S.page];$('pages').textContent=S.doc?(S.page+1)+' / '+S.meta.length:'0 / 0';$('pageSize').textContent=m?Math.round(m.width)+' × '+Math.round(m.height)+' pt':'A4 · RTL';$('filename').textContent=S.doc?S.name:'NO DOCUMENT';$('prev').disabled=!S.doc||S.page===0;$('next').disabled=!S.doc||S.page>=S.meta.length-1;$('export').disabled=!S.doc;$('zoomIn').disabled=!S.doc;$('zoomOut').disabled=!S.doc;$('zoomLabel').textContent=Math.round(S.zoom*100)+'%';}
+async function setPdf(bytes,name){
+ if(task){try{await task.destroy()}catch(_){}}
+ S.bytes=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);S.doc=null;S.meta=[];S.items=[];S.page=0;S.chosen=null;S.name=name;syncEditor();mode('add');metaLabel();
+ try{task=pdfjs.getDocument({data:new Uint8Array(S.bytes)});const doc=await task.promise;S.doc=doc;
+   for(let i=1;i<=doc.numPages;i++){const p=await doc.getPage(i);const v=p.getViewport({scale:1});S.meta.push({width:v.width,height:v.height,rotation:p.rotate||0});}
+   $('empty').hidden=true;$('pdfCanvas').hidden=false;await render();say('PDF ready. Tap a page to add Dhivehi text.');
+ }catch(err){S.doc=null;$('empty').hidden=false;$('pdfCanvas').hidden=true;say('PDF could not be opened: '+err.message);}
+ metaLabel();
+}
+async function render(){
+ metaLabel();if(!S.doc)return;
+ const m=S.meta[S.page],sheet=$('sheet');sheet.style.maxWidth=(m.width*S.zoom)+'px';sheet.style.aspectRatio=m.width+'/'+m.height;
+ const w=sheet.clientWidth;if(!w)return;
+ const p=await S.doc.getPage(S.page+1);
+ const ratio=Math.min(window.devicePixelRatio||1,2),v=p.getViewport({scale:w/m.width*ratio}),canvas=$('pdfCanvas');
+ canvas.width=Math.round(v.width);canvas.height=Math.round(v.height);const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);
+ await p.render({canvasContext:ctx,canvas,viewport:v}).promise;drawItems();
+}
+function drawItems(){
+ const m=S.meta[S.page];if(!m)return;const scale=$('sheet').clientWidth/m.width;
+ $('annotations').replaceChildren();
+ S.items.filter(i=>i.page===S.page).forEach(item=>{
+ const d=document.createElement('div');d.className='ann'+(item.id===S.chosen?' active':'');d.dir='rtl';d.lang='dv';d.textContent=item.text||'މިތަނުގައި ލިޔުއްވާ';
+ d.style.left=(item.x*100)+'%';d.style.top=(item.y*100)+'%';d.style.width=(item.width*100)+'%';d.style.fontFamily=F;d.style.fontSize=(item.size*scale)+'px';d.style.color=item.color;
+ if(item.id===S.chosen){const h=document.createElement('span');h.className='handle';h.textContent='✥ MOVE';d.append(h);}
+ d.addEventListener('click',e=>{e.stopPropagation();choose(item.id);});
+ d.addEventListener('pointerdown',e=>{if(S.mode==='add')return;e.preventDefault();e.stopPropagation();choose(item.id);d.setPointerCapture(e.pointerId);
+ const x=e.clientX,y=e.clientY,ox=item.x,oy=item.y;const move=a=>{if(!d.hasPointerCapture(a.pointerId))return;const b=$('sheet').getBoundingClientRect();item.x=clamp(ox+(a.clientX-x)/b.width,0,1-item.width);item.y=clamp(oy+(a.clientY-y)/b.height,0,.96);d.style.left=(item.x*100)+'%';d.style.top=(item.y*100)+'%';};
+ const end=a=>{d.removeEventListener('pointermove',move);d.removeEventListener('pointerup',end);d.removeEventListener('pointercancel',end);drawItems();};
+ d.addEventListener('pointermove',move);d.addEventListener('pointerup',end);d.addEventListener('pointercancel',end);
+ });
+ $('annotations').append(d);
+ });
+}
+function choose(id){S.chosen=id;syncEditor();drawItems();}
+function syncEditor(){const i=S.items.find(x=>x.id===S.chosen);$('editor').hidden=!i;$('help').textContent=i?'Edit, resize or drag the selected text box.':'Select a text box or tap the page in Add text mode.';if(i){$('text').value=i.text;$('size').value=i.size;$('color').value=i.color;$('width').value=Math.round(i.width*100);}}
+function edit(p){const i=S.items.find(x=>x.id===S.chosen);if(!i)return;Object.assign(i,p);drawItems();}
+$('sheet').addEventListener('click',e=>{if(!S.doc||S.mode!=='add')return;const b=$('sheet').getBoundingClientRect(),x=(e.clientX-b.left)/b.width,y=(e.clientY-b.top)/b.height;const i={id:++nextId,page:S.page,x:clamp(x-.35,0,.56),y:clamp(y-.02,0,.91),width:.44,size:22,text:'',color:'#15233f'};S.items.push(i);S.chosen=i.id;mode('select');syncEditor();drawItems();$('text').focus({preventScroll:true});});
+$('selectMode').onclick=()=>mode('select');$('addMode').onclick=()=>{if(S.doc){S.chosen=null;syncEditor();drawItems();mode('add');}else say('Open a PDF or create a blank page first.');};
+$('text').oninput=e=>edit({text:e.target.value});$('size').oninput=e=>edit({size:clamp(Number(e.target.value)||22,8,96)});$('color').oninput=e=>edit({color:e.target.value});$('width').oninput=e=>edit({width:Number(e.target.value)/100});
+$('remove').onclick=()=>{S.items=S.items.filter(x=>x.id!==S.chosen);S.chosen=null;syncEditor();drawItems();};
+$('open').onclick=()=>$('pdf-input').click();$('emptyOpen').onclick=()=>$('pdf-input').click();
+$('pdf-input').onchange=async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(f.size>60*1024*1024){say('Maximum PDF size is 60MB.');return;}await setPdf(await f.arrayBuffer(),f.name.replace(/\.pdf$/i,''));};
+async function fresh(){const p=await PDFLib.PDFDocument.create();p.addPage([595.28,841.89]);await setPdf(await p.save(),'New Dhivehi document');}
+$('new').onclick=fresh;$('emptyNew').onclick=fresh;
+$('prev').onclick=async()=>{if(S.page>0){S.page--;S.chosen=null;syncEditor();await render();}};$('next').onclick=async()=>{if(S.page<S.meta.length-1){S.page++;S.chosen=null;syncEditor();await render();}};
+$('zoomIn').onclick=async()=>{S.zoom=clamp(S.zoom+.15,.7,2);await render();};$('zoomOut').onclick=async()=>{S.zoom=clamp(S.zoom-.15,.7,2);await render();};
+const rows=['ހ ށ ނ ރ ބ ޅ ކ އ ވ މ','ފ ދ ތ ލ ގ ޏ ސ ޑ ޒ ޓ','ޔ ޕ ޖ ޗ ޘ ޙ ޚ ޛ ޜ ޝ','ޞ ޟ ޠ ޡ ޢ ޣ ޤ ޥ','ަ ާ ި ީ ު ޫ ެ ޭ ޮ ޯ ް'];
+rows.join(' ').split(/\s+/).concat(['Space','⌫']).forEach(k=>{const b=document.createElement('button');b.textContent=k;b.type='button';b.onclick=()=>{const t=$('text');const a=t.selectionStart,b=t.selectionEnd;const ch=k==='Space'?' ':k==='⌫'?'':k;let start=a;if(k==='⌫'&&a===b&&a>0)start=a-1;t.value=t.value.slice(0,start)+ch+t.value.slice(b);edit({text:t.value});t.focus();t.setSelectionRange(start+ch.length,start+ch.length);};$('keys').append(b);});
+async function installFont(bytes,persist=false){const face=new FontFace('FarumaUser',bytes);await face.load();document.fonts.add(face);S.font=true;$('fontStatus').textContent='Faruma loaded';drawItems();if(persist){const db=await fontDb();const tx=db.transaction('fonts','readwrite');tx.objectStore('fonts').put(bytes,'faruma');}}
+function fontDb(){return new Promise((resolve,reject)=>{const q=indexedDB.open('thaana-pdf-fonts',1);q.onupgradeneeded=()=>q.result.createObjectStore('fonts');q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error);});}
+try{const db=await fontDb();const tx=db.transaction('fonts','readonly');const q=tx.objectStore('fonts').get('faruma');q.onsuccess=()=>{if(q.result)installFont(q.result).catch(()=>{});};}catch(_){}
+$('fontButton').onclick=()=>$('font-input').click();$('font-input').onchange=async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;try{await installFont(await f.arrayBuffer(),true);say('Faruma loaded and saved on this device.');}catch(err){say('Could not load font: '+err.message);}};
+function linesFor(ctx,raw,width){const result=[];for(const paragraph of raw.replace(/\r/g,'').split('\n')){let current='';for(const word of paragraph.split(' ')){const test=current?current+' '+word:word;if(ctx.measureText(test).width<=width){current=test;}else{if(current)result.push(current);current=word;}}result.push(current);}return result;}
+async function stamp(item,points){const scale=3,w=Math.max(35,item.width*points),font=Math.max(8,item.size),tmp=document.createElement('canvas');const c=tmp.getContext('2d');c.font=(font*scale)+'px '+F;c.direction='rtl';const lines=linesFor(c,item.text,(w-9)*scale);const lh=font*1.48,h=Math.max(font*1.6,lines.length*lh+font*.3);tmp.width=Math.ceil(w*scale);tmp.height=Math.ceil(h*scale);const t=tmp.getContext('2d');t.scale(scale,scale);t.font=font+'px '+F;t.direction='rtl';t.textAlign='right';t.textBaseline='alphabetic';t.fillStyle=item.color;lines.forEach((line,n)=>t.fillText(line,w-5,font*1.12+n*lh));const blob=await new Promise(res=>tmp.toBlob(res,'image/png'));if(!blob)throw Error('Canvas rendering failed');return{w,h,data:await blob.arrayBuffer()};}
+$('export').onclick=async()=>{if(!S.bytes)return;const button=$('export');button.disabled=true;button.textContent='Exporting…';try{
+ await document.fonts.ready;const doc=await PDFLib.PDFDocument.load(new Uint8Array(S.bytes));const pages=doc.getPages();
+ for(const i of S.items){if(!i.text.trim())continue;const m=S.meta[i.page];if(m.rotation%360!==0)throw Error('Rotated pages are not supported yet (page '+(i.page+1)+').');const img=await stamp(i,m.width),png=await doc.embedPng(img.data),p=pages[i.page];const y=m.height*(1-i.y)-img.h;if(y<0)throw Error('Text on page '+(i.page+1)+' extends below the paper.');p.drawImage(png,{x:i.x*m.width,y,width:img.w,height:img.h});}
+ const bytes=await doc.save(),url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));const a=document.createElement('a');a.href=url;a.download=S.name+'-dhivehi.pdf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);say('Exported PDF successfully.');
+ }catch(err){say('Export failed: '+err.message);}finally{button.textContent='Export PDF';button.disabled=false;}};
+window.addEventListener('resize',()=>{if(S.doc)render().catch(()=>{});});
+metaLabel();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
