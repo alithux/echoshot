@@ -1,35 +1,32 @@
-# ECHOSHOT v0.9.4 — Family Settings
+# ECHOSHOT v0.9.4.1 — Mobile HUD Overflow Fix
 
 **Play:** https://echoshot-game.onrender.com
 
-## New settings for everyone
+## What's fixed
 
-Open the top-right **menu → GAME SETTINGS** to select:
+- The **No Timer ∞** value now stays inside its HUD card, without a stray seconds suffix.
+- Compact phone labels show **TIME**, **LEFT**, **BONUS** or **NO TIMER** while retaining descriptive accessible text.
+- The crystal objective badge moves to the upper-left corner of the game board on portrait phones, avoiding overlap with the timer.
+- Decorative "ALIGN / LAUNCH / RESONATE" text is hidden on phones to avoid competing with gameplay information.
+- Narrow landscape view stacks the counter below the time display instead of squeezing both into a thin row.
 
-- **Theme: Classic / Vibrant!** Vibrant gives the interface and board a deep purple color scheme with playful teal, pink, and yellow accents. The color choice is saved automatically.
-- **Timer: Normal / +5s / +10s / No timer (∞).** Normal remains 8.4 seconds in stages 1–34 and 12 seconds in stages 35–75. Extra time and no time limit let younger players practice at their own pace. The selected timer applies to the next shot.
-- **Fun Mode scoring:** Extra-time and no-timer clears unlock the next stage and award at most one star, but never replace personal-best records or award Master Run badges. Normal mode is required for full stars and time challenges.
+## Compatibility
 
-The existing `echoshot-progress-v1` save key is unchanged. Legacy saves safely default to the Classic theme and Normal timer; new settings also appear in backup exports, while old backups still import. No current scores, stars, Master Runs, or unlocked levels are erased.
+All 75 stages, rules, timer settings (+5, +10, No Timer), Classic/Vibrant themes, iPhone touch aiming, Master Runs, stars, times, achievements, sound effects, save/restore, and the separate Android build project are retained. This is a UI-only patch.
 
-## Preserved
+## Verification
 
-All **75 levels**, existing puzzle physics and intended solutions, Master Runs, portal warp animations, shooting controls including the verified iPhone ±90° gestures, mobile Focus Mode layout, sound effects, achievements, and offline functionality are retained. The internal level editor is unchanged.
+- Playwright measured the actual HUD text bounds at **320×568, 375×667, 390×844, 414×896, 844×390, and 1280×900**, using Normal, +10s and No Timer; no timer/text overflow, no smartphone page scrolling, and no portrait overlap.
+- All **75/75 original level solutions** pass.
+- Settings and previous progress survive reload; no-timer wins don't overwrite timed records.
+- Node inline-JavaScript syntax validation passed.
 
-## Tests
+## Offline update
 
-- 75/75 original reference-shot solutions pass.
-- Playwright tested 320×568, 375×667, 390×844 and desktop with no mobile page scrolling, theme switching and all timer options.
-- Real no-timer clear preserves an existing 3-star score, personal best and Master Run time; prior saved preferences persist across reload.
-- PWA precaches all six app-shell assets with offline navigation fallback.
-- JavaScript syntax validates with Node.
+The PWA cache is bumped to `echoshot-static-v0.9.4.1`. To update the iPhone home-screen app, open it while online, then close and reopen it.
 
-## Install and offline
-
-Open the installed PWA online and then restart it to receive the `echoshot-static-v0.9.4` cache. All themes and timer modes function offline once the update is cached.
-
-## Repository
+## Build
 
 GitHub: https://github.com/alithux/echoshot
 
-Render build command: `mkdir -p public && cp index.html public/index.html`, publish folder: `public`. The mobile app starter and internal level editor remain available in their existing directories.
+Render build: `mkdir -p public && cp index.html public/index.html`, publish directory: `public`.
