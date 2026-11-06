@@ -27,14 +27,41 @@ aside{background:white;border-left:1px solid #e0e6ef;padding:24px 20px 80px}.pan
 footer{position:fixed;bottom:13px;left:50%;transform:translateX(-50%);background:#1c2a46;color:#fff;padding:10px 17px;border-radius:30px;font-size:12px;z-index:5;max-width:90vw;box-shadow:0 10px 26px #101b3440;display:none}
 .muted{color:#7d8ba5}.fonttag{display:inline-block;background:#eaf0ff;color:#4a65c4;font-weight:700;border-radius:8px;padding:6px 9px;font-size:12px}.tag{background:#e7edfc;color:#425ab4;padding:6px 9px;border-radius:10px;font-size:11px;font-weight:800}
 hr{border:0;border-top:1px solid #e4e9f2;margin:22px 0}
+.sheet-handle{display:none}
+#installApp[hidden]{display:none!important}
+body.panel-open .sheet-handle{color:#425ad7}
+
 .overlay{position:fixed;z-index:20;inset:0;background:#0b1735af;padding:15px;display:grid;place-items:center;overflow:auto}.overlay-card{width:min(650px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:18px;padding:22px;box-shadow:0 25px 80px #17264255}.overlay-card h2{margin:0;font-size:20px}.project-row{display:flex;align-items:center;gap:9px;border-bottom:1px solid #e5eaf3;padding:12px 0}.project-row .details{flex:1;min-width:0}.project-row .details strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.project-row .details small{font-size:11px;color:#677894}.overlay-card .row{flex-wrap:wrap}#saveStatus{white-space:nowrap}
-@media(max-width:780px){header{padding:10px 13px;height:auto;min-height:66px}.brand strong{font-size:19px}.brand small{font-size:8px}.mark{width:36px;height:36px}.topbuttons{gap:5px}.topbuttons .btn{padding:9px 10px;font-size:12px}.hide-mobile{display:none}.bar{padding:8px 10px;gap:6px}.bar .btn{padding:9px 10px;font-size:12px}.bar label{display:none}main{grid-template-columns:1fr}.stage{padding:15px 10px 25px}.sheethead{max-width:595px}aside{border-left:0;border-top:1px solid #e0e6ef;padding:18px 16px 48px}.sheet{width:100%}.seg button{padding:8px 10px}}
+@media(max-width:780px){
+html,body{height:100%;overscroll-behavior:none}
+body{height:100dvh;overflow:hidden;display:flex;flex-direction:column}
+header{padding:9px 11px;min-height:59px;height:59px;flex:none}
+.brand strong{font-size:18px}.brand small{font-size:8px}.mark{width:34px;height:34px}
+.topbuttons{gap:5px}.topbuttons .btn{padding:9px 10px;font-size:11px}
+#new{display:none}.hide-mobile{display:none}
+.bar{padding:7px 9px;gap:6px;display:flex;flex-wrap:nowrap;overflow-x:auto;min-height:58px;flex:none;scrollbar-width:none;white-space:nowrap;-webkit-overflow-scrolling:touch}
+.bar::-webkit-scrollbar{display:none}
+.bar .btn{padding:8px 10px;font-size:12px}.bar label{display:none}.bar .spacer{display:none}
+.bar .seg{flex:none}.bar .tag,.bar .fonttag{font-size:10px;flex:none}
+.seg button{padding:8px 10px;font-size:12px}
+main{display:block;min-height:0;flex:1;overflow:hidden}
+.stage{height:100%;overflow:auto;min-height:0;padding:12px 10px 55px;align-items:center;overscroll-behavior:contain}
+.sheethead{max-width:595px;font-size:11px;margin-bottom:9px}
+.sheet{flex:0 0 auto;max-width:none!important}
+aside{position:fixed;z-index:9;bottom:0;left:0;right:0;max-height:min(72dvh,620px);overflow:auto;border-left:0;border-top:1px solid #d6deed;border-radius:17px 17px 0 0;background:#fff;box-shadow:0 -5px 26px #18294728;padding:0 16px 28px;transform:translateY(calc(100% - 46px));transition:transform .18s ease;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+body.panel-open aside{transform:translateY(0)}
+.sheet-handle{display:block;position:sticky;top:0;z-index:2;margin:0 -16px 16px;padding:13px 18px;width:calc(100% + 32px);border:0;border-bottom:1px solid #edf1fa;background:#fff;font-weight:750;color:#344464;cursor:pointer}
+textarea.field{min-height:92px}
+.overlay{z-index:25}
+.overlay-card{max-height:85dvh;padding:16px}
+#saveStatus{display:none}
+}
 </style>
 </head>
 <body>
 <header>
 <div class="brand"><div class="mark">ދ</div><div><strong>Thaana<span>PDF</span></strong><small>DHIVEHI EDITOR</small></div></div>
-<div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="projectsButton" class="btn dark">Projects</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
+<div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="installApp" class="btn dark" hidden>Install</button><button id="projectsButton" class="btn dark">Projects</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
 </header>
 <div class="bar">
 <span class="tag" id="saveStatus" aria-live="polite">Saved locally</span><button class="btn tiny" id="undo" disabled>↶ Undo</button><button class="btn tiny" id="redo" disabled>↷ Redo</button><button class="btn tiny" id="pasteObject" disabled>Paste</button>
@@ -45,8 +72,8 @@ hr{border:0;border-top:1px solid #e4e9f2;margin:22px 0}
 </div>
 <main>
 <div class="stage"><div class="sheethead"><span id="filename">NO DOCUMENT</span><span id="pageSize">A4 · RTL</span></div><div class="sheet" id="sheet"><div class="blank" id="empty"><div class="big">ދިވެހި</div><h2>Write in Dhivehi on any PDF</h2><p>Open a PDF or create a blank document. Tap Add text, then tap anywhere on the page to insert a right-to-left text box.</p><div class="row" style="justify-content:center"><button class="btn primary" id="emptyOpen">Open PDF</button><button class="btn" id="emptyNew">Blank A4</button></div></div><canvas id="pdfCanvas" hidden></canvas><div class="annotations" id="annotations"></div><div class="text-targets" id="textTargets"></div></div></div>
-<aside>
-<h2 class="panel-head">Text properties</h2>
+<aside id="properties"><button class="sheet-handle" id="toggleProperties" aria-expanded="false">⌃ Tools &amp; Properties</button>
+<h2 class="panel-head">Tools &amp; Properties</h2>
 <p class="sub" id="help">Select an existing text box or use Add text to place Dhivehi on your PDF.</p>
 <div id="selectedActions" hidden><div class="row"><button id="editSelected" class="btn primary">✎ Edit text</button><button id="duplicate" class="btn">Duplicate</button><button id="copyObject" class="btn">Copy</button><button id="doneSelection" class="btn">✓ Done</button></div><p class="notice">Drag the text directly on the page to reposition it.</p></div>
 <div id="nonTextPanel" hidden><label class="lab" for="objectWidth">Object width</label><input type="range" id="objectWidth" min="8" max="95" value="40" style="width:100%"><label class="lab" for="objectHeight">Object height</label><input type="range" id="objectHeight" min="2" max="90" value="15" style="width:100%"><label class="lab" for="objectColor" id="objectColorLabel">Shape color</label><input class="field" type="color" id="objectColor" value="#536ff3"><button class="btn" id="removeObject" style="margin-top:13px;color:#b23546">Delete object</button></div>
@@ -94,7 +121,7 @@ async function setPdf(bytes,name,opts={}){
 async function render(){
  metaLabel();if(!S.doc)return;
  const m=S.meta[S.page],sheet=$('sheet');$('textTargets').replaceChildren();sheet.style.maxWidth=(m.width*S.zoom)+'px';sheet.style.aspectRatio=m.width+'/'+m.height;
- const w=sheet.clientWidth;if(!w)return;
+ const mobile=window.matchMedia("(max-width: 780px)").matches,stage=$("sheet").parentElement,mw=Math.max(200,stage.clientWidth-25),mh=mobile?Math.max(240,stage.clientHeight-115):10000,base=Math.min(m.width,mw,mh*m.width/m.height);sheet.style.width=Math.round(base*S.zoom)+"px";const w=sheet.clientWidth;if(!w)return;
  const p=await S.doc.getPage(S.page+1);
  const ratio=Math.min(window.devicePixelRatio||1,2),v=p.getViewport({scale:w/m.width*ratio}),canvas=$('pdfCanvas');
  canvas.width=Math.round(v.width);canvas.height=Math.round(v.height);const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -120,8 +147,8 @@ function drawItems(){
  });
 }
 function choose(id,editing=false){S.chosen=id;S.editing=editing;syncEditor();drawItems();}
-function syncEditor(){const i=S.items.find(x=>x.id===S.chosen),t=i?(i.type||'text'):'text';$('editor').hidden=!(i&&S.editing&&t==='text');$('nonTextPanel').hidden=!(i&&!S.editing&&t!=='text');$('selectedActions').hidden=!i||S.editing;$('editSelected').hidden=t!=='text';$('doneTop').hidden=!(i&&S.editing);$('help').textContent=i?(S.editing?'Type and format your text, then press Save text.':(t==='text'?'Text selected. Drag it or press Edit text.':'Drag or resize your '+t+' on the page.')):'Use Add text, Image, Rectangle, Line or Signature to insert items.';if(i&&S.editing&&t==='text'){$('text').value=i.text;$('size').value=i.size;$('color').value=i.color;$('width').value=Math.round(i.width*100);}if(i&&t!=='text'){$('objectWidth').value=Math.round(i.width*100);$('objectHeight').value=Math.round((i.height||.15)*100);$('objectColor').value=i.color||'#536ff3';$('objectColorLabel').hidden=t==='image'||t==='signature'||t==='whiteout';$('objectColor').hidden=t==='image'||t==='signature'||t==='whiteout';$('objectHeight').disabled=t==='line';}}
-function finishEditing(){const i=S.items.find(x=>x.id===S.chosen);if(i&&(i.type||'text')==='text'&&!i.text.trim())S.items=S.items.filter(x=>x.id!==i.id);document.activeElement?.blur?.();S.chosen=null;S.editing=false;mode('select');syncEditor();drawItems();scheduleSave();say('Text saved on the page. Drag to move; tap Export PDF to download.');}
+function syncEditor(){const i=S.items.find(x=>x.id===S.chosen),t=i?(i.type||'text'):'text';if(window.matchMedia('(max-width: 780px)').matches&&i)openProperties(true);$('editor').hidden=!(i&&S.editing&&t==='text');$('nonTextPanel').hidden=!(i&&!S.editing&&t!=='text');$('selectedActions').hidden=!i||S.editing;$('editSelected').hidden=t!=='text';$('doneTop').hidden=!(i&&S.editing);$('help').textContent=i?(S.editing?'Type and format your text, then press Save text.':(t==='text'?'Text selected. Drag it or press Edit text.':'Drag or resize your '+t+' on the page.')):'Use Add text, Image, Rectangle, Line or Signature to insert items.';if(i&&S.editing&&t==='text'){$('text').value=i.text;$('size').value=i.size;$('color').value=i.color;$('width').value=Math.round(i.width*100);}if(i&&t!=='text'){$('objectWidth').value=Math.round(i.width*100);$('objectHeight').value=Math.round((i.height||.15)*100);$('objectColor').value=i.color||'#536ff3';$('objectColorLabel').hidden=t==='image'||t==='signature'||t==='whiteout';$('objectColor').hidden=t==='image'||t==='signature'||t==='whiteout';$('objectHeight').disabled=t==='line';}}
+function finishEditing(){const i=S.items.find(x=>x.id===S.chosen);if(i&&(i.type||'text')==='text'&&!i.text.trim())S.items=S.items.filter(x=>x.id!==i.id);document.activeElement?.blur?.();S.chosen=null;S.editing=false;mode('select');syncEditor();drawItems();scheduleSave();openProperties(false);say('Text saved on the page. Drag to move; tap Export PDF to download.');}
 $('saveText').onclick=finishEditing;$('doneTop').onclick=finishEditing;$('doneSelection').onclick=finishEditing;
 $('editSelected').onclick=()=>{if(S.chosen===null)return;S.editing=true;syncEditor();drawItems();$('text').focus({preventScroll:true});};
 function edit(p){const i=S.items.find(x=>x.id===S.chosen);if(!i)return;const now=Date.now();if(now-H.lastEdit>700||H.lastItem!==S.chosen)checkpoint();H.lastEdit=now;H.lastItem=S.chosen;Object.assign(i,p);drawItems();scheduleSave();}
@@ -155,6 +182,13 @@ $('export').onclick=async()=>{if(!S.bytes)return;if(S.editing){document.activeEl
  const bytes=await doc.save(),url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));const a=document.createElement('a');a.href=url;a.download=S.name+'-dhivehi.pdf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);say('Exported PDF successfully.');
  }catch(err){say('Export failed: '+err.message);}finally{button.textContent='Export PDF';button.disabled=false;}};
 window.addEventListener('resize',()=>{if(S.doc)render().catch(()=>{});});
+let installPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('installApp').hidden=false;});
+$('installApp').onclick=async()=>{if(installPrompt){installPrompt.prompt();try{await installPrompt.userChoice}catch(_){}installPrompt=null;$('installApp').hidden=true;}else say('Android: use Chrome menu → Add to Home screen. iPhone: Share → Add to Home Screen.');};
+window.addEventListener('appinstalled',()=>{$('installApp').hidden=true;installPrompt=null;say('ThaanaPDF installed.');});
+function openProperties(open){document.body.classList.toggle('panel-open',open);$('toggleProperties').setAttribute('aria-expanded',String(open));$('toggleProperties').textContent=open?'⌄ Close Tools & Properties':'⌃ Tools & Properties';}
+$('toggleProperties').onclick=()=>openProperties(!document.body.classList.contains('panel-open'));
+
 
 
 
