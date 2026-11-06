@@ -11,7 +11,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thaana:wght@400;500;600;700&display=swap');
 :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172642;background:#f3f5fa;font-synthesis:none}
-*{box-sizing:border-box}body{margin:0}button,input,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.42;cursor:not-allowed}
+*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0}button,input,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.42;cursor:not-allowed}
 header{height:72px;background:#101b34;color:white;display:flex;align-items:center;padding:0 22px;justify-content:space-between;gap:12px;box-shadow:0 4px 24px #0a193018;position:relative;z-index:2}
 .brand{display:flex;align-items:center;gap:11px}.mark{width:42px;height:42px;display:grid;place-items:center;color:#fff;background:#5575fa;border-radius:13px;font:26px 'Noto Sans Thaana',sans-serif}.brand strong{font-size:22px;letter-spacing:-.7px}.brand strong span{color:#a1b4ff}.brand small{display:block;font-size:10px;font-weight:700;color:#9ba9c7;letter-spacing:1.7px}
 .topbuttons{display:flex;align-items:center;gap:9px}.btn{border:1px solid #dce3f1;background:white;color:#233653;border-radius:11px;padding:11px 15px;font-weight:650;white-space:nowrap}.btn.primary{background:#536ff3;color:white;border-color:#536ff3}.btn.dark{background:#263451;color:white;border-color:#405071}.btn:hover:not(:disabled){filter:brightness(.96)}.btn.tiny{padding:8px 12px}.hide-mobile{}
@@ -100,7 +100,7 @@ function drawItems(){
  d.style.left=(item.x*100)+'%';d.style.top=(item.y*100)+'%';d.style.width=(item.width*100)+'%';d.style.fontFamily=F;d.style.fontSize=(item.size*scale)+'px';d.style.color=item.color;
  if(item.id===S.chosen){const h=document.createElement('span');h.className='handle';h.textContent='✥ MOVE';d.append(h);}
  d.addEventListener('click',e=>{e.stopPropagation();choose(item.id);});
- d.addEventListener('pointerdown',e=>{if(S.mode==='add')return;e.preventDefault();e.stopPropagation();choose(item.id);d.setPointerCapture(e.pointerId);
+ d.addEventListener('pointerdown',e=>{if(S.mode==='add')return;e.preventDefault();e.stopPropagation();S.chosen=item.id;syncEditor();document.querySelectorAll('.ann').forEach(a=>a.classList.remove('active'));d.classList.add('active');d.setPointerCapture(e.pointerId);
  const x=e.clientX,y=e.clientY,ox=item.x,oy=item.y;const move=a=>{if(!d.hasPointerCapture(a.pointerId))return;const b=$('sheet').getBoundingClientRect();item.x=clamp(ox+(a.clientX-x)/b.width,0,1-item.width);item.y=clamp(oy+(a.clientY-y)/b.height,0,.96);d.style.left=(item.x*100)+'%';d.style.top=(item.y*100)+'%';};
  const end=a=>{d.removeEventListener('pointermove',move);d.removeEventListener('pointerup',end);d.removeEventListener('pointercancel',end);drawItems();};
  d.addEventListener('pointermove',move);d.addEventListener('pointerup',end);d.addEventListener('pointercancel',end);
