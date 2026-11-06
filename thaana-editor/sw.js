@@ -1,1 +1,10 @@
-const CACHE='thaana-pdf-v2';const ROOT=['/','/index.html','/icon.svg','/manifest.webmanifest'];self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ROOT)));self.skipWaiting()});self.addEventListener('activate',e=>{e.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()]))});self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==self.location.origin)return;e.respondWith(fetch(e.request).then(r=>{if(r.ok){const clone=r.clone();caches.open(CACHE).then(c=>c.put(e.request,clone))}return r}).catch(()=>caches.match(e.request)))});
+const CACHE='thaana-pdf-v1.5';
+const OWN=['/','/index.html','/icon.svg','/manifest.webmanifest'];
+const TRUSTED=['cdn.jsdelivr.net','fonts.googleapis.com','fonts.gstatic.com'];
+self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(OWN)));self.skipWaiting();});
+self.addEventListener('activate',event=>{event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))),self.clients.claim()]));});
+self.addEventListener('fetch',event=>{
+ const r=event.request,url=new URL(r.url);
+ if(r.method!=='GET'||(url.origin!==self.location.origin&&!TRUSTED.includes(url.hostname)))return;
+ event.respondWith((async()=>{const cache=await caches.open(CACHE);try{const response=await fetch(r);if(response.ok||response.type==='opaque')cache.put(r,response.clone()).catch(()=>{});return response;}catch(err){const cached=await cache.match(r);if(cached)return cached;throw err;}})());
+});
