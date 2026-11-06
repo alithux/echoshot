@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
   <meta name="description" content="ECHOSHOT v0.9 — 75 puzzle stages with optional no-preview Master Runs and chapter seals." />
   
-  <title>ECHOSHOT v0.9.3 — Focus Mode</title>
+  <title>ECHOSHOT v0.9.4 — Family Settings</title>
   <style>
 :root{color-scheme:dark;--bg:#080d1c;--panel:#111a2b;--muted:#7b8ba7;--text:#eef4ff;--gold:#f4cb86;--cyan:#56e6f4;--purple:#bc8cff;--border:#26344c;font-family:'DM Sans',system-ui,-apple-system,sans-serif}
 *{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;color:var(--text);background:radial-gradient(ellipse 60% 34% at 51% 18%,#1a253a 0%,#080d1c 100%);min-height:100vh;min-height:100svh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible,canvas:focus-visible{outline:2px solid #79eefa;outline-offset:3px}.ambient{pointer-events:none;position:fixed;filter:blur(90px);border-radius:50%;z-index:0}.ambient-one{width:380px;height:380px;background:#47335c33;top:17%;right:-200px}.ambient-two{width:340px;height:340px;background:#153a5433;bottom:6%;left:-190px}.shell{position:relative;z-index:1;max-width:1390px;margin:auto;padding:0 38px}.topbar{height:104px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #23314999}.identity{display:flex;align-items:center;gap:14px}.brandicon{position:relative;width:38px;height:38px;border-radius:12px;border:1px solid #375f73;background:linear-gradient(140deg,#123448,#11172a);overflow:hidden;display:grid;place-items:center}.brandicon span{position:absolute;display:block;border:2px solid #76e6ed;border-radius:50%;width:25px;height:25px;transform:translate(7px,7px)}.brandicon span:nth-child(2){width:15px;height:15px;transform:translate(2px,2px);border-color:#c2a0fa}.brandicon span:nth-child(3){width:5px;height:5px;transform:translate(-5px,-5px);background:#f8d399;border:0}.wordmark{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:.16em;font-size:21px;line-height:1.1}.wordmark span{color:#6bd9eb}.brand-sub{color:#72829e;letter-spacing:.19em;font-size:8px;font-weight:700;margin-top:7px}.top-actions{display:flex;align-items:center;gap:18px}.build-tag{color:#8b9ab1;font-size:9px;letter-spacing:.12em;font-weight:700;white-space:nowrap}.version{border:1px solid #34435c;border-radius:4px;padding:4px 6px;margin-left:7px;color:#e4d3b3}.icon-btn{width:40px;height:40px;border:1px solid #2e3b52;background:#131c2d;border-radius:12px;color:#bdcbe0;display:grid;place-items:center;transition:.2s}.icon-btn svg{width:19px;height:19px}.icon-btn:hover,.control-btn:hover,.close-btn:hover{background:#202d45;border-color:#6c819d}.sound-wave{display:none}.sound-cross{display:block}.sound-on .sound-wave{display:block}.sound-on .sound-cross{display:none}.layout{display:grid;grid-template-columns:minmax(210px,1fr) minmax(330px,420px) minmax(190px,1fr);gap:54px;align-items:start;justify-content:center;padding-top:33px}.sidebar{padding-top:85px}.eyebrow,.kicker{font-weight:700;font-size:10px;letter-spacing:.18em;color:#a9bad3}.eyebrow{color:var(--gold);display:flex;align-items:center;gap:10px}.gold-dot{height:6px;width:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px #f1c888}.left-sidebar h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(31px,3.2vw,49px);line-height:1.06;letter-spacing:-.055em;margin:28px 0 22px;font-weight:700}.left-sidebar h1 span{color:var(--cyan)}.intro{line-height:1.8;color:#91a0bb;font-size:13px;margin:0 0 36px;max-width:290px}.how-card{display:flex;align-items:flex-start;gap:16px;margin:0 0 22px}.how-icon{height:33px;min-width:33px;border:1px solid #34445d;background:#172237;border-radius:9px;color:#b8c9e5;display:grid;place-items:center;font-size:19px}.how-card strong{display:block;font-size:10px;letter-spacing:.14em;margin:2px 0 6px}.how-card p{margin:0;color:#8798b3;font-size:12px;line-height:1.55}.sidebar-footer{display:flex;align-items:center;gap:10px;color:#576983;font-size:9px;letter-spacing:.14em;margin-top:48px}.tiny-orbit{width:20px;height:20px;border:1px solid #446176;border-radius:50%;position:relative}.tiny-orbit:after{content:'';position:absolute;left:7px;top:-4px;width:6px;height:6px;border-radius:50%;background:var(--cyan)}.game-column{min-width:0;display:flex;flex-direction:column;align-items:stretch}.game-header{display:flex;justify-content:space-between;align-items:flex-end;margin:0 2px 17px}.kicker{color:#95a5bd;display:block}.level-title-block h2{font-family:'Space Grotesk',sans-serif;font-size:20px;letter-spacing:-.025em;margin:7px 0 0}.stat-cluster{display:flex;align-items:center;gap:19px}.stat{text-align:right}.stat-label{display:block;letter-spacing:.13em;color:#73849f;font-size:8px;font-weight:700;margin-bottom:5px}.stat strong{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#eaf3ff}.stat-slash{font-size:14px;padding:0 3px;color:#58718c}.frame-wrap{width:100%}.game-frame{width:100%;position:relative;aspect-ratio:3/5;border-radius:22px;background:#0c182a;border:1px solid #33415b;box-shadow:0 22px 65px #02040890,0 0 0 7px #152035b0,inset 0 0 40px #38d1ff08;overflow:hidden}.game-frame canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;user-select:none;outline-offset:-5px}.flight-hud{position:absolute;z-index:3;top:14px;left:50%;transform:translateX(-50%);width:calc(100% - 38px);max-width:370px;padding:9px 13px 10px;background:linear-gradient(115deg,#0d1b30ee,#111e36ee);border:1px solid #4a6380;border-radius:11px;box-shadow:0 5px 22px #02071288,0 0 18px #32d5ff12;pointer-events:none;user-select:none;transition:border-color .15s,box-shadow .15s}
@@ -196,6 +196,39 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
  .game-frame{height:min(calc(100dvh - 120px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)),calc((100vw - 14px) * 5 / 3));}
 }
 
+
+/* v0.9.4 Family Settings: playful palette with high-contrast board and reduced-motion support. */
+html.theme-vibrant{
+ --bg:#150c36;--panel:#2a1757;--muted:#b3a9e7;--text:#fff9ff;
+ --gold:#ffdb63;--cyan:#4dffd5;--purple:#ff81d3;--border:#7356ad;
+}
+html.theme-vibrant body{background:radial-gradient(ellipse 90% 60% at 49% 10%,#6033ae 0%,#231052 47%,#130c32 100%);}
+html.theme-vibrant .topbar{border-color:#9475d74d}
+html.theme-vibrant .game-frame{background:#251852;border-color:#966df2;box-shadow:0 10px 32px #170b4477,0 0 0 4px #774ac33a}
+html.theme-vibrant .brandicon,html.theme-vibrant .icon-btn,html.theme-vibrant .control-btn,
+html.theme-vibrant .mobile-master-btn{border-color:#a776df9a;background:#382068;color:#fff8ff}
+html.theme-vibrant .wordmark span{color:#6effda}
+html.theme-vibrant .flight-hud{background:linear-gradient(115deg,#34205eea,#241a51f2);border-color:#ba84e9}
+html.theme-vibrant .flight-hud-value{color:#7cffe2}
+html.theme-vibrant .flight-progress-fill{background:linear-gradient(90deg,#ff83bd,#6effca)}
+html.theme-vibrant .modal-card{background:#231549;border-color:#956cc9}
+html.theme-vibrant .mobile-dock{background:#2d1b58}
+html.theme-vibrant .stat strong{color:#fff1a8}
+.settings-lead{font-size:12px;color:#aebbd2;line-height:1.5;margin:0 0 11px}
+.settings-group{margin:10px 0;border:0;padding:0;min-width:0}
+.settings-group legend{font-size:10px;letter-spacing:.11em;font-weight:800;color:#e8efff;margin-bottom:8px}
+.settings-choices{display:grid;gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.timer-choices{grid-template-columns:repeat(4,minmax(0,1fr))}
+.setting-option{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border:1.5px solid #435a7d;background:#17233d;
+ color:#e5efff;border-radius:11px;font:800 12px/1.2 'DM Sans',system-ui,sans-serif;cursor:pointer;padding:8px 7px;transition:background .18s,border-color .18s}
+.setting-option[aria-pressed="true"]{background:#215b68;border-color:#7bffed;box-shadow:0 0 0 1px #7bffed55;color:#fff}
+.setting-option:focus-visible{outline:3px solid #ffe68e;outline-offset:2px}
+.theme-swatches{display:flex;gap:3px}.theme-swatches i{display:block;width:12px;height:12px;border-radius:50%;box-shadow:0 0 6px #ffffff44}
+.settings-note{font-size:11px;line-height:1.45;color:#bdd1ed;min-height:29px;margin:10px 0 0}
+html.theme-vibrant .setting-option{background:#3c246e;border-color:#8a68b4}
+html.theme-vibrant .setting-option[aria-pressed="true"]{background:#684096;border-color:#ffdb71}
+@media(max-width:400px){.timer-choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.setting-option{transition:none}}
 </style>
 </head>
 <body>
@@ -207,7 +240,7 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
         <div><div class="wordmark">ECHO<span>SHOT</span></div><div class="brand-sub">ONE SHOT · INFINITE POSSIBILITIES</div></div>
       </div>
       <div class="top-actions">
-        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.9.3</span></span>
+        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.9.4</span></span>
         <button id="soundBtn" class="icon-btn" type="button" aria-label="Turn sound on" title="Toggle sound">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-wave" d="M15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"/><path class="sound-cross" d="m16 9 5 6m0-6-5 6"/></svg>
         </button>
@@ -319,6 +352,27 @@ html{overscroll-behavior-y:none}body{overscroll-behavior-y:contain}
     <div class="modal-card mission-modal">
       <div class="modal-header"><div><span class="kicker">MISSION CONTROL</span><h2 id="menuHeading">YOUR ECHOSHOT</h2></div><button id="closeMenu" class="close-btn" type="button" aria-label="Close game menu">✕</button></div>
       <div class="mission-statline"><div><strong id="missionCleared">0/75</strong><span>STAGES CLEARED</span></div><div><strong id="missionStars">0</strong><span>STARS EARNED</span></div><div><strong id="missionMastery">0</strong><span>TIME CHALLENGES</span></div></div>
+      <section class="mission-section family-settings" aria-labelledby="settingsHeading">
+        <div class="mission-title"><h3 id="settingsHeading">GAME SETTINGS</h3><span class="mini-pill">YOUR WAY TO PLAY</span></div>
+        <p class="settings-lead">Pick your colors and how much time you want. Change them anytime!</p>
+        <fieldset class="settings-group" aria-label="Color theme">
+          <legend>COLOR THEME</legend>
+          <div class="settings-choices theme-choices">
+            <button type="button" class="setting-option" data-theme="classic" aria-pressed="true"><span class="theme-swatches"><i style="background:#51dced"></i><i style="background:#a77ff4"></i><i style="background:#f4cb86"></i></span><span>Classic</span></button>
+            <button type="button" class="setting-option" data-theme="vibrant" aria-pressed="false"><span class="theme-swatches"><i style="background:#ff62a7"></i><i style="background:#41efac"></i><i style="background:#ffdb60"></i></span><span>Vibrant!</span></button>
+          </div>
+        </fieldset>
+        <fieldset class="settings-group" aria-label="Flight timer">
+          <legend>SHOT TIMER</legend>
+          <div class="settings-choices timer-choices">
+            <button type="button" class="setting-option" data-timer="standard" aria-pressed="true">Normal</button>
+            <button type="button" class="setting-option" data-timer="plus5" aria-pressed="false">+5s</button>
+            <button type="button" class="setting-option" data-timer="plus10" aria-pressed="false">+10s</button>
+            <button type="button" class="setting-option" data-timer="none" aria-pressed="false">No timer ∞</button>
+          </div>
+        </fieldset>
+        <p class="settings-note" id="settingsNote" role="status">Normal mode earns full stars, records and Master badges.</p>
+      </section>
       <section class="mission-section" aria-labelledby="installHeading">
         <div class="mission-title"><h3 id="installHeading">INSTALL & PLAY OFFLINE</h3><span class="mini-pill" id="offlineBadge">CHECKING</span></div>
         <p id="installHelp">Add ECHOSHOT to your home screen for a full-screen, app-like experience. Your stages work without internet after the first load.</p>
@@ -871,8 +925,27 @@ function cleanMasterMap(value){
  }
  return result;
 }
-function safeLoad(){try{const v=JSON.parse(localStorage.getItem(STORAGE)||'{}');return {unlocked:Math.max(1,Math.min(LEVEL_COUNT,Math.max(v.unlocked||1,v.best?.[20]?21:1,v.best?.[50]?51:1))),best:v.best||{},times:v.times&&typeof v.times==='object'&&!Array.isArray(v.times)?v.times:{},master:cleanMasterMap(v.master),sound:!!v.sound}}catch{return {unlocked:1,best:{},times:{},master:Object.create(null),sound:false}}}
+function safeLoad(){try{const v=JSON.parse(localStorage.getItem(STORAGE)||'{}');return {unlocked:Math.max(1,Math.min(LEVEL_COUNT,Math.max(v.unlocked||1,v.best?.[20]?21:1,v.best?.[50]?51:1))),best:v.best||{},times:v.times&&typeof v.times==='object'&&!Array.isArray(v.times)?v.times:{},master:cleanMasterMap(v.master),sound:!!v.sound,theme:v.theme==='vibrant'?'vibrant':'classic',timerMode:['standard','plus5','plus10','none'].includes(v.timerMode)?v.timerMode:'standard'}}catch{return {unlocked:1,best:{},times:{},master:Object.create(null),sound:false,theme:'classic',timerMode:'standard'}}}
 let save=safeLoad();
+const isRelaxed=()=>save.timerMode!=='standard';
+const gameplayTimeLimit=(stage)=>save.timerMode==='none'?Infinity:shotTimeLimit(stage)+(save.timerMode==='plus5'?5:save.timerMode==='plus10'?10:0);
+function applyGameTheme(){document.documentElement.classList.toggle('theme-vibrant',save.theme==='vibrant');}
+function updateSettingsUI(){
+ for(const b of document.querySelectorAll('[data-theme]'))b.setAttribute('aria-pressed',String(b.dataset.theme===save.theme));
+ for(const b of document.querySelectorAll('[data-timer]'))b.setAttribute('aria-pressed',String(b.dataset.timer===save.timerMode));
+ $('settingsNote').textContent=isRelaxed()?'Fun Mode: levels still unlock, but earn at most one star. Personal-best times and Master badges require Normal timer.':'Normal mode: full stars, best times and Master Runs are enabled.';
+}
+function setGameSetting(type,value){
+ if(type==='theme'&&['classic','vibrant'].includes(value))save.theme=value;
+ else if(type==='timer'&&['standard','plus5','plus10','none'].includes(value)){
+  if(mode==='flight'||mode==='complete'){toast('Timer will change after you retry or start the next level.');}
+  save.timerMode=value;
+  if(isRelaxed()&&masterRun){masterRun=false;hintUntil=0;refreshPreview();}
+  if(mode==='ready')updateProgress();
+ }else return;
+ persist();applyGameTheme();updateSettingsUI();updateMasterUI();
+}
+
 let levelIndex=save.unlocked,level=getLevel(levelIndex),attempts=0,shot=null,mode='ready',aimAngle=0,aiming=false,aimPointer=null,masterRun=false;
 let preview=[],particles=[],floating=[],last=performance.now(),time=0,hitFlash=0,toastTimeout=0,hintUntil=0,winPending=false;
 let audioCtx=null;let announceCounter=0;
@@ -1078,7 +1151,7 @@ function updateMission(){
   item.append(head,meter);chapterGrid.appendChild(item);
  }
  const next=Array.from({length:LEVEL_COUNT},(_,i)=>i+1).find(n=>Number(save.best[n])>=1&&recordMaster(n)===null);
- const jump=$('nextMasterBtn');jump.disabled=next===undefined;
+ const jump=$('nextMasterBtn');jump.disabled=next===undefined||isRelaxed();
  $('masterMenuStatus').textContent=next===undefined?(stats.masterRuns===75?'All stages mastered. Every chapter seal earned!':'Clear another stage to unlock its Master Run.'):`Next available: Level ${next} · no preview · beat its time target`;
  const grid=$('achievementGrid');grid.replaceChildren();
  for(const a of badges){const card=document.createElement('div');card.className='achievement'+(a.earned?' earned':'');
@@ -1208,9 +1281,9 @@ function updateMasterUI(){
  const eligible=Number(save.best[levelIndex])>=1;
  const earned=recordMaster(levelIndex);
  const btn=$('masterToggle'),panel=$('masterChallenge');
- btn.disabled=mode!=='ready'||!eligible;
+ btn.disabled=mode!=='ready'||!eligible||isRelaxed();
  btn.setAttribute('aria-pressed',String(masterRun));
- $('masterToggleState').textContent=masterRun?'ON':!eligible?'LOCKED':earned!==null?'EARNED':'OFF';
+ $('masterToggleState').textContent=isRelaxed()?'NORMAL TIMER ONLY':masterRun?'ON':!eligible?'LOCKED':earned!==null?'EARNED':'OFF';
  panel.classList.toggle('active',masterRun);
  panel.classList.toggle('earned',earned!==null);
  $('masterRecord').textContent=earned!==null?`✧ MASTER BEST ${earned.toFixed(2)}s`:!eligible?'CLEAR ONCE TO UNLOCK':masterRun?'MASTER RUN ARMED':'MASTER RUN AVAILABLE';
@@ -1220,20 +1293,20 @@ function updateMasterUI(){
  const quick=$('mobileMasterBtn');
  quick.disabled=btn.disabled;
  quick.setAttribute('aria-pressed',String(masterRun));
- quick.title=!eligible?'Clear this stage to unlock Master Run':masterRun?'Return to normal play':`Master Run · Beat ${parTime(level).toFixed(1)}s`;
+ quick.title=isRelaxed()?'Use Normal timer to play Master Run':!eligible?'Clear this stage to unlock Master Run':masterRun?'Return to normal play':`Master Run · Beat ${parTime(level).toFixed(1)}s`;
  quick.setAttribute('aria-label',quick.title);
  const parPill=$('mobilePar');parPill.classList.toggle('hidden',!masterRun);if(masterRun)parPill.textContent=`PAR ${parTime(level).toFixed(1)}s`;
 }
 $('mobileMasterBtn').addEventListener('click',()=>$('masterToggle').click());
 $('masterToggle').addEventListener('click',()=>{
- if(mode!=='ready'||Number(save.best[levelIndex])<1)return;
+ if(mode!=='ready'||isRelaxed()||Number(save.best[levelIndex])<1)return;
  masterRun=!masterRun;hintUntil=0;refreshPreview();updateMasterUI();
  textStatus(masterRun?'MASTER RUN · NO GHOST PATH':'NORMAL MODE · PREVIEW ENABLED');
  toast(masterRun?'✧ MASTER RUN ARMED':'NORMAL AIMING RESTORED');
 });
 $('nextMasterBtn').addEventListener('click',()=>{
  const n=Array.from({length:LEVEL_COUNT},(_,i)=>i+1).find(x=>Number(save.best[x])>=1&&recordMaster(x)===null);
- if(n===undefined)return;
+ if(n===undefined||isRelaxed())return;
  loadLevel(n);masterRun=true;refreshPreview();updateMasterUI();closeMenu();
  textStatus('MASTER RUN · NO GHOST PATH');
 });
@@ -1301,17 +1374,19 @@ function updateCrystalObjective(){
  $('crystalCount').textContent=`${done} / ${goal}`;
 }
 function updateFlightHud(){
- const limit=shot?.timeLimit??shotTimeLimit(level);
+ const limit=shot?.timeLimit??gameplayTimeLimit(level);
  const remaining=mode==='ready'?limit:Math.max(0,limit-(shot?.elapsed??0));
- const seconds=Math.min(limit,Math.ceil(Math.max(0,remaining-0.00001)*10)/10);
  const hud=$('flightHud');
- $('flightSeconds').textContent=seconds.toFixed(1);
- $('flightHudLabel').textContent=mode==='ready'?'TIME PER SHOT':mode==='flight'?'TIME LEFT':'SHOT FINISHED';
- $('flightProgressFill').style.width=`${Math.max(0,Math.min(100,remaining/limit*100))}%`;
- $('flightProgress').setAttribute('aria-valuemax',String(limit));
- $('flightProgress').setAttribute('aria-valuenow',remaining.toFixed(2));
- hud.classList.toggle('warning',mode==='flight'&&remaining<=3.5);
- hud.classList.toggle('urgent',mode==='flight'&&remaining<=1.8);
+ const unlimited=!Number.isFinite(limit);
+ const seconds=unlimited?Infinity:Math.min(limit,Math.ceil(Math.max(0,remaining-0.00001)*10)/10);
+ $('flightSeconds').textContent=unlimited?'∞':seconds.toFixed(1);
+ $('flightHudLabel').textContent=unlimited?'NO TIMER · FUN MODE':mode==='ready'?(isRelaxed()?'EXTRA TIME · FUN MODE':'TIME PER SHOT'):mode==='flight'?'TIME LEFT':'SHOT FINISHED';
+ $('flightProgressFill').style.width=unlimited?'100%':`${Math.max(0,Math.min(100,remaining/limit*100))}%`;
+ $('flightProgress').setAttribute('aria-valuemax',unlimited?'0':String(limit));
+ $('flightProgress').setAttribute('aria-valuenow',unlimited?'0':remaining.toFixed(2));
+ $('flightProgress').setAttribute('aria-label',unlimited?'No time limit':'Flight time remaining');
+ hud.classList.toggle('warning',!unlimited&&mode==='flight'&&remaining<=3.5);
+ hud.classList.toggle('urgent',!unlimited&&mode==='flight'&&remaining<=1.8);
 }
 function refreshPreview(){
  if(masterRun){preview=[];return;}
@@ -1332,7 +1407,7 @@ function resetShot(){
 }
 function fire(){
  if(mode!=='ready'||winPending)return;
- shot=makeShot(level,aimAngle);mode='flight';aiming=false;clearVisualFX();attempts++;
+ shot=makeShot(level,aimAngle);shot.timeLimit=gameplayTimeLimit(level);shot.relaxed=isRelaxed();mode='flight';aiming=false;clearVisualFX();attempts++;
  textStatus('SIGNAL IN MOTION');updateProgress();playSfx('launch');vibrate(12);
  burst(WORLD.launchX,WORLD.launchY,'#64ebfa',12,65);impactWave(WORLD.launchX,WORLD.launchY,'#75eefa',1.3);
 }
@@ -1394,15 +1469,16 @@ function showResult(success){
  $('resultSymbol').style.color=success?'#ffe4a5':'#95d8f0';
  $('resultKicker').textContent=success?'SIGNAL COMPLETE':'SIGNAL LOST';
  $('resultTitle').textContent=success?'LEVEL CLEARED':'ALMOST THERE';
- const earned=attempts===1?3:attempts<=3?2:1;
+ const relaxed=!!shot?.relaxed;
+ const earned=relaxed?1:attempts===1?3:attempts<=3?2:1;
  const masterLine=$('masterResult');masterLine.classList.add('hidden');masterLine.classList.remove('earned');
  if(success){
   const elapsed=Number(shot.elapsed.toFixed(2));
   const previousBest=recordTime(levelIndex);
   const personalRecord=previousBest===null||elapsed<previousBest-0.005;
-  if(personalRecord)save.times[levelIndex]=elapsed;
+  if(!relaxed&&personalRecord)save.times[levelIndex]=elapsed;
   const metPar=elapsed<=parTime(level)+.005;
-  if(masterRun){
+  if(masterRun&&!relaxed){
    masterLine.classList.remove('hidden');
    if(metPar){
     const old=recordMaster(levelIndex);
@@ -1415,8 +1491,8 @@ function showResult(success){
    }
   }
   save.best[levelIndex]=Math.max(Number(save.best[levelIndex]||0),earned);save.unlocked=Math.max(save.unlocked,Math.min(LEVEL_COUNT,levelIndex+1));persist();updateProgress();
-  $('resultMessage').textContent=`All ${level.targets.length} targets${crystalCount(level)?` and ${crystalCount(level)} crystal${crystalCount(level)>1?'s':''}`:''} cleared in ${elapsed.toFixed(2)}s · ${attempts} ${attempts===1?'attempt':'attempts'}. ${personalRecord?'NEW PERSONAL BEST!':`Best: ${previousBest.toFixed(2)}s.`}${metPar?' TARGET TIME BEATEN!':''}`;
-  $('resultStars').textContent='★'.repeat(earned)+'☆'.repeat(3-earned);
+  $('resultMessage').textContent=relaxed?`FUN MODE CLEAR! All ${level.targets.length} targets cleared. Level unlocked! Switch to Normal timer for timed records and Master Runs.`:`All ${level.targets.length} targets${crystalCount(level)?` and ${crystalCount(level)} crystal${crystalCount(level)>1?'s':''}`:''} cleared in ${elapsed.toFixed(2)}s · ${attempts} ${attempts===1?'attempt':'attempts'}. ${personalRecord?'NEW PERSONAL BEST!':`Best: ${previousBest.toFixed(2)}s.`}${metPar?' TARGET TIME BEATEN!':''}`;
+  $('resultStars').textContent=relaxed?'★ FUN MODE · 1 STAR':'★'.repeat(earned)+'☆'.repeat(3-earned);
   $('primaryResultBtn').innerHTML=levelIndex===LEVEL_COUNT?'CHOOSE A LEVEL <span>→</span>':'NEXT STAGE <span>→</span>';
   $('secondaryResultBtn').textContent='PLAY AGAIN';
   textStatus('ALL TARGETS CLEARED');playSfx('win');vibrate([20,40,30]);
@@ -1539,9 +1615,10 @@ function glowCircle(x,y,r,color,blur=14){ctx.save();ctx.shadowColor=color;ctx.sh
 function line(x,y,x2,y2,color,width=1){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
 function roundedRect(x,y,w,h,rad){ctx.beginPath();ctx.roundRect(x,y,w,h,rad);}
 function renderBackground(){
- const grad=ctx.createLinearGradient(0,0,360,600);grad.addColorStop(0,'#121f33');grad.addColorStop(.52,'#0d192b');grad.addColorStop(1,'#0e1729');ctx.fillStyle=grad;ctx.fillRect(0,0,360,600);
- const halo=ctx.createRadialGradient(185,335,5,185,335,235);halo.addColorStop(0,level.id%3===0?'#61418c22':'#2d678318');halo.addColorStop(1,'#0c172900');ctx.fillStyle=halo;ctx.fillRect(0,75,360,500);
- for(let x=39;x<335;x+=23)for(let y=103;y<555;y+=23){ctx.fillStyle='#627c9f16';circle(x,y,1);ctx.fill();}
+ const vibrant=save.theme==='vibrant';
+ const grad=ctx.createLinearGradient(0,0,360,600);grad.addColorStop(0,vibrant?'#24134d':'#121f33');grad.addColorStop(.52,vibrant?'#22174b':'#0d192b');grad.addColorStop(1,vibrant?'#351752':'#0e1729');ctx.fillStyle=grad;ctx.fillRect(0,0,360,600);
+ const halo=ctx.createRadialGradient(185,335,5,185,335,235);halo.addColorStop(0,vibrant?'#f363d72a':level.id%3===0?'#61418c22':'#2d678318');halo.addColorStop(1,vibrant?'#24144f00':'#0c172900');ctx.fillStyle=halo;ctx.fillRect(0,75,360,500);
+ for(let x=39;x<335;x+=23)for(let y=103;y<555;y+=23){ctx.fillStyle=vibrant?'#d7a2fc1c':'#627c9f16';circle(x,y,1);ctx.fill();}
  for(const s of stars){ctx.globalAlpha=.1+.19*(.5+.5*Math.sin(time*.6+s.phase));ctx.fillStyle='#c6e7ff';circle(s.x,s.y,s.r);ctx.fill();}ctx.globalAlpha=1;
  roundedRect(24,94,312,466,11);ctx.strokeStyle='#38536b66';ctx.lineWidth=1;ctx.stroke();
  ctx.fillStyle='#b5c5d777';ctx.font='700 8px "Space Grotesk",sans-serif';ctx.textAlign='center';ctx.letterSpacing='2px';ctx.fillText('ALIGN  /  LAUNCH  /  RESONATE',180,43);ctx.letterSpacing='0px';
@@ -1772,7 +1849,7 @@ function tick(now){
 let deferredInstallPrompt=null;
 const menuOpen=()=>$('menuModal').classList.contains('hidden')===false;
 const runningStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
-function openMenu(){updateMission();updateInstallUI();$('menuModal').classList.remove('hidden');$('closeMenu').focus();}
+function openMenu(){updateSettingsUI();updateMission();updateInstallUI();$('menuModal').classList.remove('hidden');$('closeMenu').focus();}
 function closeMenu(){$('menuModal').classList.add('hidden');$('menuBtn').focus();}
 function updateInstallUI(){
  const standalone=runningStandalone();const ios=/iPad|iPhone|iPod/i.test(navigator.userAgent);
@@ -1780,6 +1857,8 @@ function updateInstallUI(){
  $('installBtn').disabled=standalone;
  $('installHelp').textContent=standalone?'ECHOSHOT is running as a home-screen app. Levels are available offline after initial caching.':ios?'In Safari, tap Share, then Add to Home Screen, then Add. Open the new ECHOSHOT icon to play like an app.':'Install ECHOSHOT from your browser’s app menu, then play all 75 levels offline after your first visit.';
 }
+document.querySelectorAll('[data-theme]').forEach(b=>b.addEventListener('click',()=>setGameSetting('theme',b.dataset.theme)));
+document.querySelectorAll('[data-timer]').forEach(b=>b.addEventListener('click',()=>setGameSetting('timer',b.dataset.timer)));
 $('menuBtn').addEventListener('click',openMenu);
 $('closeMenu').addEventListener('click',closeMenu);
 $('menuModal').addEventListener('click',e=>{if(e.target===$('menuModal'))closeMenu();});
@@ -1795,7 +1874,7 @@ $('fullscreenBtn').addEventListener('click',async()=>{
 });
 function reportBackup(message,error=false){const el=$('backupStatus');el.textContent=message;el.classList.toggle('error',error);el.classList.toggle('ok',!error);}
 $('exportBtn').addEventListener('click',()=>{
- const payload={app:'ECHOSHOT',format:1,exportedAt:new Date().toISOString(),progress:{unlocked:save.unlocked,best:save.best,times:save.times,master:save.master,sound:save.sound}};
+ const payload={app:'ECHOSHOT',format:1,exportedAt:new Date().toISOString(),progress:{unlocked:save.unlocked,best:save.best,times:save.times,master:save.master,sound:save.sound,theme:save.theme,timerMode:save.timerMode}};
  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob),anchor=document.createElement('a');anchor.href=url;anchor.download='ECHOSHOT-progress-'+new Date().toISOString().slice(0,10)+'.json';
  document.body.append(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
@@ -1806,7 +1885,9 @@ function validateBackup(data){
  if(!data||data.app!=='ECHOSHOT'||data.format!==1||!data.progress||typeof data.progress!=='object'||Array.isArray(data.progress))throw new Error('Not a supported ECHOSHOT backup file.');
  const src=data.progress;
  if(!Number.isInteger(src.unlocked)||src.unlocked<1||src.unlocked>LEVEL_COUNT||!src.best||typeof src.best!=='object'||Array.isArray(src.best)||!src.times||typeof src.times!=='object'||Array.isArray(src.times))throw new Error('Backup contains invalid progress fields.');
- const clean={unlocked:src.unlocked,best:Object.create(null),times:Object.create(null),master:Object.create(null),sound:!!src.sound};
+ const clean={unlocked:src.unlocked,best:Object.create(null),times:Object.create(null),master:Object.create(null),sound:!!src.sound,theme:src.theme,timerMode:src.timerMode};
+ if(src.theme!==undefined&&!['classic','vibrant'].includes(src.theme))throw new Error('Invalid theme preference.');
+ if(src.timerMode!==undefined&&!['standard','plus5','plus10','none'].includes(src.timerMode))throw new Error('Invalid timer preference.');
  if(src.master!==undefined&&(!src.master||typeof src.master!=='object'||Array.isArray(src.master)))throw new Error('Backup contains invalid Master Run records.');
  for(const [key,t] of Object.entries(src.master||{})){
   const n=Number(key);
@@ -1844,7 +1925,9 @@ $('backupInput').addEventListener('change',async event=>{
   }
   const highestClear=Math.max(0,...Object.keys(save.best).map(Number).filter(n=>Number.isInteger(n)&&n>0&&n<=LEVEL_COUNT));
   save.unlocked=Math.max(save.unlocked,Math.min(LEVEL_COUNT,highestClear+1));
-  persist();setSound();loadLevel(save.unlocked);updateMission();
+  if(incoming.theme)save.theme=incoming.theme;
+  if(incoming.timerMode)save.timerMode=incoming.timerMode;
+  persist();setSound();applyGameTheme();updateSettingsUI();loadLevel(save.unlocked);updateMission();
   reportBackup(`Progress restored and merged. Level ${save.unlocked} unlocked; no higher scores lost.`);
  }catch(err){reportBackup(err.message||'Could not read backup JSON.',true);}
 });
@@ -1858,8 +1941,8 @@ if('serviceWorker' in navigator){
 window.addEventListener('online',()=>{$('offlineBadge').textContent=navigator.serviceWorker?.controller?'OFFLINE READY':'ONLINE';});
 window.addEventListener('offline',()=>{$('offlineBadge').textContent='PLAYING OFFLINE';});
 
-setSound();refreshPreview();updateProgress();requestAnimationFrame(tick);
-window.__ECHOSHOT_DEBUG__={masterPreviewLength:()=>preview.length,masterMode:()=>masterRun,masterRecord:()=>recordMaster(levelIndex),masterStats:()=>({count:masterCount(),seals:sealedCount()}),visualFxState:()=>({waves:impactWaves.length,bridges:warpBridges.length,morphs:warpMorphs.length,completionGlow,counts:{...fxEvents},reducedMotion}),warpFxState:()=>warpMorphs.map(w=>({ballId:w.ballId,age:w.age,entry:w.entry,exit:w.exit})),getObjectives:()=>requiredObjectives(level,shot),failureExplanation:()=>failureExplanation(level,shot),objectivesMet:()=>shot?objectivesMet(shot):false,angleFromSwipe,clampAim,AIM_LIMIT,getAim:()=>aimAngle,gateIsOpen:()=>level.obstacles.filter(o=>o.type==='gate').map(o=>({id:o.id,open:gateIsOpen(shot,o.link),charged:!!shot?.switches.has(o.link)})),playSfx,sfxStatus:()=>({enabled:save.sound,contextState:audioCtx?.state||'uninitialized',played:{...sfxStats}}),circuitLinks:()=>circuitLinks(level).map(({controller,gate})=>({switchId:controller.id,gateId:gate.id,open:gateIsOpen(shot,controller.id),charging:!!shot?.switches.has(controller.id)&&!gateIsOpen(shot,controller.id)})),levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,crystalsRequired:crystalCount(level),switches:shot?.switches.size??0,gateBlocked:shot?.gateBlocked.size??0,gateTraversed:shot?.gateTraversed.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
+applyGameTheme();updateSettingsUI();setSound();refreshPreview();updateProgress();requestAnimationFrame(tick);
+window.__ECHOSHOT_DEBUG__={getPreferences:()=>({theme:save.theme,timerMode:save.timerMode}),setPreference:(type,value)=>setGameSetting(type,value),gameplayTimeLimit:()=>gameplayTimeLimit(level),masterPreviewLength:()=>preview.length,masterMode:()=>masterRun,masterRecord:()=>recordMaster(levelIndex),masterStats:()=>({count:masterCount(),seals:sealedCount()}),visualFxState:()=>({waves:impactWaves.length,bridges:warpBridges.length,morphs:warpMorphs.length,completionGlow,counts:{...fxEvents},reducedMotion}),warpFxState:()=>warpMorphs.map(w=>({ballId:w.ballId,age:w.age,entry:w.entry,exit:w.exit})),getObjectives:()=>requiredObjectives(level,shot),failureExplanation:()=>failureExplanation(level,shot),objectivesMet:()=>shot?objectivesMet(shot):false,angleFromSwipe,clampAim,AIM_LIMIT,getAim:()=>aimAngle,gateIsOpen:()=>level.obstacles.filter(o=>o.type==='gate').map(o=>({id:o.id,open:gateIsOpen(shot,o.link),charged:!!shot?.switches.has(o.link)})),playSfx,sfxStatus:()=>({enabled:save.sound,contextState:audioCtx?.state||'uninitialized',played:{...sfxStats}}),circuitLinks:()=>circuitLinks(level).map(({controller,gate})=>({switchId:controller.id,gateId:gate.id,open:gateIsOpen(shot,controller.id),charging:!!shot?.switches.has(controller.id)&&!gateIsOpen(shot,controller.id)})),levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,crystalsRequired:crystalCount(level),switches:shot?.switches.size??0,gateBlocked:shot?.gateBlocked.size??0,gateTraversed:shot?.gateTraversed.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
 
 </script>
 </body>
