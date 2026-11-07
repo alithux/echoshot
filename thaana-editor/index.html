@@ -480,8 +480,8 @@ function formOptions(value){
 }
 function formBlock(ctx,field,width){
  const section=field.type==='section';
- const labelLines=formTextLines(ctx,field.label||'ސުވާލު',width-5,section?17:14,12);
- const hintLines=section?[]:(field.hint?formTextLines(ctx,field.hint,width-4,10.8,8):[]);
+ const labelLines=formTextLines(ctx,field.label||'ސުވާލު',width-5,section?17:14,6);
+ const hintLines=section?[]:(field.hint?formTextLines(ctx,field.hint,width-4,10.8,3):[]);
  const base=(section?12:16)+labelLines.length*(section?24:20)+hintLines.length*15;
  let body=0,optionLayout=[];
  if(field.type==='short')body=42;
