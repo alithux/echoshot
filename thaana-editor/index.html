@@ -504,8 +504,8 @@ function layoutFormPages(form){
  const pages=[];
  function beginPage(){
   const index=pages.length,first=index===0;
-  const titleLines=formTextLines(c,form.title||'ފޯމު',width,first?24:16,12);
-  const introLines=first&&form.intro?formTextLines(c,form.intro,width,11.5,32):[];
+  const titleLines=formTextLines(c,form.title||'ފޯމު',width,first?24:16,first?3:2);
+  const introLines=first&&form.intro?formTextLines(c,form.intro,width,11.5,form.paper==='A5'?6:10):[];
   const titleHeight=titleLines.length*(first?34:23);
   const introHeight=introLines.length*18;
   const topY=first?52:43;
@@ -529,7 +529,7 @@ function layoutFormPages(form){
     if(remaining.length)page=beginPage();
    }
   }else{
-   if(plan.height>bottom-page.cursor&&page.blocks.length)page=beginPage();
+   if(plan.height>bottom-page.cursor)page=beginPage();
    page.blocks.push({...plan,y:page.cursor});page.cursor+=plan.height+9;
   }
  }
