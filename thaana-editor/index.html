@@ -108,7 +108,7 @@ textarea.field{min-height:92px}
 </head>
 <body>
 <header>
-<div class="brand"><div class="mark">ދ</div><div><strong>Thaana<span>PDF</span></strong><small>DHIVEHI EDITOR · v1.5</small></div></div>
+<div class="brand"><div class="mark">ދ</div><div><strong>Thaana<span>PDF</span></strong><small>DHIVEHI EDITOR · v1.6</small></div></div>
 <div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="installApp" class="btn dark" hidden>Install</button><button id="createForm" class="btn primary">＋ Dhivehi Form</button><button id="projectsButton" class="btn dark">Projects</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
 </header>
 <div class="bar">
@@ -596,8 +596,8 @@ async function renderFormPreview(){
  canvas.width=image.width;canvas.height=image.height;canvas.getContext('2d').drawImage(image,0,0);
  $('formPages').textContent=(FB.page+1)+' / '+plans.pages.length;$('formPrev').disabled=FB.page===0;$('formNext').disabled=FB.page>=plans.pages.length-1;
 }
-$('formPrev').onclick=()=>{if(FB.page>0){FB.page--;scheduleFormPreview();}};
-$('formNext').onclick=()=>{if(FB.page<FB.plans.pages.length-1){FB.page++;scheduleFormPreview();}};
+$('formPrev').onclick=()=>{if(FB.plans?.pages&&FB.page>0){FB.page--;scheduleFormPreview();}};
+$('formNext').onclick=()=>{if(FB.plans?.pages&&FB.page<FB.plans.pages.length-1){FB.page++;scheduleFormPreview();}};
 $('downloadFormPdf').onclick=async()=>{
  if(!FB.doc)return;
  const b=$('downloadFormPdf');b.disabled=true;b.textContent='Exporting…';
