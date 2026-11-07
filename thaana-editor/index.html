@@ -56,12 +56,60 @@ textarea.field{min-height:92px}
 .overlay-card{max-height:85dvh;padding:16px}
 #saveStatus{display:none}
 }
+
+.form-overlay{padding:10px;place-items:center}
+.form-shell{display:flex;flex-direction:column;width:min(1210px,100%);height:min(95dvh,970px);background:#fff;border-radius:16px;box-shadow:0 30px 100px #101b3457;overflow:hidden}
+.form-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:10px;border-bottom:1px solid #e2e7f0;background:#fff;flex:none}
+.form-header h2{font:700 22px 'FarumaUser','FarumaEmbedded','Noto Sans Thaana',system-ui,sans-serif;margin:0}.form-header h2 span{font:600 13px system-ui,sans-serif}
+.form-status{font-size:11px;color:#6b7892}.form-header-actions{display:flex;gap:7px;flex-wrap:wrap}
+.form-main{display:grid;grid-template-columns:minmax(350px,1fr) minmax(340px,0.96fr);flex:1;overflow:hidden;min-height:0}
+.form-editor{padding:17px 22px 40px;overflow-y:auto;overscroll-behavior:contain;min-width:0}
+.form-info{border-radius:10px;padding:9px 12px;background:#eef2ff;font-size:12px;color:#4a5b81;line-height:1.6}
+.form-editor .dv-input{font-family:'FarumaUser','FarumaEmbedded','Noto Sans Thaana',sans-serif;font-size:19px;text-align:right;direction:rtl}
+.form-editor textarea.dv-input{font-size:19px;min-height:72px;resize:vertical}
+.form-cols{display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:end}
+.form-field-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:21px 0 10px}
+.form-field-head h3{font-size:16px;margin:0}
+.form-field{border:1px solid #e0e7f0;border-radius:12px;background:#fbfcff;padding:11px;margin-bottom:10px}
+.form-field-top{display:flex;align-items:center;gap:6px;margin-bottom:8px}.form-field-top strong{flex:1;font-size:13px;color:#435371}
+.form-field-top button{padding:5px 8px;border:1px solid #dce3ef;background:#fff;border-radius:7px;color:#314565}
+.form-field-grid{display:grid;grid-template-columns:1fr 145px;gap:8px}
+.form-field label{display:block;font-size:11px;font-weight:700;color:#667590;margin-bottom:5px}
+.form-field .field{padding:9px}
+.form-field .dv-input{font-size:18px}
+.form-field-meta{display:flex;align-items:center;gap:10px;margin-top:9px}
+.form-field-meta label{display:flex;align-items:center;gap:5px;margin:0;font-size:12px}
+.form-add-row{display:flex;gap:7px;margin-top:12px}.form-add-row select{flex:1;min-width:0}
+.form-backups{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.form-preview-pane{display:flex;flex-direction:column;background:#edf1f8;border-left:1px solid #e3e9f4;overflow:hidden;min-height:0}
+.form-preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 17px;flex:none;font-size:13px}
+.form-preview-toolbar span{min-width:55px;text-align:center;font-size:12px;color:#5d6b85}
+.form-canvas-wrap{flex:1;min-height:0;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:8px 14px 28px}
+#formPreview{display:block;width:min(100%,550px);height:auto;background:#fff;box-shadow:0 7px 23px #23325128;object-fit:contain}
+.form-preview-foot{text-align:center;color:#667690;font-size:11px;margin:0;padding:9px}
+@media(max-width:780px){
+ .form-overlay{padding:0}
+ .form-shell{height:100dvh;width:100%;max-height:none;border-radius:0}
+ .form-header{padding:8px 10px;min-height:67px}
+ .form-header h2{font-size:17px}.form-header h2 span{display:none}
+ .form-header-actions{gap:4px}.form-header-actions .btn{padding:8px 9px;font-size:11px}
+ .form-main{display:block;overflow-y:auto}
+ .form-editor{overflow:visible;padding:14px 13px 22px}
+ .form-preview-pane{overflow:visible;min-height:auto}
+ .form-canvas-wrap{overflow:visible}
+ .form-cols{grid-template-columns:1fr 1fr}
+ .form-field-grid{grid-template-columns:1fr 112px}
+ .form-add-row .btn{padding:10px 9px;font-size:12px}
+ header .topbuttons{overflow-x:auto;white-space:nowrap;max-width:calc(100vw - 156px);scrollbar-width:none}
+ #createForm{flex:none}
+}
+
 </style>
 </head>
 <body>
 <header>
 <div class="brand"><div class="mark">ދ</div><div><strong>Thaana<span>PDF</span></strong><small>DHIVEHI EDITOR · v1.5</small></div></div>
-<div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="installApp" class="btn dark" hidden>Install</button><button id="projectsButton" class="btn dark">Projects</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
+<div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="installApp" class="btn dark" hidden>Install</button><button id="createForm" class="btn primary">＋ Dhivehi Form</button><button id="projectsButton" class="btn dark">Projects</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
 </header>
 <div class="bar">
 <span class="tag" id="saveStatus" aria-live="polite">Saved locally</span><button class="btn tiny" id="undo" disabled>↶ Undo</button><button class="btn tiny" id="redo" disabled>↷ Redo</button><button class="btn tiny" id="pasteObject" disabled>Paste</button>
@@ -93,6 +141,38 @@ textarea.field{min-height:92px}
 <p class="notice">v1.5 · Existing PDF text replacement is visual only, not secure redaction. Added text is flattened and may not be searchable in exported PDFs. Always check the output before printing.</p>
 </aside>
 </main>
+
+<section id="formOverlay" class="overlay form-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="formBuilderTitle">
+ <div class="form-shell">
+  <div class="form-header">
+    <div><h2 id="formBuilderTitle">ދިވެހި ފޯމު އުފެއްދުން <span class="muted">· Form Builder</span></h2><span id="formSaveState" class="form-status">Locally saved</span></div>
+    <div class="form-header-actions"><button id="saveFormNow" class="btn tiny">Save draft</button><button id="downloadFormPdf" class="btn tiny primary">Export Form PDF</button><button id="closeForm" class="btn tiny" aria-label="Close form builder">✕</button></div>
+  </div>
+  <div class="form-main">
+    <div class="form-editor" id="formEditor">
+      <div class="form-info">Create printable forms entirely in Dhivehi. Text uses Faruma and flows right-to-left. Everything stays on this device.</div>
+      <div class="form-cols">
+        <div><label class="lab" for="formTemplate">Start from template</label><select id="formTemplate" class="field"><option value="">Blank form</option><option value="registration">ރަޖިސްޓްރޭޝަން · Registration</option><option value="request">އެދުން · Request form</option><option value="consent">ރުހުން ދިނުން · Consent</option><option value="survey">ސުވާލު · Questionnaire</option></select></div>
+        <div><label class="lab" for="formPaper">Paper size</label><select id="formPaper" class="field"><option value="A4">A4</option><option value="A5">A5</option></select></div>
+      </div>
+      <label class="lab" for="formTitle">Form title (Dhivehi)</label><input id="formTitle" class="field dv-input" lang="dv" dir="rtl" value="ފޯމު" maxlength="180">
+      <label class="lab" for="formIntro">Instructions / description</label><textarea id="formIntro" class="field dv-input" lang="dv" dir="rtl" rows="2" placeholder="މި ފޯމު ފުރިހަމަ ކުރައްވާ"></textarea>
+      <label class="lab" for="formFooter">Footer / organization (optional)</label><input id="formFooter" class="field dv-input" lang="dv" dir="rtl" placeholder="އިދާރާގެ ނަން">
+      <div class="form-field-head"><h3>Form fields <span id="formFieldCount" class="muted"></span></h3><span class="muted" style="font-size:12px">Drag-free ordering with ↑ ↓</span></div>
+      <div id="formFields"></div>
+      <div class="form-add-row"><select id="formAddType" class="field">
+         <option value="short">Short answer · ކުރު ޖަވާބު</option><option value="long">Paragraph · ދިގު ޖަވާބު</option><option value="date">Date · ތާރީޚް</option><option value="checkbox">Checkbox · ފާހަގަ</option><option value="choice">Single choice · އެއް ޖަވާބު</option><option value="multi">Multiple choice · ގިނަ ޖަވާބު</option><option value="signature">Signature · ސޮއި</option><option value="section">Section heading · ސުރުޚީ</option>
+      </select><button class="btn primary" id="formAddField">＋ Add field</button></div>
+      <hr>
+      <div class="form-field-head"><h3>Saved forms</h3><button id="formNew" class="btn tiny">＋ New blank</button></div>
+      <div class="form-cols"><select id="formSaved" class="field"><option value="">Choose saved form</option></select><button id="formLoad" class="btn">Open</button></div>
+      <div class="form-backups"><button id="formBackup" class="btn tiny">Backup JSON</button><input id="formRestoreFile" type="file" accept=".json,.thaanaform" hidden><button id="formRestore" class="btn tiny">Import backup</button><button id="formDelete" class="btn tiny" style="color:#b83745">Delete draft</button></div>
+      <p class="notice">Forms auto-save in this browser. Download a backup for long-term storage. PDF export creates a printable, non-interactive PDF; editable field layouts remain in your saved draft.</p>
+    </div>
+    <div class="form-preview-pane"><div class="form-preview-toolbar"><strong>Live PDF preview</strong><div class="row" style="gap:4px"><button id="formPrev" class="btn tiny">‹</button><span id="formPages">1 / 1</span><button id="formNext" class="btn tiny">›</button></div></div><div class="form-canvas-wrap"><canvas id="formPreview" width="595" height="842" aria-label="Preview of the generated Dhivehi form"></canvas></div><p class="form-preview-foot">Printable A4 / A5 pages · Faruma · RTL · Local only</p></div>
+  </div>
+ </div>
+</section>
 <section id="projectsOverlay" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="projectsTitle"><div class="overlay-card"><div class="row" style="justify-content:space-between"><h2 id="projectsTitle">My editable projects</h2><button id="closeProjects" class="btn tiny">Close ✕</button></div><p class="sub">Projects are stored privately in this browser. Export a PDF to share or print. Clearing browser data can remove local projects.</p><div class="row"><button id="saveProject" class="btn primary">Save current project</button><button id="exportBackup" class="btn">Backup project</button><input id="importBackupInput" type="file" accept=".json,.thaanapdf" hidden><button id="importBackup" class="btn">Import backup</button></div><div id="projectsList" style="margin-top:18px"></div></div></section>
 <section id="replaceOverlay" class="overlay" hidden role="dialog" aria-modal="true"><div class="overlay-card" style="max-width:560px"><h2>Visually replace PDF text</h2><p class="sub">This covers the selected original text with white and adds an editable Faruma overlay. The original PDF text remains in the file and can still be extracted. Do not use this for confidential redaction.</p><label class="lab">Selected original text</label><p id="nativeOriginal" class="note"></p><label class="lab" for="nativeReplacement">Replacement text (Dhivehi)</label><textarea class="field" id="nativeReplacement" dir="rtl" lang="dv" style="font-family:FarumaEmbedded, Noto Sans Thaana, sans-serif;min-height:100px"></textarea><div class="row" style="margin-top:12px"><button class="btn primary" id="replaceProceed">Cover &amp; replace</button><button class="btn" id="replaceCancel">Cancel</button></div></div></section>
 <section id="signatureOverlay" class="overlay" hidden role="dialog" aria-modal="true"><div class="overlay-card" style="max-width:580px"><h2>Add signature</h2><p class="sub">Draw with your finger or stylus, then place the signature on the PDF.</p><canvas id="signatureCanvas" width="800" height="300" style="width:100%;height:170px;border:1px dashed #aab8d3;border-radius:10px;touch-action:none;background:white"></canvas><div class="row" style="margin-top:12px"><button class="btn" id="clearSignature">Clear</button><button class="btn primary" id="placeSignature">Add to PDF</button><button class="btn" id="cancelSignature">Cancel</button></div></div></section>
