@@ -19,3 +19,33 @@ assert.match(html,/original PDF text remains/i);
 assert.match(html,/Cover &amp; replace/);
 assert.match(html,/beforeinstallprompt/);
 console.log('PASS: embedded font, syntax, HTML IDs, controls, features and user-facing warnings');
+
+
+/* Form-builder smoke tests: verify controls and page-break geometry without a browser. */
+import vm from 'node:vm';
+for(const id of ['createForm','formOverlay','formTitle','formIntro','formFooter','formFields','formTemplate','formAddField','formPreview','formPages','formPrev','formNext','saveFormNow','formSaved','formLoad','formBackup','formRestore','downloadFormPdf'])assert.ok(idset.has(id),'Missing form builder control: '+id);
+assert.match(inline[1],/const FORM_KIND=/);
+assert.match(inline[1],/async function saveForm\(/);
+assert.match(inline[1],/function drawFormPage\(/);
+assert.match(inline[1],/async function renderFormPreview\(/);
+assert.match(inline[1],/async function formStorage\(/);
+const from=inline[1].indexOf('function formTextLines('),to=inline[1].indexOf('function formDrawLines(');
+assert.ok(from>0&&to>from,'Form layout functions must exist');
+const ctx={document:{createElement:()=>({getContext:()=>({measureText:v=>({width:Array.from(String(v)).length*7})})})},FA:'sans-serif'};
+vm.createContext(ctx);vm.runInContext(inline[1].slice(from,to)+'\nthis.layoutForm=layoutFormPages;',ctx);
+function field(n,type='short',options=''){return {id:String(n),type,label:'ފުރިހަމަ ނަން '+n,hint:'',required:true,options};}
+for(const paper of ['A4','A5']){
+ const items=Array.from({length:40},(_,n)=>field(n,n%5===0?'long':'short'));
+ items.push(field(41,'multi',Array.from({length:30},(_,i)=>'ޖަވާބު '+i).join('\n')));
+ items.push(field(42,'signature'));
+ const layout=ctx.layoutForm({paper,title:'ރަޖިސްޓްރޭޝަން ފޯމު',intro:'އިރުޝާދު',fields:items});
+ assert.ok(layout.pages.length>2,'Expected multiple pages '+paper);
+ for(const page of layout.pages){
+  for(const block of page.blocks){
+   assert.ok(block.y>=0&&block.height>0,'Valid field geometry');
+   assert.ok(block.y+block.height<=layout.paper.h-60,'Field must fit before footer on '+paper+' ('+block.field.id+')');
+  }
+ }
+ assert.ok(layout.pages.flatMap(p=>p.blocks).some(b=>b.field.id==='42'),'Signature must be laid out');
+}
+console.log('PASS: local Dhivehi form builder, fields, multipage layouts and A4/A5 pagination');
