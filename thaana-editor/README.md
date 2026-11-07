@@ -1,4 +1,4 @@
-# ThaanaPDF v1.5 · Dhivehi PDF Editor
+# ThaanaPDF v1.6 · Dhivehi PDF & Form Editor
 
 Standalone, browser-based Dhivehi PDF editor deployed from an isolated branch of the ECHOSHOT repository. ECHOSHOT main remains unaffected.
 
@@ -9,6 +9,7 @@ Standalone, browser-based Dhivehi PDF editor deployed from an isolated branch of
 - **v1.3:** Insert PNG/JPEG/WebP images, draw signatures, rectangles and lines; export to PDF
 - **v1.4:** Visually cover and replace selectable existing PDF text; manual white cover rectangles for scanned/other PDFs
 - **v1.5:** Mobile first-fit page, swipeable compact toolbar, bottom-sheet properties, install prompt/PWA caching
+- **v1.6:** Build printable Dhivehi forms with embedded Faruma, RTL labels, registration/request/consent/questionnaire templates, customizable short/long answer, date, checkbox, single/multiple-choice, signature and section fields. Live paginated A4/A5 preview; local form draft save, backup and import; multi-page PDF export.
 
 Faruma subset is built in for Thaana; importing another font remains optional. User PDFs are edited locally in the browser and aren't uploaded to a backend.
 
@@ -44,3 +45,17 @@ Run node thaana-editor/test.mjs from the repo root (Node 22). GitHub Actions wor
 5. Select text in an existing PDF and visually cover-and-replace it. Confirm warning remains visible.
 6. Install on Android using Add to Home Screen; test bottom-sheet controls and page fitting.
 7. Reopen exported PDFs in Android PDF viewer; inspect RTL line wrapping and fonts.
+
+## Using the Dhivehi Form Builder (v1.6)
+
+1. Open the web app and select **＋ Dhivehi Form** in the header.
+2. Choose Blank, Registration, Request, Consent or Questionnaire, then write the title and instructions in Dhivehi.
+3. Add fields and select their type. Reorder with the ↑ / ↓ controls, mark required responses, and enter answer choices one per line.
+4. Check the live preview and navigate generated A4/A5 pages.
+5. Press **Export Form PDF** to download the printable document; use **Save draft** or **Backup JSON** to keep the editable form design.
+
+All form draft data is stored locally via IndexedDB (`ThaanaPDFFormDrafts`). Forms are **not uploaded** to Render. Output PDFs are flat, printable pages: people cannot fill them interactively in a PDF reader, and flattened text is not searchable. This is a PDF form design/generation feature, not secure removal of existing PDF data.
+
+## Testing
+
+The automated `node thaana-editor/test.mjs` suite checks JavaScript syntax, UI controls, bundled font, and multi-page A4/A5 form geometry with synthetic fields. Browser acceptance still needs testing on real Android devices (including Faruma + fili marks, local saves, and actual PDF export).
