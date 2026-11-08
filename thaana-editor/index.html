@@ -909,7 +909,8 @@ function layoutFormPages(form){
   // Keep section titles with their first detail, never orphan at the page bottom.
   if(field.type==='section'&&formFields[fi+1]){
    const following=formBlock(c,formFields[fi+1],width,form);
-   if(plan.height+following.height>bottom-page.cursor)page=beginPage();
+   const rowGap=plan.grid?0:(form.density==='compact'?5:9);
+   if(plan.height+rowGap+following.height>bottom-page.cursor)page=beginPage();
   }
   if((field.type==='choice'||field.type==='multi')&&plan.height>bottom-page.cursor){
    let remaining=plan.options.slice(),firstChunk=true;
