@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
   <meta name="description" content="ECHOSHOT v0.9 — 75 puzzle stages with optional no-preview Master Runs and chapter seals." />
   
-  <title>ECHOSHOT v0.9.4.1 — HUD Fit Fix</title>
+  <title>ECHOSHOT v0.9.5 — Playfield Border Timer</title>
   <style>
 :root{color-scheme:dark;--bg:#080d1c;--panel:#111a2b;--muted:#7b8ba7;--text:#eef4ff;--gold:#f4cb86;--cyan:#56e6f4;--purple:#bc8cff;--border:#26344c;font-family:'DM Sans',system-ui,-apple-system,sans-serif}
 *{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;color:var(--text);background:radial-gradient(ellipse 60% 34% at 51% 18%,#1a253a 0%,#080d1c 100%);min-height:100vh;min-height:100svh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible,canvas:focus-visible{outline:2px solid #79eefa;outline-offset:3px}.ambient{pointer-events:none;position:fixed;filter:blur(90px);border-radius:50%;z-index:0}.ambient-one{width:380px;height:380px;background:#47335c33;top:17%;right:-200px}.ambient-two{width:340px;height:340px;background:#153a5433;bottom:6%;left:-190px}.shell{position:relative;z-index:1;max-width:1390px;margin:auto;padding:0 38px}.topbar{height:104px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #23314999}.identity{display:flex;align-items:center;gap:14px}.brandicon{position:relative;width:38px;height:38px;border-radius:12px;border:1px solid #375f73;background:linear-gradient(140deg,#123448,#11172a);overflow:hidden;display:grid;place-items:center}.brandicon span{position:absolute;display:block;border:2px solid #76e6ed;border-radius:50%;width:25px;height:25px;transform:translate(7px,7px)}.brandicon span:nth-child(2){width:15px;height:15px;transform:translate(2px,2px);border-color:#c2a0fa}.brandicon span:nth-child(3){width:5px;height:5px;transform:translate(-5px,-5px);background:#f8d399;border:0}.wordmark{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:.16em;font-size:21px;line-height:1.1}.wordmark span{color:#6bd9eb}.brand-sub{color:#72829e;letter-spacing:.19em;font-size:8px;font-weight:700;margin-top:7px}.top-actions{display:flex;align-items:center;gap:18px}.build-tag{color:#8b9ab1;font-size:9px;letter-spacing:.12em;font-weight:700;white-space:nowrap}.version{border:1px solid #34435c;border-radius:4px;padding:4px 6px;margin-left:7px;color:#e4d3b3}.icon-btn{width:40px;height:40px;border:1px solid #2e3b52;background:#131c2d;border-radius:12px;color:#bdcbe0;display:grid;place-items:center;transition:.2s}.icon-btn svg{width:19px;height:19px}.icon-btn:hover,.control-btn:hover,.close-btn:hover{background:#202d45;border-color:#6c819d}.sound-wave{display:none}.sound-cross{display:block}.sound-on .sound-wave{display:block}.sound-on .sound-cross{display:none}.layout{display:grid;grid-template-columns:minmax(210px,1fr) minmax(330px,420px) minmax(190px,1fr);gap:54px;align-items:start;justify-content:center;padding-top:33px}.sidebar{padding-top:85px}.eyebrow,.kicker{font-weight:700;font-size:10px;letter-spacing:.18em;color:#a9bad3}.eyebrow{color:var(--gold);display:flex;align-items:center;gap:10px}.gold-dot{height:6px;width:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px #f1c888}.left-sidebar h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(31px,3.2vw,49px);line-height:1.06;letter-spacing:-.055em;margin:28px 0 22px;font-weight:700}.left-sidebar h1 span{color:var(--cyan)}.intro{line-height:1.8;color:#91a0bb;font-size:13px;margin:0 0 36px;max-width:290px}.how-card{display:flex;align-items:flex-start;gap:16px;margin:0 0 22px}.how-icon{height:33px;min-width:33px;border:1px solid #34445d;background:#172237;border-radius:9px;color:#b8c9e5;display:grid;place-items:center;font-size:19px}.how-card strong{display:block;font-size:10px;letter-spacing:.14em;margin:2px 0 6px}.how-card p{margin:0;color:#8798b3;font-size:12px;line-height:1.55}.sidebar-footer{display:flex;align-items:center;gap:10px;color:#576983;font-size:9px;letter-spacing:.14em;margin-top:48px}.tiny-orbit{width:20px;height:20px;border:1px solid #446176;border-radius:50%;position:relative}.tiny-orbit:after{content:'';position:absolute;left:7px;top:-4px;width:6px;height:6px;border-radius:50%;background:var(--cyan)}.game-column{min-width:0;display:flex;flex-direction:column;align-items:stretch}.game-header{display:flex;justify-content:space-between;align-items:flex-end;margin:0 2px 17px}.kicker{color:#95a5bd;display:block}.level-title-block h2{font-family:'Space Grotesk',sans-serif;font-size:20px;letter-spacing:-.025em;margin:7px 0 0}.stat-cluster{display:flex;align-items:center;gap:19px}.stat{text-align:right}.stat-label{display:block;letter-spacing:.13em;color:#73849f;font-size:8px;font-weight:700;margin-bottom:5px}.stat strong{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#eaf3ff}.stat-slash{font-size:14px;padding:0 3px;color:#58718c}.frame-wrap{width:100%}.game-frame{width:100%;position:relative;aspect-ratio:3/5;border-radius:22px;background:#0c182a;border:1px solid #33415b;box-shadow:0 22px 65px #02040890,0 0 0 7px #152035b0,inset 0 0 40px #38d1ff08;overflow:hidden}.game-frame canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;user-select:none;outline-offset:-5px}.flight-hud{position:absolute;z-index:3;top:14px;left:50%;transform:translateX(-50%);width:calc(100% - 38px);max-width:370px;padding:9px 13px 10px;background:linear-gradient(115deg,#0d1b30ee,#111e36ee);border:1px solid #4a6380;border-radius:11px;box-shadow:0 5px 22px #02071288,0 0 18px #32d5ff12;pointer-events:none;user-select:none;transition:border-color .15s,box-shadow .15s}
@@ -257,6 +257,21 @@ html.theme-vibrant .setting-option[aria-pressed="true"]{background:#684096;borde
  .crystal-objective{top:49px;left:50%;transform:translateX(-50%);max-width:calc(100% - 16px)}
 }
 
+
+/* v0.9.5 — Use the freed timer space for the playfield on phones.
+   The original physics world is unchanged. The canvas uses a mobile-only
+   vertical view mapping, with inverse-mapped pointer input. */
+@media (max-width:940px){
+ .flight-hud{position:absolute!important;left:0!important;top:0!important;right:auto!important;
+  width:1px!important;min-width:0!important;max-width:1px!important;height:1px!important;
+  padding:0!important;border:0!important;box-shadow:none!important;overflow:hidden!important;
+  opacity:0!important;pointer-events:none!important;transform:none!important;clip-path:inset(50%)!important}
+ .crystal-objective{top:6px!important;left:10px!important;right:auto!important;transform:none!important;
+  max-width:calc(100% - 20px);padding:4px 8px!important;font-size:8px!important;letter-spacing:.06em!important;
+  border-radius:7px;white-space:nowrap}
+ .crystal-objective strong{margin-left:4px}
+}
+
 </style>
 </head>
 <body>
@@ -268,7 +283,7 @@ html.theme-vibrant .setting-option[aria-pressed="true"]{background:#684096;borde
         <div><div class="wordmark">ECHO<span>SHOT</span></div><div class="brand-sub">ONE SHOT · INFINITE POSSIBILITIES</div></div>
       </div>
       <div class="top-actions">
-        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.9.4.1</span></span>
+        <span class="build-tag">ORIGINAL PUZZLE <span class="version">V0.9.5</span></span>
         <button id="soundBtn" class="icon-btn" type="button" aria-label="Turn sound on" title="Toggle sound">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-wave" d="M15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"/><path class="sound-cross" d="m16 9 5 6m0-6-5 6"/></svg>
         </button>
@@ -1556,7 +1571,21 @@ function openLevels(){
  $('levelsModal').classList.remove('hidden');$('closeLevels').focus();
 }
 function closeLevels(){$('levelsModal').classList.add('hidden');$('levelsBtn').focus();}
-function pointInBoard(evt){const bounds=canvas.getBoundingClientRect();return{x:(evt.clientX-bounds.left)*WORLD.width/bounds.width,y:(evt.clientY-bounds.top)*WORLD.height/bounds.height};}
+// Fill the old mobile HUD gutter with actual visible playfield. The 75 puzzle
+// definitions and simulated wall positions are unchanged; pointer input is
+// inverse-mapped so aiming remains physically accurate.
+const FOCUS_PLAY_TOP=26;
+function mobileCamera(){
+ if(window.innerWidth>940)return {scale:1,offset:0};
+ const scale=(WORLD.bottom-FOCUS_PLAY_TOP)/(WORLD.bottom-WORLD.top);
+ return {scale,offset:FOCUS_PLAY_TOP-WORLD.top*scale};
+}
+function pointInBoard(evt){
+ const bounds=canvas.getBoundingClientRect();
+ const y=(evt.clientY-bounds.top)*WORLD.height/bounds.height;
+ const camera=mobileCamera();
+ return{x:(evt.clientX-bounds.left)*WORLD.width/bounds.width,y:(y-camera.offset)/camera.scale};
+}
 // iPhone PWA: a thumb starting near the launcher controls the full 180-degree
 // upper firing arc by swiping horizontally. Taps elsewhere retain point-to-aim.
 const AIM_LIMIT=Math.PI/2;
@@ -1640,7 +1669,9 @@ function fitCanvas(){const r=canvas.getBoundingClientRect(),dpr=Math.min(window.
 new ResizeObserver(fitCanvas).observe(canvas);
 window.addEventListener('resize',fitCanvas);fitCanvas();
 
-const circle=(x,y,r)=>{ctx.beginPath();ctx.arc(x,y,r,0,TAU);};
+// Keep balls, targets, portals and circular obstacles visually round even
+// though the mobile camera expands only the vertical gameplay region.
+const circle=(x,y,r)=>{ctx.beginPath();ctx.ellipse(x,y,r,r/mobileCamera().scale,0,0,TAU);};
 function glowCircle(x,y,r,color,blur=14){ctx.save();ctx.shadowColor=color;ctx.shadowBlur=blur;ctx.fillStyle=color;circle(x,y,r);ctx.fill();ctx.restore();}
 function line(x,y,x2,y2,color,width=1){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
 function roundedRect(x,y,w,h,rad){ctx.beginPath();ctx.roundRect(x,y,w,h,rad);}
@@ -1857,9 +1888,41 @@ function drawInstructions(){
  ctx.save();ctx.textAlign='center';ctx.font='700 9px "Space Grotesk",sans-serif';ctx.fillStyle='#7894aa';ctx.letterSpacing='1px';
  ctx.fillText(masterRun?(aiming?'MASTER RUN · RELEASE':'MASTER RUN · NO GHOST PATH'):(aiming?'RELEASE TO FIRE':'SWIPE FROM LAUNCHER · RELEASE TO FIRE'),180,583);ctx.letterSpacing='0px';ctx.restore();
 }
+// The shot clock is now part of the playfield edge (mobile only).
+// It makes a full teal circuit when ready, drains clockwise during flight,
+// and warms to amber/red near the deadline. No Timer stays a steady edge.
+function drawPlayfieldClock(){
+ if(window.innerWidth>940)return;
+ const limit=shot?.timeLimit??gameplayTimeLimit(level),unlimited=!Number.isFinite(limit);
+ const left=mode==='ready'?limit:Math.max(0,limit-(shot?.elapsed??0));
+ const portion=unlimited?1:Math.max(0,Math.min(1,left/Math.max(.001,limit)));
+ const color=unlimited?'#78d9b8':portion<=.15?'#ff6b82':portion<=.35?'#ffcc71':
+  save.theme==='vibrant'?'#8bffe2':'#69e5eb';
+ const x=WORLD.left,y=WORLD.top,w=WORLD.right-x,h=WORLD.bottom-y,r=11;
+ // Start at top center, continuing clockwise around the visible playfield.
+ const perimeter=2*(w+h)-(8-2*Math.PI)*r;
+ ctx.save();ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();
+ ctx.moveTo(x+w/2,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+ ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+ ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+ ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);
+ ctx.lineTo(x+w/2,y);ctx.closePath();
+ ctx.strokeStyle=save.theme==='vibrant'?'#594477':'#31516a';ctx.globalAlpha=.76;
+ ctx.lineWidth=3;ctx.stroke();
+ if(portion>0.001){
+  ctx.globalAlpha=unlimited?.46:mode==='ready'?.70:portion<=.35?.92:.82;
+  ctx.strokeStyle=color;ctx.lineWidth=unlimited?2:2.8;
+  if(!unlimited){ctx.setLineDash([perimeter*portion,perimeter*(1-portion)+12]);ctx.lineDashOffset=0;}
+  ctx.shadowColor=color;ctx.shadowBlur=unlimited?2:portion<=.15?10:4;
+  ctx.stroke();
+ }
+ ctx.restore();
+}
 function render(dt){
  const sx=canvas.width/WORLD.width,sy=canvas.height/WORLD.height;
- ctx.setTransform(sx,0,0,sy,0,0);ctx.clearRect(0,0,360,600);
+ const view=mobileCamera();
+ ctx.setTransform(sx,0,0,sy*view.scale,0,sy*view.offset);
+ ctx.clearRect(0,0,360,600);
  renderBackground();
  if(mode==='ready'&&!masterRun)drawAimPath(preview,'#8ce7ec',aiming?.7:.4);
  drawHint();
@@ -1868,7 +1931,7 @@ function render(dt){
  for(const p of level.portals||[])drawPortal(p);
  for(const t of level.targets)drawTarget(t);
  if(mode==='ready')drawLauncher();else drawBalls();
- drawVisualFX(dt);renderParticles(dt);drawInstructions();
+ drawVisualFX(dt);renderParticles(dt);drawInstructions();drawPlayfieldClock();
 }
 function tick(now){
  const dt=Math.min(.045,Math.max(0,(now-last)/1000));last=now;time+=dt;hitFlash=Math.max(0,hitFlash-dt*.9);
@@ -1976,7 +2039,7 @@ window.addEventListener('online',()=>{$('offlineBadge').textContent=navigator.se
 window.addEventListener('offline',()=>{$('offlineBadge').textContent='PLAYING OFFLINE';});
 
 applyGameTheme();updateSettingsUI();setSound();refreshPreview();updateProgress();requestAnimationFrame(tick);
-window.__ECHOSHOT_DEBUG__={getPreferences:()=>({theme:save.theme,timerMode:save.timerMode}),setPreference:(type,value)=>setGameSetting(type,value),gameplayTimeLimit:()=>gameplayTimeLimit(level),masterPreviewLength:()=>preview.length,masterMode:()=>masterRun,masterRecord:()=>recordMaster(levelIndex),masterStats:()=>({count:masterCount(),seals:sealedCount()}),visualFxState:()=>({waves:impactWaves.length,bridges:warpBridges.length,morphs:warpMorphs.length,completionGlow,counts:{...fxEvents},reducedMotion}),warpFxState:()=>warpMorphs.map(w=>({ballId:w.ballId,age:w.age,entry:w.entry,exit:w.exit})),getObjectives:()=>requiredObjectives(level,shot),failureExplanation:()=>failureExplanation(level,shot),objectivesMet:()=>shot?objectivesMet(shot):false,angleFromSwipe,clampAim,AIM_LIMIT,getAim:()=>aimAngle,gateIsOpen:()=>level.obstacles.filter(o=>o.type==='gate').map(o=>({id:o.id,open:gateIsOpen(shot,o.link),charged:!!shot?.switches.has(o.link)})),playSfx,sfxStatus:()=>({enabled:save.sound,contextState:audioCtx?.state||'uninitialized',played:{...sfxStats}}),circuitLinks:()=>circuitLinks(level).map(({controller,gate})=>({switchId:controller.id,gateId:gate.id,open:gateIsOpen(shot,controller.id),charging:!!shot?.switches.has(controller.id)&&!gateIsOpen(shot,controller.id)})),levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,crystalsRequired:crystalCount(level),switches:shot?.switches.size??0,gateBlocked:shot?.gateBlocked.size??0,gateTraversed:shot?.gateTraversed.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
+window.__ECHOSHOT_DEBUG__={mobileCamera,playfieldClock:()=>({limit:shot?.timeLimit??gameplayTimeLimit(level),remaining:mode==='ready'?(shot?.timeLimit??gameplayTimeLimit(level)):Math.max(0,(shot?.timeLimit??gameplayTimeLimit(level))-(shot?.elapsed??0))}),getPreferences:()=>({theme:save.theme,timerMode:save.timerMode}),setPreference:(type,value)=>setGameSetting(type,value),gameplayTimeLimit:()=>gameplayTimeLimit(level),masterPreviewLength:()=>preview.length,masterMode:()=>masterRun,masterRecord:()=>recordMaster(levelIndex),masterStats:()=>({count:masterCount(),seals:sealedCount()}),visualFxState:()=>({waves:impactWaves.length,bridges:warpBridges.length,morphs:warpMorphs.length,completionGlow,counts:{...fxEvents},reducedMotion}),warpFxState:()=>warpMorphs.map(w=>({ballId:w.ballId,age:w.age,entry:w.entry,exit:w.exit})),getObjectives:()=>requiredObjectives(level,shot),failureExplanation:()=>failureExplanation(level,shot),objectivesMet:()=>shot?objectivesMet(shot):false,angleFromSwipe,clampAim,AIM_LIMIT,getAim:()=>aimAngle,gateIsOpen:()=>level.obstacles.filter(o=>o.type==='gate').map(o=>({id:o.id,open:gateIsOpen(shot,o.link),charged:!!shot?.switches.has(o.link)})),playSfx,sfxStatus:()=>({enabled:save.sound,contextState:audioCtx?.state||'uninitialized',played:{...sfxStats}}),circuitLinks:()=>circuitLinks(level).map(({controller,gate})=>({switchId:controller.id,gateId:gate.id,open:gateIsOpen(shot,controller.id),charging:!!shot?.switches.has(controller.id)&&!gateIsOpen(shot,controller.id)})),levelSummary,getLevel,traceShot,targetPosition,verify,LEVEL_COUNT,getState:()=>({level:levelIndex,mode,attempts,par:parTime(level),best:recordTime(levelIndex),remaining:level.targets.length-(shot?.removed.size??0),angle:aimAngle,ballCount:shot?.balls.length??0,shattered:shot?.shattered.size??0,crystalsRequired:crystalCount(level),switches:shot?.switches.size??0,gateBlocked:shot?.gateBlocked.size??0,gateTraversed:shot?.gateTraversed.size??0,diodePasses:shot?.diodePasses.size??0,success:!!shot?.success,elapsed:shot?.elapsed??0,timeLimit:shot?.timeLimit??shotTimeLimit(level),timeRemaining:mode==='ready'?shotTimeLimit(level):Math.max(0,(shot?.timeLimit??shotTimeLimit(level))-(shot?.elapsed??0))}),getLevel:()=>level,shootAngle:(a)=>{aimAngle=a;refreshPreview();if(mode==='ready')fire();},loadLevel,resetShot,makeShot,stepShot};
 
 </script>
 </body>
