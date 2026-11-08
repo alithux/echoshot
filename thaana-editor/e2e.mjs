@@ -58,10 +58,13 @@ try{
  const pdf=fs.readFileSync(exportFile);
  assert.ok(pdf.subarray(0,8).toString().startsWith('%PDF-'),'Export must be a PDF');
  assert.ok(pdf.byteLength>2000,'Exported PDF too small');
+ console.log('Before reload',await page.evaluate(async()=>{const id=localStorage.getItem('thaana-form-last');const db=await new Promise((rs,rj)=>{const req=indexedDB.open('ThaanaPDFFormDrafts');req.onsuccess=()=>rs(req.result);req.onerror=()=>rj(req.error)});const rec=await new Promise(rs=>{const tx=db.transaction('forms','readonly');const r=tx.objectStore('forms').getAll();r.onsuccess=()=>rs(r.result.map(x=>({id:x.id,title:x.title})));});db.close();return{id,records:rec,title:document.querySelector('#formTitle')?.value}}));
  await page.reload({waitUntil:'domcontentloaded'});
  await page.waitForFunction(()=>typeof document.querySelector('#createForm')?.onclick==='function',{timeout:45000});
  await page.locator('#createForm').click();
  await page.locator('#formOverlay').waitFor({state:'visible'});
+ console.log('After reopen',await page.evaluate(()=>({title:document.querySelector('#formTitle')?.value,id:localStorage.getItem('thaana-form-last'),save:document.querySelector('#formSaveState')?.textContent})));
+ await page.waitForFunction(()=>document.querySelector('#formTitle')?.value.includes('ބަލިމީހާ'),{timeout:7000});
  assert.match(await page.locator('#formTitle').inputValue(),/ބަލިމީހާ/,'Draft must restore');
  assert.equal(await page.locator('#formHeaderStyle').inputValue(),'banner','Design should restore');
  await page.setViewportSize({width:390,height:844});
