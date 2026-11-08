@@ -1,4 +1,4 @@
-const CACHE='thaana-pdf-v2.0-studio';
+const CACHE='thaana-pdf-v2.1-official-forms';
 const OWN=['/','/index.html','/icon.svg','/manifest.webmanifest'];
 const TRUSTED=['cdn.jsdelivr.net','fonts.googleapis.com','fonts.gstatic.com'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(OWN)));self.skipWaiting();});
