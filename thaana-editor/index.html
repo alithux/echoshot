@@ -631,8 +631,9 @@ async function showFormBuilder(){
  if(!FB.doc){
   try{const id=localStorage.getItem('thaana-form-last');const saved=id?await formStorage('readonly',st=>st.get(id)):null;setFormDoc(saved||newFormObject());}catch(err){setFormDoc(newFormObject());}
  }
+ clearTimeout(FB.previewTimer);
+ try{await renderFormPreview();}catch(err){say('Form preview could not load: '+err.message);}
  $('formOverlay').hidden=false;setStudioTab('build');showStudioMobile('build');
- scheduleFormPreview();
 }
 $('createForm').onclick=showFormBuilder;
 $('closeForm').onclick=async()=>{await saveForm(true);$('formOverlay').hidden=true;};
@@ -718,7 +719,7 @@ function showStudioMobile(which){
  shell.classList.toggle('studio-show-preview',showing);
  $('formMobileBuild').classList.toggle('selected',!showing);
  $('formMobilePreview').classList.toggle('selected',showing);
- if(showing)scheduleFormPreview();
+ if(showing){clearTimeout(FB.previewTimer);renderFormPreview().catch(err=>say('Preview error: '+err.message));}
 }
 $('formMobileBuild').onclick=()=>showStudioMobile('build');
 $('formMobilePreview').onclick=()=>showStudioMobile('preview');
