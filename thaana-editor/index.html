@@ -830,17 +830,37 @@ function formOptions(value){
  return String(value||'').split(/\r?\n|,/).map(v=>v.trim()).filter(Boolean).slice(0,30);
 }
 function formBlock(ctx,field,width,form={}){
- // Each detail is a dedicated full-width vertical row: label first, then answer area.
- // The measured row height is shared by live preview, pagination and exported PDF.
- const section=field.type==='section',density=form.density==='compact'?.90:1;
+ // Unified layout measurement: used by preview, pagination and exported PDF.
+ const section=field.type==='section',density=form.density==='compact'?.88:1,grid=form.layout!=='stacked';
+ if(grid){
+  const labelWidth=width*(Number(form.labelWidth)||40)/100,answerWidth=width-labelWidth;
+  const labelLines=formTextLines(ctx,field.label||'ސުވާލު',section?width-26:labelWidth-25,section?16:12.5,8);
+  const hintLines=section?[]:field.hint?formTextLines(ctx,field.hint,labelWidth-26,9.7,4):[];
+  const topPad=10,labelNeeded=topPad+labelLines.length*(section?21:18)+hintLines.length*14+10;
+  let body=0,optionLayout=[];
+  if(['short','date','time','number','idcard','phone','email'].includes(field.type))body=42*density;
+  if(field.type==='long')body=81*density;
+  if(field.type==='checkbox')body=41*density;
+  if(field.type==='signature')body=68*density;
+  if(field.type==='choice'||field.type==='multi'){
+   for(const option of formOptions(field.options)){
+    const lines=formTextLines(ctx,option,answerWidth-53,11.8,6);
+    optionLayout.push({text:option,lines,height:Math.max(29*density,lines.length*17+7)});
+   }
+   if(!optionLayout.length)optionLayout.push({text:'ޖަވާބު',lines:['ޖަވާބު'],height:30});
+   body=optionLayout.reduce((acc,x)=>acc+x.height,0);
+  }
+  const base=20,height=section?Math.max(39,labelNeeded):Math.max(48,labelNeeded,body+18);
+  return{field,labelLines,hintLines,options:optionLayout,section,grid,topPad,base,body,height,labelWidth,answerWidth,labelNeeded,answerOffset:9};
+ }
+ // Alternative stacked layout: label first, then its own answer area.
  const labelLines=formTextLines(ctx,field.label||'ސުވާލު',width-33,section?17:14,6);
  const hintLines=section?[]:(field.hint?formTextLines(ctx,field.hint,width-38,10.8,3):[]);
- const topPad=section?13:14, bottomPad=section?13:14;
- const labelHeight=labelLines.length*(section?23:21);
- const hintHeight=hintLines.length*16;
+ const topPad=section?13:14,bottomPad=section?13:14;
+ const labelHeight=labelLines.length*(section?23:21),hintHeight=hintLines.length*16;
  const answerOffset=topPad+labelHeight+hintHeight+10;
  let body=0,optionLayout=[];
- if(['short','date','time','number','email','phone'].includes(field.type))body=43*density;
+ if(['short','date','idcard','time','number','email','phone'].includes(field.type))body=43*density;
  if(field.type==='long')body=94*density;
  if(field.type==='checkbox')body=40*density;
  if(field.type==='signature')body=74*density;
@@ -853,8 +873,7 @@ function formBlock(ctx,field,width,form={}){
   body=optionLayout.reduce((sum,o)=>sum+o.height,0)+4;
  }
  const base=section?topPad+labelHeight+bottomPad:answerOffset+bottomPad;
- const height=section?base:base+body;
- return{field,labelLines,hintLines,options:optionLayout,topPad,answerOffset,base,body,height,section};
+ return{field,labelLines,hintLines,options:optionLayout,topPad,answerOffset,base,body,height:section?base:base+body,section,grid:false};
 }
 function layoutFormPages(form){
  const paper=form.paper==='A5'?{w:419.53,h:595.28,margin:32}:{w:595.28,h:841.89,margin:43};
@@ -886,21 +905,24 @@ function layoutFormPages(form){
   if((field.type==='choice'||field.type==='multi')&&plan.height>bottom-page.cursor){
    let remaining=plan.options.slice(),firstChunk=true;
    while(remaining.length){
-    const base=plan.base+7;
-    if(bottom-page.cursor<base+29)page=beginPage();
+    const base=plan.grid?20:plan.base+7;
+    const minHeight=plan.grid?Math.max(49,plan.labelNeeded):base+29;
+    if(bottom-page.cursor<minHeight)page=beginPage();
     let used=0,take=0;
     for(const option of remaining){
-     if(base+used+option.height>bottom-page.cursor)break;
+     const testHeight=plan.grid?Math.max(minHeight,base+used+option.height):base+used+option.height;
+     if(testHeight>bottom-page.cursor)break;
      used+=option.height;take++;
     }
     if(take===0){page=beginPage();continue;}
-    const slice=remaining.splice(0,take),part={...plan,options:slice,height:base+used,continued:!firstChunk,y:page.cursor};
-    page.blocks.push(part);page.cursor+=part.height+(form.density==='compact'?5:9);firstChunk=false;
+    const slice=remaining.splice(0,take),height=plan.grid?Math.max(minHeight,base+used):base+used;
+    const part={...plan,options:slice,height,continued:!firstChunk,y:page.cursor};
+    page.blocks.push(part);page.cursor+=part.height+(plan.grid?0:form.density==='compact'?5:9);firstChunk=false;
     if(remaining.length)page=beginPage();
    }
   }else{
    if(plan.height>bottom-page.cursor)page=beginPage();
-   page.blocks.push({...plan,y:page.cursor});page.cursor+=plan.height+(form.density==='compact'?5:9);
+   page.blocks.push({...plan,y:page.cursor});page.cursor+=plan.height+(plan.grid?0:form.density==='compact'?5:9);
   }
  }
  return {paper,pages};
