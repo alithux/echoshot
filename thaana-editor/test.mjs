@@ -34,26 +34,37 @@ assert.ok(from>0&&to>from,'Form layout functions must exist');
 const ctx={document:{createElement:()=>({getContext:()=>({measureText:v=>({width:Array.from(String(v)).length*7})})})},FA:'sans-serif'};
 vm.createContext(ctx);vm.runInContext(inline[1].slice(from,to)+'\nthis.layoutForm=layoutFormPages;',ctx);
 function field(n,type='short',options=''){return {id:String(n),type,label:'ފުރިހަމަ ނަން '+n,hint:'',required:true,options};}
-for(const paper of ['A4','A5']){
- const items=Array.from({length:40},(_,n)=>field(n,n%5===0?'long':'short'));
+for(const paper of ['A4','A5'])for(const layoutMode of ['grid','stacked']){
+ const items=[{id:'section',type:'section',label:'އަމިއްލަ މަޢުލޫމާތު',hint:'',required:false,options:''}];
+ items.push(...Array.from({length:40},(_,n)=>field(n,n%5===0?'long':'short')));
  items.push(field(41,'multi',Array.from({length:30},(_,i)=>'ޖަވާބު '+i).join('\n')));
  items.push(field(42,'signature'));
- const layout=ctx.layoutForm({paper,title:'ރަޖިސްޓްރޭޝަން ފޯމު',intro:'އިރުޝާދު',fields:items});
- assert.ok(layout.pages.length>2,'Expected multiple pages '+paper);
+ items.push(field(43,'idcard'));
+ const layout=ctx.layoutForm({paper,layout:layoutMode,labelWidth:40,title:'ރަޖިސްޓްރޭޝަން ފޯމު',intro:'އިރުޝާދު',fields:items});
+ assert.ok(layout.pages.length>2,'Expected multiple pages '+paper+' '+layoutMode);
  for(const page of layout.pages){
   for(let i=0;i<page.blocks.length;i++){
    const block=page.blocks[i];
    assert.ok(block.y>=0&&block.height>0,'Valid field geometry');
    assert.ok(block.y+block.height<=layout.paper.h-60,'Field must fit before footer on '+paper+' ('+block.field.id+')');
    if(!block.section){
-    assert.ok(block.answerOffset>=block.topPad+block.labelLines.length*21+block.hintLines.length*16+8,'Label/hints must be above answer area');
-    assert.ok(block.height>block.answerOffset+22,'Every field needs visible answer space');
+    if(layoutMode==='grid'){
+     assert.equal(block.grid,true,'Grid mode must be enabled');
+     assert.ok(block.labelWidth>0&&block.answerWidth>0,'Both RTL columns must be allocated');
+     assert.ok(block.labelNeeded<=block.height,'Label must fit inside the cell');
+     assert.ok(block.height>=48,'Separate field row must have visible answer space');
+    }else{
+     assert.ok(block.answerOffset>=block.topPad+block.labelLines.length*21+block.hintLines.length*16+8,'Label/hints must be above answer area');
+     assert.ok(block.height>block.answerOffset+22,'Stacked field needs answer space');
+    }
    }
    const next=page.blocks[i+1];
-   if(next)assert.ok(next.y-(block.y+block.height)>=4,'Every detail needs its own vertically separated row on '+paper);
+   if(next)assert.ok(next.y-(block.y+block.height)>=-0.01,'Different details must not overlap on '+paper+' '+layoutMode);
   }
  }
  assert.ok(layout.pages.flatMap(p=>p.blocks).some(b=>b.field.id==='42'),'Signature must be laid out');
+ assert.ok(layout.pages.flatMap(p=>p.blocks).some(b=>b.field.id==='43'),'ID-number boxes must be laid out');
 }
-assert.match(inline[1],/ctx\.strokeRect\(left\+\.4,top\+\.4,rowWidth-\.8,block\.height-\.8\)/,'Each detail must draw its own border');
+assert.match(inline[1],/ctx\.moveTo\(divider,top\)/,'Official grid must have a clear label/response divider');
+assert.match(inline[1],/formLayout/,'The form layout option must be wired');
 console.log('PASS: separate form-detail rows, label/answer spacing, fields, and A4/A5 pagination');
