@@ -314,7 +314,7 @@ textarea.field{min-height:92px}
 <div class="studio-field-filter"><input id="formSearch" type="search" class="field" placeholder="Search questions…" aria-label="Search questions"><span id="formQuickStats" class="form-quick-stats">0 fields</span></div>
       <div id="formFields"></div>
       <div class="form-add-row"><select id="formAddType" class="field">
-         <option value="short">Short answer · ކުރު ޖަވާބު</option><option value="long">Paragraph · ދިގު ޖަވާބު</option><option value="date">Date · ތާރީޚް</option><option value="time">Time · ގަޑި</option><option value="number">Number · ޢަދަދު</option><option value="phone">Phone · ފޯނު</option><option value="email">Email · އީމެއިލް</option><option value="checkbox">Checkbox · ފާހަގަ</option><option value="choice">Single choice · އެއް ޖަވާބު</option><option value="multi">Multiple choice · ގިނަ ޖަވާބު</option><option value="signature">Signature · ސޮއި</option><option value="section">Section heading · ސުރުޚީ</option>
+         <option value="short">Short answer · ކުރު ޖަވާބު</option><option value="long">Paragraph · ދިގު ޖަވާބު</option><option value="date">Date · ތާރީޚް</option><option value="idcard">ID number boxes · އައިޑީ</option><option value="time">Time · ގަޑި</option><option value="number">Number · ޢަދަދު</option><option value="phone">Phone · ފޯނު</option><option value="email">Email · އީމެއިލް</option><option value="checkbox">Checkbox · ފާހަގަ</option><option value="choice">Single choice · އެއް ޖަވާބު</option><option value="multi">Multiple choice · ގިނަ ޖަވާބު</option><option value="signature">Signature · ސޮއި</option><option value="section">Section heading · ސުރުޚީ</option>
       </select><button class="btn primary" id="formAddField">＋ Add field</button></div>
       </section>
 <section id="studioDesign" class="studio-panel" hidden>
@@ -334,7 +334,10 @@ textarea.field{min-height:92px}
  <div class="form-cols"><div><label class="lab" for="formHeaderStyle">Header style</label><select id="formHeaderStyle" class="field"><option value="classic">Classic / formal</option><option value="banner">Bold banner</option><option value="minimal">Minimal</option></select></div>
  <div><label class="lab" for="formDensity">Field spacing</label><select id="formDensity" class="field"><option value="regular">Comfortable</option><option value="compact">Compact</option></select></div></div>
  <div class="studio-logo-zone"><div class="studio-logo-thumbnail" id="formLogoPreview">▧</div><div><strong>Organization logo</strong><p>PNG / JPG · up to 3 MB. Included only in your PDFs and saved local drafts.</p><input type="file" id="formLogoInput" accept="image/png,image/jpeg,image/webp" hidden><div class="row"><button class="btn tiny" id="formUploadLogo">Upload logo</button><button class="btn tiny" id="formRemoveLogo">Remove</button></div></div></div>
- <div class="studio-subheading"><span>03</span><h3>Response style</h3></div>
+ <div class="studio-subheading"><span>03</span><h3>Form grid &amp; response areas</h3></div>
+ <div class="form-cols"><div><label class="lab" for="formLayout">Document layout</label><select id="formLayout" class="field"><option value="grid">Official grid · Separate label/answer cells</option><option value="stacked">Stacked rows · Label above answer</option></select></div>
+ <div><label class="lab" for="formLabelWidth">Label column (RTL)</label><select id="formLabelWidth" class="field"><option value="34">Narrow · 34%</option><option value="40">Standard · 40%</option><option value="46">Wide · 46%</option></select></div></div>
+ <p class="notice" style="margin:9px 0 15px">Official grid follows Maldivian application-form conventions: each detail has an individual ruled row; Dhivehi labels appear in the right column and answers on the left.</p>
  <div class="form-cols"><div><label class="lab" for="formResponseStyle">Answer areas</label><select id="formResponseStyle" class="field"><option value="lines">Writing lines</option><option value="boxes">Outlined boxes</option></select></div><div><label class="lab" for="formPaperDesign">Paper</label><select id="formPaperDesign" class="field"><option value="A4">A4 · 210 × 297 mm</option><option value="A5">A5 · 148 × 210 mm</option></select></div></div>
  <div class="studio-checks"><label><input id="formNumbered" type="checkbox" checked> Number questions</label><label><input id="formShowPageNumbers" type="checkbox" checked> Show page numbers</label><label><input id="formRequiredLegend" type="checkbox" checked> Required field legend</label></div>
  <p class="form-info">The PDF is generated in your browser using Faruma. Fonts, branding and response lines are flattened into a printable document.</p>
@@ -516,12 +519,12 @@ window.addEventListener('pagehide',()=>{if(S.doc)saveCurrent(true).catch(()=>{})
 
 
 /* ThaanaPDF v1.6 — local Dhivehi form builder */
-const FORM_KIND={short:'Short answer',long:'Paragraph',date:'Date',time:'Time',number:'Number',email:'Email',phone:'Phone number',checkbox:'Checkbox',choice:'Single choice',multi:'Multiple choice',signature:'Signature',section:'Section heading'};
+const FORM_KIND={short:'Short answer',long:'Paragraph',date:'Date',idcard:'ID number boxes',time:'Time',number:'Number',email:'Email',phone:'Phone number',checkbox:'Checkbox',choice:'Single choice',multi:'Multiple choice',signature:'Signature',section:'Section heading'};
 const FB={doc:null,page:0,plans:[],saveTimer:0,previewTimer:0,serial:0,lastSaved:0,zoom:1,logoImage:null,tab:'build',undo:[],redo:[],lastSnapshot:'',historyAt:0};
 const FA='FarumaUser, FarumaEmbedded, "Noto Sans Thaana", sans-serif';
 function formId(){return 'form-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);}
 function newFormObject(kind=''){
- const form={id:formId(),title:'ފޯމު',intro:'',footer:'',paper:'A4',fields:[],accent:'#3B5AD9',headerStyle:'classic',density:'regular',responseStyle:'lines',numbered:true,showPageNumbers:true,requiredLegend:true,logo:'',updated:Date.now(),version:2};
+ const form={id:formId(),title:'ފޯމު',intro:'',footer:'',paper:'A4',fields:[],accent:'#3B5AD9',headerStyle:'classic',density:'regular',layout:'grid',labelWidth:40,responseStyle:'lines',numbered:true,showPageNumbers:true,requiredLegend:true,logo:'',updated:Date.now(),version:2};
  const field=(type,label,required=false,options='')=>({id:formId(),type,label,required,hint:'',options});
  if(kind==='registration'){form.title='ރަޖިސްޓްރޭޝަން ފޯމު';form.fields=[field('short','ފުރިހަމަ ނަން',true),field('short','އައިޑީ ކާޑު ނަންބަރު'),field('short','ފޯނު ނަންބަރު',true),field('long','އެޑްރެސް'),field('date','ތާރީޚް'),field('signature','ސޮއި')];}
  if(kind==='request'){form.title='އެދުން ފޯމު';form.fields=[field('short','ނަން',true),field('date','ތާރީޚް',true),field('long','އެދޭ ކަމެއް',true),field('long','އިތުރު މަޢުލޫމާތު'),field('signature','ސޮއި')];}
@@ -533,7 +536,7 @@ function newFormObject(kind=''){
 }
 function normalizeForm(raw){
  if(!raw||typeof raw!=='object')throw Error('Invalid form.');
- const clean={id:String(raw.id||formId()),title:String(raw.title||'ފޯމު').slice(0,180),intro:String(raw.intro||'').slice(0,3000),footer:String(raw.footer||'').slice(0,300),paper:raw.paper==='A5'?'A5':'A4',accent:/^#[0-9a-f]{6}$/i.test(raw.accent||'')?raw.accent:'#3B5AD9',headerStyle:['classic','banner','minimal'].includes(raw.headerStyle)?raw.headerStyle:'classic',density:raw.density==='compact'?'compact':'regular',responseStyle:raw.responseStyle==='boxes'?'boxes':'lines',numbered:raw.numbered!==false,showPageNumbers:raw.showPageNumbers!==false,requiredLegend:raw.requiredLegend!==false,logo:typeof raw.logo==='string'&&/^data:image\/(?:png|jpeg|webp);base64,/.test(raw.logo)&&raw.logo.length<5000000?raw.logo:'',updated:Number(raw.updated)||Date.now(),version:2,fields:[]};
+ const clean={id:String(raw.id||formId()),title:String(raw.title||'ފޯމު').slice(0,180),intro:String(raw.intro||'').slice(0,3000),footer:String(raw.footer||'').slice(0,300),paper:raw.paper==='A5'?'A5':'A4',accent:/^#[0-9a-f]{6}$/i.test(raw.accent||'')?raw.accent:'#3B5AD9',headerStyle:['classic','banner','minimal'].includes(raw.headerStyle)?raw.headerStyle:'classic',density:raw.density==='compact'?'compact':'regular',layout:raw.layout==='stacked'?'stacked':'grid',labelWidth:[34,40,46].includes(Number(raw.labelWidth))?Number(raw.labelWidth):40,responseStyle:raw.responseStyle==='boxes'?'boxes':'lines',numbered:raw.numbered!==false,showPageNumbers:raw.showPageNumbers!==false,requiredLegend:raw.requiredLegend!==false,logo:typeof raw.logo==='string'&&/^data:image\/(?:png|jpeg|webp);base64,/.test(raw.logo)&&raw.logo.length<5000000?raw.logo:'',updated:Number(raw.updated)||Date.now(),version:2,fields:[]};
  for(const r of (Array.isArray(raw.fields)?raw.fields:[]).slice(0,100)){
    if(!FORM_KIND[r?.type])continue;
    clean.fields.push({id:String(r.id||formId()),type:r.type,label:String(r.label||'').slice(0,400),required:!!r.required,hint:String(r.hint||'').slice(0,600),options:String(r.options||'').slice(0,3000)});
@@ -618,6 +621,8 @@ function setFormDoc(raw){
  $('formHeaderStyle').value=FB.doc.headerStyle;
  $('formDensity').value=FB.doc.density;
  $('formResponseStyle').value=FB.doc.responseStyle;
+ $('formLayout').value=FB.doc.layout;
+ $('formLabelWidth').value=String(FB.doc.labelWidth);
  $('formNumbered').checked=FB.doc.numbered;
  $('formShowPageNumbers').checked=FB.doc.showPageNumbers;
  $('formRequiredLegend').checked=FB.doc.requiredLegend;
@@ -638,7 +643,7 @@ async function showFormBuilder(){
 $('createForm').onclick=showFormBuilder;
 $('closeForm').onclick=async()=>{await saveForm(true);$('formOverlay').hidden=true;};
 $('saveFormNow').onclick=async()=>{await saveForm();refreshFormList();};
-function newFormField(type){return{id:formId(),type,label:({short:'ނަން',long:'މަޢުލޫމާތު',date:'ތާރީޚް',time:'ގަޑި',number:'ޢަދަދު',phone:'ފޯނު ނަންބަރު',email:'އީމެއިލް',checkbox:'ފާހަގަ ކުރައްވާ',choice:'އެއް ޖަވާބު',multi:'ޖަވާބުތައް',signature:'ސޮއި',section:'ސުރުޚީ'})[type]||'ސުވާލު',hint:'',required:false,options:(type==='choice'||type==='multi')?'އާދެ\nނޫން':''};}
+function newFormField(type){return{id:formId(),type,label:({short:'ނަން',long:'މަޢުލޫމާތު',date:'ތާރީޚް',idcard:'އައިޑީ ނަންބަރު',time:'ގަޑި',number:'ޢަދަދު',phone:'ފޯނު ނަންބަރު',email:'އީމެއިލް',checkbox:'ފާހަގަ ކުރައްވާ',choice:'އެއް ޖަވާބު',multi:'ޖަވާބުތައް',signature:'ސޮއި',section:'ސުރުޚީ'})[type]||'ސުވާލު',hint:'',required:false,options:(type==='choice'||type==='multi')?'އާދެ\nނޫން':''};}
 function formTextField(name,value,callback,multiline=false){
  const wrapper=document.createElement('div'),label=document.createElement('label');label.textContent=name;
  const field=document.createElement(multiline?'textarea':'input');field.className='field dv-input';field.dir='rtl';field.lang='dv';field.value=value||'';if(multiline){field.rows=3;}else{field.type='text';field.maxLength=400;}
@@ -741,9 +746,10 @@ document.querySelectorAll('#studioColorPalette .swatch').forEach(btn=>{
  btn.onclick=()=>{if(!FB.doc)return;FB.doc.accent=btn.dataset.color;syncStudioAccent();changedForm();};
 });
 $('formAccent').oninput=e=>{if(!FB.doc)return;FB.doc.accent=e.target.value;syncStudioAccent();changedForm();};
-for(const [id,key] of [['formHeaderStyle','headerStyle'],['formDensity','density'],['formResponseStyle','responseStyle']]){
+for(const [id,key] of [['formHeaderStyle','headerStyle'],['formDensity','density'],['formResponseStyle','responseStyle'],['formLayout','layout']]){
  $(id).onchange=e=>{if(!FB.doc)return;FB.doc[key]=e.target.value;changedForm();};
 }
+$('formLabelWidth').onchange=e=>{if(!FB.doc)return;FB.doc.labelWidth=Number(e.target.value);changedForm();};
 $('formPaperDesign').onchange=e=>{if(!FB.doc)return;FB.doc.paper=e.target.value;$('formPaper').value=e.target.value;changedForm();};
 for(const [id,key] of [['formNumbered','numbered'],['formShowPageNumbers','showPageNumbers'],['formRequiredLegend','requiredLegend']]){
  $(id).onchange=e=>{if(!FB.doc)return;FB.doc[key]=e.target.checked;changedForm();};
