@@ -293,6 +293,7 @@ textarea.field{min-height:92px}
         <p class="studio-intro">Start with a layout, customize questions, and see every change in the live PDF preview.</p>
         <div class="studio-templates" id="studioTemplates">
           <button type="button" data-template="" class="template-tile"><span class="template-symbol">＋</span><strong>Blank</strong><small>Start fresh</small></button>
+          <button type="button" data-template="official" class="template-tile"><span class="template-symbol">▣</span><strong>Official form</strong><small>ރަސްމީ ފޯމު</small></button>
           <button type="button" data-template="registration" class="template-tile"><span class="template-symbol">▧</span><strong>Registration</strong><small>ރަޖިސްޓްރޭޝަން</small></button>
           <button type="button" data-template="request" class="template-tile"><span class="template-symbol">▤</span><strong>Request</strong><small>އެދުން</small></button>
           <button type="button" data-template="consent" class="template-tile"><span class="template-symbol">✓</span><strong>Consent</strong><small>ރުހުން ދިނުން</small></button>
@@ -303,7 +304,7 @@ textarea.field{min-height:92px}
         <div class="studio-subheading"><span>01</span><h3>Document details</h3></div>
       <div class="form-info">Create printable forms entirely in Dhivehi. Text uses Faruma and flows right-to-left. Everything stays on this device.</div>
       <div class="form-cols">
-        <div><label class="lab" for="formTemplate">Start from template</label><select id="formTemplate" class="field"><option value="">Blank form</option><option value="registration">ރަޖިސްޓްރޭޝަން · Registration</option><option value="request">އެދުން · Request form</option><option value="consent">ރުހުން ދިނުން · Consent</option><option value="survey">ސުވާލު · Questionnaire</option><option value="patient">ބަލިމީހުން · Patient intake</option><option value="leave">ޗުއްޓީ · Leave request</option></select></div>
+        <div><label class="lab" for="formTemplate">Start from template</label><select id="formTemplate" class="field"><option value="">Blank form</option><option value="official">ރަސްމީ ފޯމު · Official application</option><option value="registration">ރަޖިސްޓްރޭޝަން · Registration</option><option value="request">އެދުން · Request form</option><option value="consent">ރުހުން ދިނުން · Consent</option><option value="survey">ސުވާލު · Questionnaire</option><option value="patient">ބަލިމީހުން · Patient intake</option><option value="leave">ޗުއްޓީ · Leave request</option></select></div>
         <div><label class="lab" for="formPaper">Paper size</label><select id="formPaper" class="field"><option value="A4">A4</option><option value="A5">A5</option></select></div>
       </div>
       <label class="lab" for="formTitle">Form title (Dhivehi)</label><input id="formTitle" class="field dv-input" lang="dv" dir="rtl" value="ފޯމު" maxlength="180">
@@ -526,7 +527,8 @@ function formId(){return 'form-'+Date.now().toString(36)+'-'+Math.random().toStr
 function newFormObject(kind=''){
  const form={id:formId(),title:'ފޯމު',intro:'',footer:'',paper:'A4',fields:[],accent:'#3B5AD9',headerStyle:'classic',density:'regular',layout:'grid',labelWidth:40,responseStyle:'lines',numbered:true,showPageNumbers:true,requiredLegend:true,logo:'',updated:Date.now(),version:2};
  const field=(type,label,required=false,options='')=>({id:formId(),type,label,required,hint:'',options});
- if(kind==='registration'){form.title='ރަޖިސްޓްރޭޝަން ފޯމު';form.fields=[field('short','ފުރިހަމަ ނަން',true),field('short','އައިޑީ ކާޑު ނަންބަރު'),field('short','ފޯނު ނަންބަރު',true),field('long','އެޑްރެސް'),field('date','ތާރީޚް'),field('signature','ސޮއި')];}
+ if(kind==='official'){form.title='ރަސްމީ އެދުމުގެ ފޯމު';form.intro='މި ފޯމުގެ ހުރިހާ މަޢުލޫމާތެއް ފުރިހަމަ ކުރައްވާ';form.fields=[field('section','އެދުން ހުށަހަޅާ ފަރާތް'),field('short','ފުރިހަމަ ނަން',true),field('idcard','އައިޑީ ނަންބަރު',true),field('phone','ގުޅޭނެ ފޯނު ނަންބަރު'),field('long','އެޑްރެސް'),field('section','އެދުމުގެ ތަފްޞީލު'),field('choice','އެދޭ ޚިދުމަތް',true,'އެއްވަނަ ޚިދުމަތް\nދެވަނަ ޚިދުމަތް'),field('long','އިތުރު ތަފްޞީލު'),field('section','އިގުރާރު'),field('date','ތާރީޚް',true),field('signature','ސޮއި',true)];}
+ if(kind==='registration'){form.title='ރަޖިސްޓްރޭޝަން ފޯމު';form.fields=[field('section','އަމިއްލަ މަޢުލޫމާތު'),field('short','ފުރިހަމަ ނަން',true),field('idcard','އައިޑީ ކާޑު ނަންބަރު'),field('phone','ފޯނު ނަންބަރު',true),field('long','އެޑްރެސް'),field('section','ތަފްޞީލު'),field('date','ތާރީޚް'),field('signature','ސޮއި')];}
  if(kind==='request'){form.title='އެދުން ފޯމު';form.fields=[field('short','ނަން',true),field('date','ތާރީޚް',true),field('long','އެދޭ ކަމެއް',true),field('long','އިތުރު މަޢުލޫމާތު'),field('signature','ސޮއި')];}
  if(kind==='consent'){form.title='ރުހުން ދިނުމުގެ ފޯމު';form.fields=[field('short','ނަން',true),field('date','ތާރީޚް',true),field('long','މަޢުލޫމާތު'),field('choice','ރުހުން ދެނީ',true,'އާދެ\nނޫން'),field('signature','ސޮއި',true)];}
  if(kind==='survey'){form.title='ސުވާލުތަކުގެ ފޯމު';form.fields=[field('short','ނަން'),field('date','ތާރީޚް'),field('choice','ކަމަށް ހިޔާލު',false,'ރަނގަޅު\nމެދު\nނުރަނގަޅު'),field('long','އިތުރު ހިޔާލު')];}
@@ -1066,6 +1068,11 @@ function drawFormPage(form,layout,index,scale=1.8){
     ctx.font='10px system-ui';ctx.direction='ltr';ctx.fillStyle='#91a0b6';ctx.textAlign='left';
     ctx.fillText(type==='date'?'DD / MM / YYYY':'HH : MM',answerLeft+7,answerY+21);ctx.direction='rtl';
    }
+  }
+  if(type==='idcard'){
+   const count=7,gap=3,unit=Math.max(12,Math.min(29,(answerWidth-(count-1)*gap)/count));
+   const sx=answerRight-count*unit-(count-1)*gap;
+   for(let k=0;k<count;k++)ctx.strokeRect(sx+k*(unit+gap),answerY+4,unit,27);
   }
   if(type==='long'){
    if(boxStyle)ctx.strokeRect(answerLeft,answerY+2,answerWidth,78);
