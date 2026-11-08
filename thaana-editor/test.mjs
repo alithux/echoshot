@@ -41,11 +41,19 @@ for(const paper of ['A4','A5']){
  const layout=ctx.layoutForm({paper,title:'ރަޖިސްޓްރޭޝަން ފޯމު',intro:'އިރުޝާދު',fields:items});
  assert.ok(layout.pages.length>2,'Expected multiple pages '+paper);
  for(const page of layout.pages){
-  for(const block of page.blocks){
+  for(let i=0;i<page.blocks.length;i++){
+   const block=page.blocks[i];
    assert.ok(block.y>=0&&block.height>0,'Valid field geometry');
    assert.ok(block.y+block.height<=layout.paper.h-60,'Field must fit before footer on '+paper+' ('+block.field.id+')');
+   if(!block.section){
+    assert.ok(block.answerOffset>=block.topPad+block.labelLines.length*21+block.hintLines.length*16+8,'Label/hints must be above answer area');
+    assert.ok(block.height>block.answerOffset+22,'Every field needs visible answer space');
+   }
+   const next=page.blocks[i+1];
+   if(next)assert.ok(next.y-(block.y+block.height)>=4,'Every detail needs its own vertically separated row on '+paper);
   }
  }
  assert.ok(layout.pages.flatMap(p=>p.blocks).some(b=>b.field.id==='42'),'Signature must be laid out');
 }
-console.log('PASS: local Dhivehi form builder, fields, multipage layouts and A4/A5 pagination');
+assert.match(inline[1],/ctx\.strokeRect\(left\+\.4,top\+\.4,rowWidth-\.8,block\.height-\.8\)/,'Each detail must draw its own border');
+console.log('PASS: separate form-detail rows, label/answer spacing, fields, and A4/A5 pagination');
