@@ -601,10 +601,10 @@ function setFormDoc(raw){
  refreshFormList().catch(()=>{});
 }
 async function showFormBuilder(){
- $('formOverlay').hidden=false;setStudioTab('build');showStudioMobile('build');
  if(!FB.doc){
   try{const id=localStorage.getItem('thaana-form-last');const saved=id?await formStorage('readonly',st=>st.get(id)):null;setFormDoc(saved||newFormObject());}catch(err){setFormDoc(newFormObject());}
  }
+ $('formOverlay').hidden=false;setStudioTab('build');showStudioMobile('build');
  scheduleFormPreview();
 }
 $('createForm').onclick=showFormBuilder;
