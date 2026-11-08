@@ -795,21 +795,23 @@ function formTextLines(ctx,text,maxWidth,px,maxLines=90){
 function formOptions(value){
  return String(value||'').split(/\r?\n|,/).map(v=>v.trim()).filter(Boolean).slice(0,30);
 }
-function formBlock(ctx,field,width){
- const section=field.type==='section';
- const labelLines=formTextLines(ctx,field.label||'ސުވާލު',width-5,section?17:14,6);
- const hintLines=section?[]:(field.hint?formTextLines(ctx,field.hint,width-4,10.8,3):[]);
+function formBlock(ctx,field,width,form={}){
+ const section=field.type==='section',compact=form.density==='compact',gap=compact?.85:1;
+ const labelLines=formTextLines(ctx,field.label||'ސުވާލު',width-10,section?17:14,6);
+ const hintLines=section?[]:(field.hint?formTextLines(ctx,field.hint,width-12,10.8,3):[]);
  const base=(section?12:16)+labelLines.length*(section?24:20)+hintLines.length*15;
  let body=0,optionLayout=[];
- if(field.type==='short')body=42;
- if(field.type==='date')body=42;
- if(field.type==='long')body=91;
- if(field.type==='checkbox')body=30;
- if(field.type==='signature')body=68;
- if(section)body=14;
+ if(['short','date','time','number','email','phone'].includes(field.type))body=42*gap;
+ if(field.type==='long')body=91*gap;
+ if(field.type==='checkbox')body=31*gap;
+ if(field.type==='signature')body=68*gap;
+ if(section)body=14*gap;
  if(field.type==='choice'||field.type==='multi'){
-  for(const option of formOptions(field.options)){const lines=formTextLines(ctx,option,width-39,12.2,6);optionLayout.push({text:option,lines,height:Math.max(25,lines.length*17+7)});}
-  if(!optionLayout.length)optionLayout.push({text:'ޖަވާބު',lines:['ޖަވާބު'],height:25});
+  for(const option of formOptions(field.options)){
+   const lines=formTextLines(ctx,option,width-43,12.2,5);
+   optionLayout.push({text:option,lines,height:Math.max(24*gap,lines.length*17+6)});
+  }
+  if(!optionLayout.length)optionLayout.push({text:'ޖަވާބު',lines:['ޖަވާބު'],height:26});
   body=optionLayout.reduce((sum,o)=>sum+o.height,0)+7;
  }
  return{field,labelLines,hintLines,options:optionLayout,base,body,height:base+body,section};
@@ -821,33 +823,44 @@ function layoutFormPages(form){
  const pages=[];
  function beginPage(){
   const index=pages.length,first=index===0;
-  const titleLines=formTextLines(c,form.title||'ފޯމު',width,first?24:16,first?3:2);
-  const introLines=first&&form.intro?formTextLines(c,form.intro,width,11.5,form.paper==='A5'?6:10):[];
-  const titleHeight=titleLines.length*(first?34:23);
+  const headerTextWidth=width-(form.logo?70:0);
+  const titleLines=formTextLines(c,form.title||'ފޯމު',headerTextWidth,first?23:16,first?3:2);
+  const introLines=first&&form.intro?formTextLines(c,form.intro,headerTextWidth,11.5,form.paper==='A5'?6:10):[];
+  const titleHeight=titleLines.length*(first?33:23);
   const introHeight=introLines.length*18;
-  const topY=first?52:43;
-  const cursor=topY+titleHeight+introHeight+(first?30:20);
-  const p={header:{first,titleLines,introLines,topY,titleHeight,introHeight},blocks:[],cursor};
+  const topY=first?58:46;
+  const contentTop=topY+titleHeight+introHeight+(first?32:25);
+  const cursor=Math.max(contentTop,form.logo?122:0);
+  const p={header:{first,titleLines,introLines,topY,titleHeight,introHeight,cursor},blocks:[],cursor};
   pages.push(p);return p;
  }
  let page=beginPage();
- const bottom=paper.h-64;
- for(const field of form.fields){
-  const plan=formBlock(c,field,width);
+ const bottom=paper.h-68;
+ let number=0;
+ for(const original of (form.fields||[])){
+  const numberThis=original.type==='section'?0:++number;
+  const numberedLabel=original.type==='section'||form.numbered===false?original.label:(numberThis+'. '+(original.label||''));
+  const field={...original,label:numberedLabel};
+  const plan=formBlock(c,field,width,form);
+  plan.number=numberThis;
   if((field.type==='choice'||field.type==='multi')&&plan.height>bottom-page.cursor){
    let remaining=plan.options.slice(),firstChunk=true;
    while(remaining.length){
     const base=plan.base+7;
     if(bottom-page.cursor<base+29)page=beginPage();
-    let used=0,take=0;for(const o of remaining){if(base+used+o.height>bottom-page.cursor&&take>0)break;if(base+used+o.height>bottom-page.cursor&&take===0){break;}used+=o.height;take++;}
+    let used=0,take=0;
+    for(const option of remaining){
+     if(base+used+option.height>bottom-page.cursor)break;
+     used+=option.height;take++;
+    }
     if(take===0){page=beginPage();continue;}
     const slice=remaining.splice(0,take),part={...plan,options:slice,height:base+used,continued:!firstChunk,y:page.cursor};
-    page.blocks.push(part);page.cursor+=part.height+9;firstChunk=false;
+    page.blocks.push(part);page.cursor+=part.height+(form.density==='compact'?5:9);firstChunk=false;
     if(remaining.length)page=beginPage();
    }
   }else{
    if(plan.height>bottom-page.cursor)page=beginPage();
-   page.blocks.push({...plan,y:page.cursor});page.cursor+=plan.height+9;
+   page.blocks.push({...plan,y:page.cursor});page.cursor+=plan.height+(form.density==='compact'?5:9);
   }
  }
  return {paper,pages};
@@ -856,48 +869,92 @@ function formDrawLines(ctx,lines,x,y,fontSize,lineHeight,color,maxWidth){
  ctx.font=fontSize+'px '+FA;ctx.direction='rtl';ctx.textAlign='right';ctx.textBaseline='alphabetic';ctx.fillStyle=color;
  lines.forEach((line,i)=>ctx.fillText(line,x,y+i*lineHeight,maxWidth));
 }
-function drawFormPage(form,layout,index,scale=1.6){
+function drawFormPage(form,layout,index,scale=1.8){
  const{paper,pages}=layout,page=pages[index],w=paper.w,h=paper.h,m=paper.margin,right=w-m,width=w-2*m;
  const canvas=document.createElement('canvas');canvas.width=Math.round(w*scale);canvas.height=Math.round(h*scale);
- const ctx=canvas.getContext('2d');ctx.scale(canvas.width/w,canvas.height/h);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,w,h);ctx.direction='rtl';
- ctx.fillStyle='#354b8b';ctx.fillRect(0,0,w,7);
- const head=page.header,headFont=head.first?24:16,headLine=head.first?34:23;
- formDrawLines(ctx,head.titleLines,right,head.topY,headFont,headLine,'#182d50',width);
- if(head.introLines.length)formDrawLines(ctx,head.introLines,right,head.topY+head.titleHeight+4,11.5,18,'#52627c',width);
- ctx.strokeStyle='#b7c3d6';ctx.lineWidth=1;const sep=head.topY+head.titleHeight+head.introHeight+8;
- ctx.beginPath();ctx.moveTo(m,sep);ctx.lineTo(w-m,sep);ctx.stroke();
+ const ctx=canvas.getContext('2d');ctx.scale(canvas.width/w,canvas.height/h);
+ const accent=/^#[0-9a-f]{6}$/i.test(form.accent||'')?form.accent:'#3B5AD9';
+ ctx.fillStyle='#ffffff';ctx.fillRect(0,0,w,h);ctx.direction='rtl';
+ const head=page.header,headFont=head.first?23:16,headLine=head.first?33:23,style=form.headerStyle||'classic';
+ const sep=head.topY+head.titleHeight+head.introHeight+10;
+ if(style==='banner'){
+  ctx.fillStyle=accent;ctx.fillRect(0,0,w,sep+13);
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,w,5);
+ }else if(style==='classic'){
+  ctx.fillStyle=accent;ctx.fillRect(0,0,w,7);
+  ctx.fillRect(right-4,head.topY-25,4,Math.max(37,head.titleHeight+head.introHeight+15));
+ }else{
+  ctx.fillStyle=accent;ctx.fillRect(0,0,w,3);
+ }
+ const textX=style==='classic'?right-12:right;
+ const textColor=style==='banner'?'#ffffff':'#1c2c48';
+ const textWidth=width-(form.logo?70:0)-(style==='classic'?12:0);
+ formDrawLines(ctx,head.titleLines,textX,head.topY,headFont,headLine,textColor,textWidth);
+ if(head.introLines.length)formDrawLines(ctx,head.introLines,textX,head.topY+head.titleHeight+4,11.5,18,style==='banner'?'#e9efff':'#586984',textWidth);
+ if(FB.logoImage&&form.logo){
+  const img=FB.logoImage,size=Math.min(60,head.titleHeight+head.introHeight+30),ratio=Math.min(size/img.width,size/img.height),iw=img.width*ratio,ih=img.height*ratio;
+  const x=m+(size-iw)/2,y=Math.max(14,head.topY-28);
+  if(style==='banner'){ctx.fillStyle='#ffffff';ctx.fillRect(m-5,y-5,size+10,size+10);}
+  ctx.drawImage(img,x,y+(size-ih)/2,iw,ih);
+ }
+ if(style!=='banner'){
+  ctx.strokeStyle=style==='minimal'?'#d7dfed':accent;ctx.lineWidth=style==='minimal'?.8:1.2;
+  ctx.beginPath();ctx.moveTo(m,sep);ctx.lineTo(w-m,sep);ctx.stroke();
+ }
+ const density=form.density==='compact'?.85:1;
  for(const block of page.blocks){
-  const{field,labelLines,hintLines,options,section}=block;
-  const y=block.y;
-  if(section){ctx.fillStyle='#f1f4fc';ctx.fillRect(m,y-5,width,block.height-9);}
-  const labelFont=section?17:14, labelHeight=section?24:20;
-  const label=(block.continued?[...labelLines]:labelLines);
-  if(field.required&&!section){ctx.fillStyle='#b84043';ctx.font='13px system-ui';ctx.textAlign='left';ctx.fillText('*',m+1,y+labelFont);}
-  formDrawLines(ctx,label,right-3,y+labelFont,labelFont,labelHeight,'#1d3052',width-10);
-  let yBody=y+(section?12:16)+labelLines.length*labelHeight;
-  if(hintLines.length){formDrawLines(ctx,hintLines,right-2,yBody+6,10.8,15,'#6e7d97',width-4);yBody+=hintLines.length*15;}
-  const type=field.type;
-  ctx.lineWidth=1.1;ctx.strokeStyle='#75839b';
-  if(type==='short'||type==='date'){
-   const at=yBody+24;ctx.beginPath();ctx.moveTo(m+3,at);ctx.lineTo(right-2,at);ctx.stroke();
-   if(type==='date'){ctx.font='10px system-ui';ctx.textAlign='left';ctx.fillStyle='#8b98ab';ctx.fillText('____ / ____ / ______',m+6,at-5);}
+  const{field,labelLines,hintLines,options,section}=block,y=block.y,type=field.type;
+  if(section){
+   ctx.save();ctx.globalAlpha=.09;ctx.fillStyle=accent;ctx.fillRect(m,y-5,width,block.height-7);ctx.restore();
+   ctx.fillStyle=accent;ctx.fillRect(right-4,y-5,4,Math.max(18,block.height-7));
   }
-  if(type==='long')for(let k=0;k<3;k++){const at=yBody+20+k*23;ctx.beginPath();ctx.moveTo(m+3,at);ctx.lineTo(right-2,at);ctx.stroke();}
-  if(type==='checkbox'){ctx.strokeRect(right-18,yBody+6,14,14);}
-  if(type==='signature'){const at=yBody+48;ctx.beginPath();ctx.moveTo(m+3,at);ctx.lineTo(right-2,at);ctx.stroke();}
+  const labelFont=section?17:14,labelHeight=section?24:20;
+  if(field.required&&!section){
+   ctx.fillStyle='#b44647';ctx.font='13px system-ui';ctx.textAlign='left';ctx.fillText('*',m+2,y+labelFont);
+  }
+  formDrawLines(ctx,labelLines,right-9,y+labelFont,labelFont,labelHeight,section?accent:'#233653',width-14);
+  let yBody=y+(section?12:16)+labelLines.length*labelHeight;
+  if(hintLines.length){formDrawLines(ctx,hintLines,right-10,yBody+6,10.8,15,'#74839b',width-15);yBody+=hintLines.length*15;}
+  ctx.lineWidth=1;ctx.strokeStyle='#93a0b7';
+  const boxStyle=form.responseStyle==='boxes';
+  if(['short','date','time','number','email','phone'].includes(type)){
+   if(boxStyle){ctx.strokeRect(m+3,yBody+5,width-8,29*density);}
+   else{const at=yBody+24*density;ctx.beginPath();ctx.moveTo(m+3,at);ctx.lineTo(right-3,at);ctx.stroke();}
+   if(type==='date'||type==='time'){
+    ctx.font='10px system-ui';ctx.direction='ltr';ctx.fillStyle='#9aa6ba';ctx.textAlign='left';
+    ctx.fillText(type==='date'?'DD / MM / YYYY':'HH : MM',m+11,yBody+19*density);
+    ctx.direction='rtl';
+   }
+  }
+  if(type==='long'){
+   if(boxStyle)ctx.strokeRect(m+3,yBody+5,width-8,72*density);
+   else for(let k=0;k<3;k++){const at=yBody+(20+k*23)*density;ctx.beginPath();ctx.moveTo(m+3,at);ctx.lineTo(right-3,at);ctx.stroke();}
+  }
+  if(type==='checkbox')ctx.strokeRect(right-19,yBody+5,15,15);
+  if(type==='signature'){
+   if(boxStyle)ctx.strokeRect(m+3,yBody+4,width-8,51*density);
+   else{const at=yBody+48*density;ctx.beginPath();ctx.moveTo(m+3,at);ctx.lineTo(right-3,at);ctx.stroke();}
+  }
   if(type==='choice'||type==='multi'){
    let at=yBody+5;
    for(const option of options){
-    if(type==='choice'){ctx.beginPath();ctx.arc(right-13,at+9,6,0,Math.PI*2);ctx.stroke();}
-    else ctx.strokeRect(right-20,at+3,13,13);
-    formDrawLines(ctx,option.lines,right-31,at+14,12.2,17,'#243753',width-38);
+    ctx.strokeStyle=accent;
+    if(type==='choice'){ctx.beginPath();ctx.arc(right-14,at+10,6,0,Math.PI*2);ctx.stroke();}
+    else ctx.strokeRect(right-20,at+4,13,13);
+    formDrawLines(ctx,option.lines,right-32,at+15,12.2,17,'#2c3f60',width-41);
     at+=option.height;
    }
   }
  }
- const fy=h-31;ctx.strokeStyle='#d6deea';ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(m,fy-18);ctx.lineTo(w-m,fy-18);ctx.stroke();
- if(form.footer)formDrawLines(ctx,formTextLines(ctx,form.footer,width-75,9.8,1),right,fy,9.8,13,'#596986',width-75);
- ctx.fillStyle='#6f7e96';ctx.font='10px system-ui';ctx.textAlign='left';ctx.direction='ltr';ctx.fillText((index+1)+' / '+pages.length,m,fy);
+ const fy=h-30;
+ ctx.strokeStyle='#d8deea';ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(m,fy-16);ctx.lineTo(w-m,fy-16);ctx.stroke();
+ if(form.footer)formDrawLines(ctx,formTextLines(ctx,form.footer,width*.55,9.8,1),right,fy,9.8,13,'#566887',width*.55);
+ if(form.requiredLegend&&form.fields?.some(f=>f.required)){
+  ctx.font='9px system-ui';ctx.direction='ltr';ctx.textAlign='left';ctx.fillStyle='#8d6170';ctx.fillText('* Required',m,fy-2);
+ }
+ if(form.showPageNumbers!==false){
+  ctx.fillStyle='#647694';ctx.font='10px system-ui';ctx.textAlign='left';ctx.direction='ltr';ctx.fillText((index+1)+' / '+pages.length,m,fy+10);
+ }
  return canvas;
 }
 let formPreviewSerial=0;
@@ -906,12 +963,12 @@ async function formEnsureFont(){try{await document.fonts.load('22px FarumaEmbedd
 async function renderFormPreview(){
  if(!FB.doc)return;
  const serial=++formPreviewSerial;
- await formEnsureFont();
+ await formEnsureFont();await ensureStudioLogo().catch(()=>{});
  if(serial!==formPreviewSerial||!FB.doc)return;
  const plans=layoutFormPages(FB.doc);FB.plans=plans;FB.page=clamp(FB.page,0,plans.pages.length-1);
- const image=drawFormPage(FB.doc,plans,FB.page,1.7),canvas=$('formPreview');
+ const image=drawFormPage(FB.doc,plans,FB.page,1.8),canvas=$('formPreview');
  canvas.width=image.width;canvas.height=image.height;canvas.getContext('2d').drawImage(image,0,0);
- $('formPages').textContent=(FB.page+1)+' / '+plans.pages.length;$('formPrev').disabled=FB.page===0;$('formNext').disabled=FB.page>=plans.pages.length-1;
+ $('formPages').textContent=(FB.page+1)+' / '+plans.pages.length;$('formPreviewInfo').textContent=FB.doc.paper+' · '+plans.pages.length+' page'+(plans.pages.length>1?'s':'')+' · Faruma';$('formPrev').disabled=FB.page===0;$('formNext').disabled=FB.page>=plans.pages.length-1;refreshStudioZoom();
 }
 $('formPrev').onclick=()=>{if(FB.plans?.pages&&FB.page>0){FB.page--;scheduleFormPreview();}};
 $('formNext').onclick=()=>{if(FB.plans?.pages&&FB.page<FB.plans.pages.length-1){FB.page++;scheduleFormPreview();}};
@@ -920,11 +977,11 @@ $('downloadFormPdf').onclick=async()=>{
  const b=$('downloadFormPdf');b.disabled=true;b.textContent='Exporting…';
  try{
   if(!window.PDFLib)throw Error('PDF library did not load; check internet connection.');
-  await saveForm(true);await formEnsureFont();
+  await saveForm(true);await formEnsureFont();await ensureStudioLogo();
   const layout=layoutFormPages(FB.doc);
   const pdf=await PDFLib.PDFDocument.create();pdf.setTitle(FB.doc.title||'Dhivehi form');pdf.setCreator('ThaanaPDF Form Builder');
   for(let n=0;n<layout.pages.length;n++){
-   const drawn=drawFormPage(FB.doc,layout,n,2.4);
+   const drawn=drawFormPage(FB.doc,layout,n,3.1);
    const blob=await new Promise((resolve,reject)=>drawn.toBlob(b=>b?resolve(b):reject(Error('Cannot render PDF page.')),'image/png'));
    const png=await pdf.embedPng(await blob.arrayBuffer());
    const page=pdf.addPage([layout.paper.w,layout.paper.h]);page.drawImage(png,{x:0,y:0,width:layout.paper.w,height:layout.paper.h});
