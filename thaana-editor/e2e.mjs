@@ -37,6 +37,9 @@ try{
  assert.ok(fields>=7,'Expected form template fields, got '+fields);
  await page.locator('[data-studio-tab="design"]').click();
  assert.ok(await page.locator('#studioDesign').isVisible());
+ const screenDir=path.join(root,'test-screenshots');fs.mkdirSync(screenDir,{recursive:true});
+ await page.screenshot({path:path.join(screenDir,'studio-desktop-design.png')});
+
  await page.locator('#studioColorPalette [data-color="#058A83"]').click();
  await page.locator('#formHeaderStyle').selectOption('banner');
  await page.locator('#formResponseStyle').selectOption('boxes');
@@ -70,8 +73,12 @@ try{
  await page.setViewportSize({width:390,height:844});
  await page.locator('#formMobilePreview').click();
  assert.ok(await page.locator('#formPreview').isVisible(),'Mobile PDF preview should be visible');
+ await page.screenshot({path:path.join(screenDir,'studio-mobile-preview.png')});
+
  await page.locator('#formMobileBuild').click();
  assert.ok(await page.locator('#studioBuild').isVisible(),'Mobile build panel should be visible');
+ await page.screenshot({path:path.join(screenDir,'studio-mobile-build.png')});
+
  assert.equal(errors.length,0,'Unexpected browser errors: '+errors.join('; '));
  console.log('PASS: Form Studio template, theme, fields, PDF export, IndexedDB restore, mobile layout');
  await context.close();
