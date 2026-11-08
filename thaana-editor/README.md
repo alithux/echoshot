@@ -1,4 +1,4 @@
-# ThaanaPDF v1.6 · Dhivehi PDF & Form Editor
+# ThaanaPDF v2.0 · Dhivehi PDF & Form Studio
 
 Standalone, browser-based Dhivehi PDF editor deployed from an isolated branch of the ECHOSHOT repository. ECHOSHOT main remains unaffected.
 
@@ -10,6 +10,7 @@ Standalone, browser-based Dhivehi PDF editor deployed from an isolated branch of
 - **v1.4:** Visually cover and replace selectable existing PDF text; manual white cover rectangles for scanned/other PDFs
 - **v1.5:** Mobile first-fit page, swipeable compact toolbar, bottom-sheet properties, install prompt/PWA caching
 - **v1.6:** Build printable Dhivehi forms with embedded Faruma, RTL labels, registration/request/consent/questionnaire templates, customizable short/long answer, date, checkbox, single/multiple-choice, signature and section fields. Live paginated A4/A5 preview; local form draft save, backup and import; multi-page PDF export.
+- **v2.0:** Rebuilt professional Form Studio workspace with Build, Design and My Forms navigation; structured template cards including patient intake and leave request; logo branding, five color themes plus custom colors; classic/banner/minimal PDF headers; answer boxes/lines, question numbering, required markers, compact spacing, page numbering; phone/email/number/time fields; field drag reorder and duplication; library with copy/open; mobile preview navigation, undo/redo and improved transactional save reliability. Real Chromium UI/export tests.
 
 Faruma subset is built in for Thaana; importing another font remains optional. User PDFs are edited locally in the browser and aren't uploaded to a backend.
 
@@ -59,3 +60,20 @@ All form draft data is stored locally via IndexedDB (`ThaanaPDFFormDrafts`). For
 ## Testing
 
 The automated `node thaana-editor/test.mjs` suite checks JavaScript syntax, UI controls, bundled font, and multi-page A4/A5 form geometry with synthetic fields. Browser acceptance still needs testing on real Android devices (including Faruma + fili marks, local saves, and actual PDF export).
+
+## Form Studio 2.0 acceptance checklist
+
+- From **+ Dhivehi Form** in the main editor, select a form template or Blank.
+- Use **Build** to edit the document title, instructions, footer and questions; drag the reorder handle or use arrows.
+- Use **Design** to select a color, header style, answer style, A4/A5 paper and upload a local organization logo.
+- Use **My Forms** to reopen a saved draft or create a copy. Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z are available when not focused in an input.
+- Live preview and **Export Form PDF** use the same painter. Download a JSON backup as an additional safeguard.
+- The output is still a printable flattened PDF, not an interactive fillable AcroForm. Avoid confusing the visual text replacement feature with secure redaction.
+- For privacy, all document content and form designs remain in browser/IndexedDB; the app code and libraries are loaded over the internet.
+
+## Quality gates
+
+- `node thaana-editor/test.mjs`: syntax, source hooks, type/pagination limits.
+- `node thaana-editor/e2e.mjs` (Playwright): Chromium test of design, forms, exported PDF, reopening a draft and mobile preview.
+- The CI workflow collects desktop/mobile screenshots for visual review.
+- The changes have not undergone an independent security audit, accessibility certification or full cross-device QA; test representative real-world PDFs before high-stakes use.
