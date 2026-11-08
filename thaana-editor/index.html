@@ -898,12 +898,19 @@ function layoutFormPages(form){
  let page=beginPage();
  const bottom=paper.h-68;
  let number=0;
- for(const original of (form.fields||[])){
+ const formFields=form.fields||[];
+ for(let fi=0;fi<formFields.length;fi++){
+  const original=formFields[fi];
   const numberThis=original.type==='section'?0:++number;
   const numberedLabel=original.type==='section'||form.numbered===false?original.label:(numberThis+'. '+(original.label||''));
   const field={...original,label:numberedLabel};
   const plan=formBlock(c,field,width,form);
   plan.number=numberThis;
+  // Keep section titles with their first detail, never orphan at the page bottom.
+  if(field.type==='section'&&formFields[fi+1]){
+   const following=formBlock(c,formFields[fi+1],width,form);
+   if(plan.height+following.height>bottom-page.cursor)page=beginPage();
+  }
   if((field.type==='choice'||field.type==='multi')&&plan.height>bottom-page.cursor){
    let remaining=plan.options.slice(),firstChunk=true;
    while(remaining.length){
@@ -1008,7 +1015,7 @@ function drawFormPage(form,layout,index,scale=1.8){
      ctx.fillText(type==='date'?'DD / MM / YYYY':'HH : MM',aLeft+6,cy+3);
     }
    }else if(type==='idcard'){
-    const count=7,gap=2,unit=Math.max(12,Math.min(24,(aWidth-(count-1)*gap)/count));
+    const count=8,gap=2,unit=Math.max(12,Math.min(24,(aWidth-(count-1)*gap)/count));
     const start=aRight-count*unit-(count-1)*gap;
     for(let k=0;k<count;k++)ctx.strokeRect(start+k*(unit+gap),cy-12,unit,25);
    }else if(type==='long'){
@@ -1070,7 +1077,7 @@ function drawFormPage(form,layout,index,scale=1.8){
    }
   }
   if(type==='idcard'){
-   const count=7,gap=3,unit=Math.max(12,Math.min(29,(answerWidth-(count-1)*gap)/count));
+   const count=8,gap=3,unit=Math.max(12,Math.min(29,(answerWidth-(count-1)*gap)/count));
    const sx=answerRight-count*unit-(count-1)*gap;
    for(let k=0;k<count;k++)ctx.strokeRect(sx+k*(unit+gap),answerY+4,unit,27);
   }
