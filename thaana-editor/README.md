@@ -1,4 +1,4 @@
-# ThaanaPDF v2.0 · Dhivehi PDF & Form Studio
+# ThaanaPDF v2.1 · Dhivehi PDF & Form Studio
 
 Standalone, browser-based Dhivehi PDF editor deployed from an isolated branch of the ECHOSHOT repository. ECHOSHOT main remains unaffected.
 
@@ -11,6 +11,7 @@ Standalone, browser-based Dhivehi PDF editor deployed from an isolated branch of
 - **v1.5:** Mobile first-fit page, swipeable compact toolbar, bottom-sheet properties, install prompt/PWA caching
 - **v1.6:** Build printable Dhivehi forms with embedded Faruma, RTL labels, registration/request/consent/questionnaire templates, customizable short/long answer, date, checkbox, single/multiple-choice, signature and section fields. Live paginated A4/A5 preview; local form draft save, backup and import; multi-page PDF export.
 - **v2.0:** Rebuilt professional Form Studio workspace with Build, Design and My Forms navigation; structured template cards including patient intake and leave request; logo branding, five color themes plus custom colors; classic/banner/minimal PDF headers; answer boxes/lines, question numbering, required markers, compact spacing, page numbering; phone/email/number/time fields; field drag reorder and duplication; library with copy/open; mobile preview navigation, undo/redo and improved transactional save reliability. Real Chromium UI/export tests.
+- **v2.1:** Institutional RTL grid layout inspired by Maldives government and BML application-form structure (without copying their branding). Dhivehi labels on the right, responses on the left, one detail per ruled table row; section headers across full width; segmented 8-character ID cells, A4/A5 pagination and avoid orphan section titles. Stacked layout remains optional; label column width can be 34/40/46%.
 
 Faruma subset is built in for Thaana; importing another font remains optional. User PDFs are edited locally in the browser and aren't uploaded to a backend.
 
@@ -77,3 +78,13 @@ The automated `node thaana-editor/test.mjs` suite checks JavaScript syntax, UI c
 - `node thaana-editor/e2e.mjs` (Playwright): Chromium test of design, forms, exported PDF, reopening a draft and mobile preview.
 - The CI workflow collects desktop/mobile screenshots for visual review.
 - The changes have not undergone an independent security audit, accessibility certification or full cross-device QA; test representative real-world PDFs before high-stakes use.
+
+## Official-grid form layout references
+
+These public forms were used only for layout and interaction reference:
+- Maldives Ministry of Transport vehicle registration form: https://trade.gov.mv/wp-content/uploads/Vehicles-Registration-Application-form.pdf
+- Bank of Maldives personal account opening form: https://www.bankofmaldives.com.mv/storage/file/927/11515/personal-account-opening-application-form-en.pdf
+
+The new **Official grid** is the default and can be changed under **Design → Document layout**. The grid is right-to-left: label cells on the right, answer cells on the left, thin rules separating rows, full-width shaded section headers. **Stacked rows** is still available for less formal designs.
+
+Visual structures are original and not copies of either institution's logos, document text, styling, or branding. Printable PDFs are not interactive fillable forms.
