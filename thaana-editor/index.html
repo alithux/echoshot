@@ -108,7 +108,7 @@ textarea.field{min-height:92px}
 </head>
 <body>
 <header>
-<div class="brand"><div class="mark">ދ</div><div><strong>Thaana<span>PDF</span></strong><small>DHIVEHI EDITOR · v1.6</small></div></div>
+<div class="brand"><div class="mark">ދ</div><div><strong>Thaana<span>PDF</span></strong><small>DHIVEHI EDITOR · v2.0</small></div></div>
 <div class="topbuttons"><input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden><button id="new" class="btn dark">+ New</button><button id="open" class="btn dark">Open PDF</button><button id="installApp" class="btn dark" hidden>Install</button><button id="createForm" class="btn primary">＋ Dhivehi Form</button><button id="projectsButton" class="btn dark">Projects</button><button id="export" class="btn primary" disabled>Export PDF</button></div>
 </header>
 <div class="bar">
@@ -145,32 +145,82 @@ textarea.field{min-height:92px}
 <section id="formOverlay" class="overlay form-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="formBuilderTitle">
  <div class="form-shell">
   <div class="form-header">
-    <div><h2 id="formBuilderTitle">ދިވެހި ފޯމު އުފެއްދުން <span class="muted">· Form Builder</span></h2><span id="formSaveState" class="form-status">Locally saved</span></div>
+    <div><h2 id="formBuilderTitle">ދިވެހި ފޯމު އުފެއްދުން <span class="muted">· Form Builder</span></h2><span class="studio-edition">FORM STUDIO 2.0</span><span id="formSaveState" class="form-status">Locally saved</span></div>
     <div class="form-header-actions"><button id="saveFormNow" class="btn tiny">Save draft</button><button id="downloadFormPdf" class="btn tiny primary">Export Form PDF</button><button id="closeForm" class="btn tiny" aria-label="Close form builder">✕</button></div>
   </div>
   <div class="form-main">
     <div class="form-editor" id="formEditor">
+      <nav class="studio-rail" aria-label="Form editor sections">
+       <button class="studio-nav active" data-studio-tab="build" title="Build form"><span class="studio-nav-icon">▦</span><span>Build</span></button>
+       <button class="studio-nav" data-studio-tab="design" title="Design and branding"><span class="studio-nav-icon">◈</span><span>Design</span></button>
+       <button class="studio-nav" data-studio-tab="library" title="Saved forms"><span class="studio-nav-icon">▤</span><span>My Forms</span></button>
+       <div class="studio-nav-foot"><span class="studio-lock">◈</span><small>Local &amp; private</small></div>
+      </nav><div class="studio-scroller"><section id="studioBuild" class="studio-panel">
+        <div class="studio-section-label">WORKSPACE / BUILD</div>
+        <h2 class="studio-panel-title">Create your form <span>ފޯމު އުފެއްދުން</span></h2>
+        <p class="studio-intro">Start with a layout, customize questions, and see every change in the live PDF preview.</p>
+        <div class="studio-templates" id="studioTemplates">
+          <button type="button" data-template="" class="template-tile"><span class="template-symbol">＋</span><strong>Blank</strong><small>Start fresh</small></button>
+          <button type="button" data-template="registration" class="template-tile"><span class="template-symbol">▧</span><strong>Registration</strong><small>ރަޖިސްޓްރޭޝަން</small></button>
+          <button type="button" data-template="request" class="template-tile"><span class="template-symbol">▤</span><strong>Request</strong><small>އެދުން</small></button>
+          <button type="button" data-template="consent" class="template-tile"><span class="template-symbol">✓</span><strong>Consent</strong><small>ރުހުން ދިނުން</small></button>
+          <button type="button" data-template="survey" class="template-tile"><span class="template-symbol">◉</span><strong>Survey</strong><small>ސުވާލު</small></button>
+          <button type="button" data-template="patient" class="template-tile"><span class="template-symbol">✚</span><strong>Patient intake</strong><small>ބަލިމީހުން</small></button>
+          <button type="button" data-template="leave" class="template-tile"><span class="template-symbol">▦</span><strong>Leave request</strong><small>ޗުއްޓީ އެދުން</small></button>
+        </div>
+        <div class="studio-subheading"><span>01</span><h3>Document details</h3></div>
       <div class="form-info">Create printable forms entirely in Dhivehi. Text uses Faruma and flows right-to-left. Everything stays on this device.</div>
       <div class="form-cols">
-        <div><label class="lab" for="formTemplate">Start from template</label><select id="formTemplate" class="field"><option value="">Blank form</option><option value="registration">ރަޖިސްޓްރޭޝަން · Registration</option><option value="request">އެދުން · Request form</option><option value="consent">ރުހުން ދިނުން · Consent</option><option value="survey">ސުވާލު · Questionnaire</option></select></div>
+        <div><label class="lab" for="formTemplate">Start from template</label><select id="formTemplate" class="field"><option value="">Blank form</option><option value="registration">ރަޖިސްޓްރޭޝަން · Registration</option><option value="request">އެދުން · Request form</option><option value="consent">ރުހުން ދިނުން · Consent</option><option value="survey">ސުވާލު · Questionnaire</option><option value="patient">ބަލިމީހުން · Patient intake</option><option value="leave">ޗުއްޓީ · Leave request</option></select></div>
         <div><label class="lab" for="formPaper">Paper size</label><select id="formPaper" class="field"><option value="A4">A4</option><option value="A5">A5</option></select></div>
       </div>
       <label class="lab" for="formTitle">Form title (Dhivehi)</label><input id="formTitle" class="field dv-input" lang="dv" dir="rtl" value="ފޯމު" maxlength="180">
       <label class="lab" for="formIntro">Instructions / description</label><textarea id="formIntro" class="field dv-input" lang="dv" dir="rtl" rows="2" placeholder="މި ފޯމު ފުރިހަމަ ކުރައްވާ"></textarea>
       <label class="lab" for="formFooter">Footer / organization (optional)</label><input id="formFooter" class="field dv-input" lang="dv" dir="rtl" placeholder="އިދާރާގެ ނަން">
-      <div class="form-field-head"><h3>Form fields <span id="formFieldCount" class="muted"></span></h3><span class="muted" style="font-size:12px">Drag-free ordering with ↑ ↓</span></div>
+      <div class="studio-subheading"><span>02</span><h3>Questions &amp; fields</h3></div>
+<div class="form-field-head"><h3>Questions <span id="formFieldCount" class="muted"></span></h3><span class="muted" style="font-size:12px">Drag to arrange · ↑ ↓ on mobile</span></div>
+<div class="studio-field-filter"><input id="formSearch" type="search" class="field" placeholder="Search questions…" aria-label="Search questions"><span id="formQuickStats" class="form-quick-stats">0 fields</span></div>
       <div id="formFields"></div>
       <div class="form-add-row"><select id="formAddType" class="field">
          <option value="short">Short answer · ކުރު ޖަވާބު</option><option value="long">Paragraph · ދިގު ޖަވާބު</option><option value="date">Date · ތާރީޚް</option><option value="checkbox">Checkbox · ފާހަގަ</option><option value="choice">Single choice · އެއް ޖަވާބު</option><option value="multi">Multiple choice · ގިނަ ޖަވާބު</option><option value="signature">Signature · ސޮއި</option><option value="section">Section heading · ސުރުޚީ</option>
       </select><button class="btn primary" id="formAddField">＋ Add field</button></div>
-      <hr>
-      <div class="form-field-head"><h3>Saved forms</h3><button id="formNew" class="btn tiny">＋ New blank</button></div>
+      </section>
+<section id="studioDesign" class="studio-panel" hidden>
+ <div class="studio-section-label">WORKSPACE / DESIGN</div>
+ <h2 class="studio-panel-title">Design your form <span>ޑިޒައިން</span></h2>
+ <p class="studio-intro">Give your form the finish of an official document, with colors, a logo, and clear response spaces.</p>
+ <div class="studio-subheading"><span>01</span><h3>Brand colors</h3></div>
+ <div id="studioColorPalette" class="studio-palette" role="group" aria-label="Color themes">
+   <button data-color="#3B5AD9" style="--swatch:#3B5AD9" class="swatch selected" title="Royal blue" aria-label="Royal blue"></button>
+   <button data-color="#058A83" style="--swatch:#058A83" class="swatch" title="Teal" aria-label="Teal"></button>
+   <button data-color="#7754C5" style="--swatch:#7754C5" class="swatch" title="Violet" aria-label="Violet"></button>
+   <button data-color="#B35A42" style="--swatch:#B35A42" class="swatch" title="Terracotta" aria-label="Terracotta"></button>
+   <button data-color="#243650" style="--swatch:#243650" class="swatch" title="Slate" aria-label="Slate"></button>
+   <label class="studio-custom-color" title="Custom color"><input id="formAccent" type="color" value="#3B5AD9" aria-label="Custom accent color">Custom</label>
+ </div>
+ <div class="studio-subheading"><span>02</span><h3>Header &amp; logo</h3></div>
+ <div class="form-cols"><div><label class="lab" for="formHeaderStyle">Header style</label><select id="formHeaderStyle" class="field"><option value="classic">Classic / formal</option><option value="banner">Bold banner</option><option value="minimal">Minimal</option></select></div>
+ <div><label class="lab" for="formDensity">Field spacing</label><select id="formDensity" class="field"><option value="regular">Comfortable</option><option value="compact">Compact</option></select></div></div>
+ <div class="studio-logo-zone"><div class="studio-logo-thumbnail" id="formLogoPreview">▧</div><div><strong>Organization logo</strong><p>PNG / JPG · up to 3 MB. Included only in your PDFs and saved local drafts.</p><input type="file" id="formLogoInput" accept="image/png,image/jpeg,image/webp" hidden><div class="row"><button class="btn tiny" id="formUploadLogo">Upload logo</button><button class="btn tiny" id="formRemoveLogo">Remove</button></div></div></div>
+ <div class="studio-subheading"><span>03</span><h3>Response style</h3></div>
+ <div class="form-cols"><div><label class="lab" for="formResponseStyle">Answer areas</label><select id="formResponseStyle" class="field"><option value="lines">Writing lines</option><option value="boxes">Outlined boxes</option></select></div><div><label class="lab" for="formPaperDesign">Paper</label><select id="formPaperDesign" class="field"><option value="A4">A4 · 210 × 297 mm</option><option value="A5">A5 · 148 × 210 mm</option></select></div></div>
+ <div class="studio-checks"><label><input id="formNumbered" type="checkbox" checked> Number questions</label><label><input id="formShowPageNumbers" type="checkbox" checked> Show page numbers</label><label><input id="formRequiredLegend" type="checkbox" checked> Required field legend</label></div>
+ <p class="form-info">The PDF is generated in your browser using Faruma. Fonts, branding and response lines are flattened into a printable document.</p>
+</section>
+<section id="studioLibrary" class="studio-panel" hidden>
+ <div class="studio-section-label">WORKSPACE / MY FORMS</div>
+ <h2 class="studio-panel-title">Your saved forms <span>ފޯމުތައް</span></h2>
+ <p class="studio-intro">Continue editing, create a copy, or keep an offline JSON backup. Nothing is uploaded to a server.</p>
+ <div class="form-field-head"><h3>Saved forms</h3><button id="formNew" class="btn tiny">＋ New blank</button></div>
       <div class="form-cols"><select id="formSaved" class="field"><option value="">Choose saved form</option></select><button id="formLoad" class="btn">Open</button></div>
       <div class="form-backups"><button id="formBackup" class="btn tiny">Backup JSON</button><input id="formRestoreFile" type="file" accept=".json,.thaanaform" hidden><button id="formRestore" class="btn tiny">Import backup</button><button id="formDelete" class="btn tiny" style="color:#b83745">Delete draft</button></div>
+      <div id="studioSavedCards" class="studio-saved-cards"></div>
       <p class="notice">Forms auto-save in this browser. Download a backup for long-term storage. PDF export creates a printable, non-interactive PDF; editable field layouts remain in your saved draft.</p>
+</section></div>
     </div>
-    <div class="form-preview-pane"><div class="form-preview-toolbar"><strong>Live PDF preview</strong><div class="row" style="gap:4px"><button id="formPrev" class="btn tiny">‹</button><span id="formPages">1 / 1</span><button id="formNext" class="btn tiny">›</button></div></div><div class="form-canvas-wrap"><canvas id="formPreview" width="595" height="842" aria-label="Preview of the generated Dhivehi form"></canvas></div><p class="form-preview-foot">Printable A4 / A5 pages · Faruma · RTL · Local only</p></div>
+    <div class="form-preview-pane"><div class="form-preview-toolbar"><div class="studio-preview-name"><span class="studio-live-indicator"></span><strong>Live document preview</strong><span id="formPreviewInfo" class="form-preview-info">A4 · Faruma</span></div><div class="row" style="gap:4px"><button id="formZoomOut" class="btn tiny" aria-label="Zoom out">−</button><span id="formZoomValue" class="muted" style="font-size:12px">100%</span><button id="formZoomIn" class="btn tiny" aria-label="Zoom in">＋</button><button id="formPrev" class="btn tiny" aria-label="Previous page">‹</button><span id="formPages">1 / 1</span><button id="formNext" class="btn tiny" aria-label="Next page">›</button></div></div><div class="form-canvas-wrap"><canvas id="formPreview" width="595" height="842" aria-label="Preview of the generated Dhivehi form"></canvas></div><p class="form-preview-foot">◈ PRIVATE ON THIS DEVICE &nbsp;·&nbsp; FARUMA &nbsp;·&nbsp; PRINT READY</p></div>
   </div>
+  <nav class="studio-mobile-tabs" aria-label="Form mobile workspace"><button id="formMobileBuild" class="selected">✎ Edit form</button><button id="formMobilePreview">▧ Preview PDF</button></nav>
  </div>
 </section>
 <section id="projectsOverlay" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="projectsTitle"><div class="overlay-card"><div class="row" style="justify-content:space-between"><h2 id="projectsTitle">My editable projects</h2><button id="closeProjects" class="btn tiny">Close ✕</button></div><p class="sub">Projects are stored privately in this browser. Export a PDF to share or print. Clearing browser data can remove local projects.</p><div class="row"><button id="saveProject" class="btn primary">Save current project</button><button id="exportBackup" class="btn">Backup project</button><input id="importBackupInput" type="file" accept=".json,.thaanapdf" hidden><button id="importBackup" class="btn">Import backup</button></div><div id="projectsList" style="margin-top:18px"></div></div></section>
