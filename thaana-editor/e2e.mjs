@@ -37,6 +37,8 @@ try{
  assert.ok(fields>=7,'Expected form template fields, got '+fields);
  await page.locator('[data-studio-tab="design"]').click();
  assert.ok(await page.locator('#studioDesign').isVisible());
+ assert.ok((await page.locator('[data-studio-tab="design"]').getAttribute('class')).includes('active'),'Design tab must indicate active state');
+ assert.ok(!(await page.locator('[data-studio-tab="build"]').getAttribute('class')).includes('active'),'Build tab must be deselected');
  const screenDir=path.join(root,'test-screenshots');fs.mkdirSync(screenDir,{recursive:true});
  await page.screenshot({path:path.join(screenDir,'studio-desktop-design.png')});
 
@@ -44,6 +46,8 @@ try{
  await page.locator('#formHeaderStyle').selectOption('banner');
  await page.locator('#formResponseStyle').selectOption('boxes');
  await page.locator('#formNumbered').uncheck();
+ assert.ok(await page.locator('#formUndo').isEnabled(),'Undo should activate after design edits');
+ await page.locator('#formUndo').click();await page.locator('#formRedo').click();
  assert.equal(await page.locator('#formAccent').inputValue(),'#058a83');
  await page.locator('[data-studio-tab="build"]').click();
  await page.locator('#formAddType').selectOption('email');
@@ -73,6 +77,10 @@ try{
  await page.setViewportSize({width:390,height:844});
  await page.locator('#formMobilePreview').click();
  assert.ok(await page.locator('#formPreview').isVisible(),'Mobile PDF preview should be visible');
+ await page.waitForFunction(()=>{
+  const c=document.querySelector('#formPreview'),x=Math.floor(c.width*.1),y=Math.floor(c.height*.04),d=c.getContext('2d').getImageData(x,y,1,1).data;
+  return d[0]+d[1]+d[2]<700;
+ },{timeout:15000});
  await page.screenshot({path:path.join(screenDir,'studio-mobile-preview.png')});
 
  await page.locator('#formMobileBuild').click();
