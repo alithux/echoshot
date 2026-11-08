@@ -104,6 +104,138 @@ textarea.field{min-height:92px}
  #createForm{flex:none}
 }
 
+
+/* ─── Form Studio 2.0 · visual system ─── */
+.form-overlay{padding:0;background:#0b1227da;z-index:40}
+.form-shell{width:min(1550px,100%);height:min(96dvh,1060px);border-radius:17px;background:#f7f9fd;box-shadow:0 25px 100px #07152c90}
+.form-header{min-height:82px;padding:17px 24px;background:#fff;border-bottom:1px solid #e5eaf1}
+.form-header h2{font-family:'FarumaUser','FarumaEmbedded','Noto Sans Thaana',sans-serif;font-size:22px;line-height:1.24;color:#162545}
+.form-header h2 span{font:600 12px system-ui,sans-serif;color:#7a869d}
+.studio-edition{margin:6px 10px 0 0;display:inline-block;font-size:9px;letter-spacing:1.5px;font-weight:850;color:#4265c8}
+.form-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#69819e}
+.form-header-actions .btn{padding:11px 15px;border-radius:9px}
+.form-header-actions #downloadFormPdf{background:#385bd8;border-color:#385bd8;box-shadow:0 5px 13px #385bd82b}
+.form-main{grid-template-columns:minmax(480px, 1.09fr) minmax(400px,1fr);background:#f6f8fc}
+.form-editor{display:grid;grid-template-columns:88px minmax(0,1fr);padding:0;overflow:hidden;background:#fff;min-width:0;border-right:1px solid #e1e8f3}
+.studio-rail{display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:17px 8px;background:#f4f7fc;border-right:1px solid #e5ebf4}
+.studio-nav{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:1px solid transparent;border-radius:11px;padding:14px 3px;color:#657791;background:none;font-size:11px;font-weight:700;transition:background .15s,color .15s}
+.studio-nav:hover{background:#e8eefd;color:#385bd8}
+.studio-nav.active{background:#e5ebfe;color:#3053ca;border-color:#cbd7fa}
+.studio-nav-icon{font-size:24px;line-height:1}
+.studio-nav-foot{margin-top:auto;text-align:center;color:#8391a7;font-size:11px;display:grid;gap:5px}
+.studio-lock{font-size:17px}
+.studio-scroller{min-width:0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.studio-panel{padding:26px clamp(16px,2.5vw,33px) 48px}
+.studio-section-label{font-size:10px;letter-spacing:1.6px;font-weight:800;color:#5b76cb;margin-bottom:8px}
+.studio-panel-title{color:#182b4e;letter-spacing:-.9px;font-size:27px;font-weight:820;margin:0;line-height:1.23}
+.studio-panel-title span{display:block;font:18px 'FarumaUser','FarumaEmbedded','Noto Sans Thaana',sans-serif;color:#697c9f;letter-spacing:0;margin-top:3px}
+.studio-intro{font-size:13px;color:#71819b;line-height:1.65;margin:13px 0 22px;max-width:580px}
+.studio-templates{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:15px 0 29px}
+.template-tile{min-height:108px;background:#fff;border:1px solid #e1e8f3;border-radius:12px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px;padding:12px 10px;text-align:left;min-width:0;transition:box-shadow .14s,border-color .14s,transform .14s}
+.template-tile:hover{border-color:#8da6eb;box-shadow:0 7px 23px #2a4d9521;transform:translateY(-1px)}
+.template-tile.selected{background:#edf2ff;border-color:#6785e5}
+.template-symbol{height:30px;width:30px;display:grid;place-items:center;background:#edf1fb;border-radius:8px;color:#4263c7;font-size:20px}
+.template-tile strong{font-size:12px;color:#243755;overflow:hidden;text-overflow:ellipsis;max-width:100%;white-space:nowrap}
+.template-tile small{font-family:'FarumaUser','FarumaEmbedded','Noto Sans Thaana',sans-serif;font-size:13px;color:#7d8aa6;overflow:hidden;text-overflow:ellipsis;max-width:100%;white-space:nowrap}
+.studio-subheading{display:flex;align-items:center;gap:9px;margin:26px 0 14px}
+.studio-subheading>span{width:29px;height:29px;display:grid;place-items:center;background:#edf1ff;border-radius:9px;font-size:11px;color:#4d69cc;font-weight:800}
+.studio-subheading h3{font-size:16px;letter-spacing:-.2px;margin:0;color:#293953}
+.studio-panel .lab{margin:14px 0 7px;color:#5f6e8a}
+.studio-panel .field{border-color:#dce3ef;background:#fff;border-radius:10px;min-height:44px;padding:10px}
+.studio-panel .field:focus{outline:2px solid #b9caff;border-color:#6d8aef}
+.studio-panel textarea.dv-input{min-height:84px}
+.studio-panel .form-field-head{margin:8px 0 10px}
+.studio-field-filter{display:flex;gap:10px;align-items:center;margin:10px 0}
+.studio-field-filter .field{flex:1;min-width:0;background:#fafbff}
+.form-quick-stats{white-space:nowrap;font-size:11px;color:#70809e}
+#formFieldCount{font-size:12px}
+.form-field{padding:14px;border:1px solid #dfe7f4;background:#fff;border-radius:13px;margin-bottom:10px;box-shadow:0 2px 7px #29446b06;transition:border-color .15s,box-shadow .15s}
+.form-field:focus-within{border-color:#aabef2;box-shadow:0 0 0 3px #ecf0ff}
+.form-field-top{margin-bottom:12px}.form-field-top strong{font-size:12px}
+.form-field-top button{min-width:29px;height:30px;cursor:pointer;font-size:13px}
+.form-field-top .form-field-duplicate{font-size:12px;padding:4px 10px;color:#395cba}
+.form-field-top .form-field-drag{font-size:18px;color:#a1acc0;cursor:grab;touch-action:none}
+.form-field.drag-over{outline:2px dashed #5878df;outline-offset:-4px}
+.form-field-grid{grid-template-columns:minmax(0,1fr) 145px}
+.form-field-grid .field{min-height:40px}
+.form-add-row{margin-top:18px;border:1px dashed #b6c5e4;border-radius:13px;background:#f8faff;padding:10px}
+.form-add-row .btn{border-radius:9px}
+.studio-logo-zone{display:flex;align-items:center;gap:16px;border:1px dashed #bac9df;background:#f8faff;padding:16px;border-radius:13px;margin:13px 0}
+.studio-logo-thumbnail{width:76px;height:76px;flex:none;background:#e6ecfa;border-radius:10px;display:grid;place-items:center;color:#6480b6;font-size:31px;overflow:hidden}
+.studio-logo-thumbnail img{width:100%;height:100%;object-fit:contain}
+.studio-logo-zone strong{font-size:14px;color:#293b5c}
+.studio-logo-zone p{color:#7181a0;font-size:11px;line-height:1.5;margin:6px 0 9px}
+.studio-palette{display:flex;gap:12px;align-items:center;margin:15px 0 28px;flex-wrap:wrap}
+.studio-palette .swatch{width:39px;height:39px;border:3px solid #fff;border-radius:12px;background:var(--swatch);box-shadow:0 0 0 1px #dce3ee;position:relative;transition:transform .15s;cursor:pointer}
+.studio-palette .swatch:hover{transform:scale(1.07)}
+.studio-palette .swatch.selected{box-shadow:0 0 0 2px var(--swatch)}
+.studio-palette .swatch.selected:after{content:"✓";font-weight:800;position:absolute;inset:0;display:grid;place-items:center;color:#fff}
+.studio-custom-color{font-size:11px;font-weight:750;color:#7383a0;display:flex;align-items:center;gap:7px}
+.studio-custom-color input{appearance:none;width:36px;height:36px;padding:0;border:1px solid #d4e0ef;border-radius:10px;cursor:pointer}
+.studio-checks{display:grid;gap:10px;margin:20px 0 24px}
+.studio-checks label{display:flex;align-items:center;gap:9px;color:#3c4c68;font-size:13px}
+.studio-checks input{width:16px;height:16px;accent-color:#4263d1}
+.studio-saved-cards{display:grid;gap:9px;margin:15px 0}
+.studio-saved-card{border:1px solid #e3e8f1;background:#fff;border-radius:12px;padding:13px;display:flex;gap:9px;align-items:center}
+.studio-saved-card-icon{background:#eef3ff;color:#3e60ca;padding:10px;border-radius:9px}
+.studio-saved-card-content{min-width:0;flex:1}
+.studio-saved-card strong{display:block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.studio-saved-card small{color:#8a97aa;font-size:11px}
+.studio-saved-card .btn{font-size:11px;padding:8px}
+.studio-panel .form-info{background:#edf3fd;border:1px solid #dae6f9;border-radius:10px;color:#5c7090}
+.form-preview-pane{background:#eaf0f8}
+.form-preview-toolbar{padding:15px 20px;min-height:66px;background:#f8faff;border-bottom:1px solid #e0e7f3}
+.studio-preview-name{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.studio-preview-name strong{font-size:13px;color:#334460}
+.studio-live-indicator{width:8px;height:8px;background:#24a38d;box-shadow:0 0 0 3px #24a38d20;border-radius:50%}
+.form-preview-info{font-size:10px;color:#7384a5;border:1px solid #e2e9f5;padding:4px 7px;border-radius:7px}
+.form-canvas-wrap{padding:28px 20px 45px;background:repeating-linear-gradient(45deg,#e7edf7,#e7edf7 12px,#eaf0f9 12px,#eaf0f9 24px)}
+#formPreview{max-width:none;width:min(100%,550px);height:auto;box-shadow:0 14px 35px #273b632a,0 2px 5px #2947721c}
+.form-preview-foot{font-size:9px;font-weight:750;letter-spacing:1.1px;background:#f8faff;border-top:1px solid #e1e8f2;padding:14px;color:#7c8da9}
+.studio-mobile-tabs{display:none}
+@media(max-width:1180px) and (min-width:781px){
+.form-main{grid-template-columns:minmax(425px,1.15fr) minmax(320px,1fr)}
+.form-editor{grid-template-columns:68px minmax(0,1fr)}
+.studio-rail{padding:13px 5px}
+.studio-nav{font-size:10px}
+.studio-panel{padding:23px 17px 40px}
+.studio-templates{grid-template-columns:repeat(3,minmax(0,1fr))}
+.form-preview-toolbar{padding:11px 9px}
+.form-preview-info{display:none}
+}
+@media(max-width:780px){
+.form-overlay{padding:0}
+.form-shell{height:100dvh;max-height:none;width:100%;border-radius:0}
+.form-header{min-height:70px;padding:8px 10px}
+.form-header h2{font-size:17px}
+.studio-edition{font-size:9px}
+.form-header-actions .btn{padding:9px 9px;font-size:11px}
+.form-main{height:calc(100% - 122px);min-height:0;display:block;overflow:hidden}
+.form-editor{display:grid;grid-template-columns:65px minmax(0,1fr);height:100%;overflow:hidden}
+.studio-rail{padding:10px 4px}
+.studio-nav{padding:11px 2px;font-size:10px}
+.studio-nav-icon{font-size:20px}
+.studio-scroller{overflow-y:auto;min-height:0}
+.studio-panel{padding:20px 13px 45px}
+.studio-panel-title{font-size:24px}
+.studio-templates{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.template-tile{min-height:99px;padding:10px 7px}
+.template-tile strong{font-size:11px}
+.studio-logo-zone{align-items:flex-start}
+.form-preview-pane{display:none;height:100%}
+.form-shell.studio-show-preview .form-editor{display:none}
+.form-shell.studio-show-preview .form-preview-pane{display:flex}
+.form-preview-toolbar{min-height:64px;padding:9px 10px;gap:4px;flex-wrap:wrap}
+.form-preview-toolbar .btn{padding:7px}
+.form-preview-info{display:none}
+.form-canvas-wrap{min-height:0;overflow:auto;padding:18px 12px 35px}
+.studio-mobile-tabs{display:flex;flex:none;height:52px;padding:5px;background:#fff;border-top:1px solid #dde6f4;gap:7px}
+.studio-mobile-tabs button{flex:1;border:0;border-radius:9px;background:#f0f4fb;color:#667895;font-size:12px;font-weight:750}
+.studio-mobile-tabs button.selected{background:#e6eeff;color:#365ad0}
+.form-header #saveFormNow{display:none}
+}
+@media(prefers-reduced-motion:reduce){.studio-nav,.template-tile,.form-field{transition:none}}
+
 </style>
 </head>
 <body>
