@@ -87,6 +87,26 @@ try{
  assert.ok(await page.locator('#studioBuild').isVisible(),'Mobile build panel should be visible');
  await page.screenshot({path:path.join(screenDir,'studio-mobile-build.png')});
 
+ // Verify the institutional grid inspired by official Maldivian form layouts.
+ await page.setViewportSize({width:1440,height:900});
+ await page.locator('[data-template="official"]').click();
+ await page.waitForFunction(()=>document.querySelector('#formTitle')?.value.includes('ރަސްމީ'),{timeout:10000});
+ assert.ok(await page.locator('#formFields .form-field').count()>=10,'Official template should have grouped detail rows');
+ await page.locator('[data-studio-tab="design"]').click();
+ assert.equal(await page.locator('#formLayout').inputValue(),'grid','Official RTL table should be the default');
+ assert.equal(await page.locator('#formLabelWidth').inputValue(),'40');
+ await page.waitForTimeout(300);
+ await page.locator('#formPreview').screenshot({path:path.join(screenDir,'official-form-grid-page.png')});
+ await page.locator('#formLayout').selectOption('stacked');
+ assert.equal(await page.locator('#formLayout').inputValue(),'stacked');
+ await page.locator('#formLayout').selectOption('grid');
+ await page.locator('#formLabelWidth').selectOption('46');
+ await page.locator('#formPaperDesign').selectOption('A5');
+ await page.waitForFunction(()=>document.querySelector('#formPreviewInfo')?.textContent.includes('A5'),{timeout:12000});
+ const [officialPdf]=await Promise.all([page.waitForEvent('download',{timeout:45000}),page.locator('#downloadFormPdf').click()]);
+ const officialBytes=fs.readFileSync(await officialPdf.path());
+ assert.ok(officialBytes.subarray(0,8).toString().startsWith('%PDF-'),'Official form should export as PDF');
+ assert.ok(officialBytes.byteLength>3000,'Official form export has no contents');
  assert.equal(errors.length,0,'Unexpected browser errors: '+errors.join('; '));
  console.log('PASS: Form Studio template, theme, fields, PDF export, IndexedDB restore, mobile layout');
  await context.close();
