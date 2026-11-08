@@ -824,25 +824,31 @@ function formOptions(value){
  return String(value||'').split(/\r?\n|,/).map(v=>v.trim()).filter(Boolean).slice(0,30);
 }
 function formBlock(ctx,field,width,form={}){
- const section=field.type==='section',compact=form.density==='compact',gap=compact?.85:1;
- const labelLines=formTextLines(ctx,field.label||'ސުވާލު',width-10,section?17:14,6);
- const hintLines=section?[]:(field.hint?formTextLines(ctx,field.hint,width-12,10.8,3):[]);
- const base=(section?12:16)+labelLines.length*(section?24:20)+hintLines.length*15;
+ // Each detail is a dedicated full-width vertical row: label first, then answer area.
+ // The measured row height is shared by live preview, pagination and exported PDF.
+ const section=field.type==='section',density=form.density==='compact'?.90:1;
+ const labelLines=formTextLines(ctx,field.label||'ސުވާލު',width-33,section?17:14,6);
+ const hintLines=section?[]:(field.hint?formTextLines(ctx,field.hint,width-38,10.8,3):[]);
+ const topPad=section?13:14, bottomPad=section?13:14;
+ const labelHeight=labelLines.length*(section?23:21);
+ const hintHeight=hintLines.length*16;
+ const answerOffset=topPad+labelHeight+hintHeight+10;
  let body=0,optionLayout=[];
- if(['short','date','time','number','email','phone'].includes(field.type))body=42*gap;
- if(field.type==='long')body=91*gap;
- if(field.type==='checkbox')body=31*gap;
- if(field.type==='signature')body=68*gap;
- if(section)body=14*gap;
+ if(['short','date','time','number','email','phone'].includes(field.type))body=43*density;
+ if(field.type==='long')body=94*density;
+ if(field.type==='checkbox')body=40*density;
+ if(field.type==='signature')body=74*density;
  if(field.type==='choice'||field.type==='multi'){
   for(const option of formOptions(field.options)){
-   const lines=formTextLines(ctx,option,width-43,12.2,5);
-   optionLayout.push({text:option,lines,height:Math.max(24*gap,lines.length*17+6)});
+   const lines=formTextLines(ctx,option,width-65,12.2,5);
+   optionLayout.push({text:option,lines,height:Math.max(31*density,lines.length*18+8)});
   }
-  if(!optionLayout.length)optionLayout.push({text:'ޖަވާބު',lines:['ޖަވާބު'],height:26});
-  body=optionLayout.reduce((sum,o)=>sum+o.height,0)+7;
+  if(!optionLayout.length)optionLayout.push({text:'ޖަވާބު',lines:['ޖަވާބު'],height:31});
+  body=optionLayout.reduce((sum,o)=>sum+o.height,0)+4;
  }
- return{field,labelLines,hintLines,options:optionLayout,base,body,height:base+body,section};
+ const base=section?topPad+labelHeight+bottomPad:answerOffset+bottomPad;
+ const height=section?base:base+body;
+ return{field,labelLines,hintLines,options:optionLayout,topPad,answerOffset,base,body,height,section};
 }
 function layoutFormPages(form){
  const paper=form.paper==='A5'?{w:419.53,h:595.28,margin:32}:{w:595.28,h:841.89,margin:43};
@@ -929,50 +935,70 @@ function drawFormPage(form,layout,index,scale=1.8){
   ctx.strokeStyle=style==='minimal'?'#d7dfed':accent;ctx.lineWidth=style==='minimal'?.8:1.2;
   ctx.beginPath();ctx.moveTo(m,sep);ctx.lineTo(w-m,sep);ctx.stroke();
  }
- const density=form.density==='compact'?.85:1;
- for(const block of page.blocks){
-  const{field,labelLines,hintLines,options,section}=block,y=block.y,type=field.type;
+ // Every field has a full-width bordered row. Labels and answer lines never share a baseline.
+ for(let rowIndex=0;rowIndex<page.blocks.length;rowIndex++){
+  const block=page.blocks[rowIndex],{field,labelLines,hintLines,options,section}=block;
+  const top=block.y,type=field.type,boxStyle=form.responseStyle==='boxes';
+  const left=m+2,rowWidth=width-4;
+  ctx.save();
   if(section){
-   ctx.save();ctx.globalAlpha=.09;ctx.fillStyle=accent;ctx.fillRect(m,y-5,width,block.height-7);ctx.restore();
-   ctx.fillStyle=accent;ctx.fillRect(right-4,y-5,4,Math.max(18,block.height-7));
+   ctx.fillStyle='#f1f5fc';ctx.fillRect(left,top,rowWidth,block.height);
+   ctx.fillStyle=accent;ctx.fillRect(right-6,top,4,block.height);
+   ctx.strokeStyle='#cbd6e7';ctx.lineWidth=.8;ctx.strokeRect(left,top,rowWidth,block.height);
+   formDrawLines(ctx,labelLines,right-16,top+block.topPad+17,17,23,accent,width-40);
+   ctx.restore();continue;
   }
-  const labelFont=section?17:14,labelHeight=section?24:20;
-  if(field.required&&!section){
-   ctx.fillStyle='#b44647';ctx.font='13px system-ui';ctx.textAlign='left';ctx.fillText('*',m+2,y+labelFont);
+  ctx.fillStyle=rowIndex%2===0?'#ffffff':'#fafcff';
+  ctx.fillRect(left,top,rowWidth,block.height);
+  ctx.strokeStyle='#d5dfec';ctx.lineWidth=.9;ctx.strokeRect(left+.4,top+.4,rowWidth-.8,block.height-.8);
+  // Short accent stripe makes each independent form detail visually distinct.
+  ctx.fillStyle=accent;ctx.fillRect(right-5,top+1.4,2.5,Math.min(23,block.height-3));
+  const labelFont=14,labelLineHeight=21;
+  if(field.required){
+   ctx.fillStyle='#b44647';ctx.font='13px system-ui';ctx.textAlign='left';
+   ctx.fillText('*',left+12,top+block.topPad+15);
   }
-  formDrawLines(ctx,labelLines,right-9,y+labelFont,labelFont,labelHeight,section?accent:'#233653',width-14);
-  let yBody=y+(section?12:16)+labelLines.length*labelHeight;
-  if(hintLines.length){formDrawLines(ctx,hintLines,right-10,yBody+6,10.8,15,'#74839b',width-15);yBody+=hintLines.length*15;}
-  ctx.lineWidth=1;ctx.strokeStyle='#93a0b7';
-  const boxStyle=form.responseStyle==='boxes';
+  formDrawLines(ctx,labelLines,right-16,top+block.topPad+16,labelFont,labelLineHeight,'#1f3353',width-40);
+  if(hintLines.length){
+   const hintBaseline=top+block.topPad+labelLines.length*labelLineHeight+8;
+   formDrawLines(ctx,hintLines,right-16,hintBaseline,10.8,16,'#70819a',width-38);
+  }
+  // This starts BELOW all wrapped label / hint text and is measured by formBlock.
+  const answerY=top+block.answerOffset;
+  const answerLeft=left+13,answerRight=right-14,answerWidth=answerRight-answerLeft;
+  ctx.lineWidth=1;ctx.strokeStyle='#8495ae';
   if(['short','date','time','number','email','phone'].includes(type)){
-   if(boxStyle){ctx.strokeRect(m+3,yBody+5,width-8,29*density);}
-   else{const at=yBody+24*density;ctx.beginPath();ctx.moveTo(m+3,at);ctx.lineTo(right-3,at);ctx.stroke();}
+   if(boxStyle){ctx.strokeRect(answerLeft,answerY+2,answerWidth,30);}
+   else{ctx.beginPath();ctx.moveTo(answerLeft,answerY+29);ctx.lineTo(answerRight,answerY+29);ctx.stroke();}
    if(type==='date'||type==='time'){
-    ctx.font='10px system-ui';ctx.direction='ltr';ctx.fillStyle='#9aa6ba';ctx.textAlign='left';
-    ctx.fillText(type==='date'?'DD / MM / YYYY':'HH : MM',m+11,yBody+19*density);
-    ctx.direction='rtl';
+    ctx.font='10px system-ui';ctx.direction='ltr';ctx.fillStyle='#91a0b6';ctx.textAlign='left';
+    ctx.fillText(type==='date'?'DD / MM / YYYY':'HH : MM',answerLeft+7,answerY+21);ctx.direction='rtl';
    }
   }
   if(type==='long'){
-   if(boxStyle)ctx.strokeRect(m+3,yBody+5,width-8,72*density);
-   else for(let k=0;k<3;k++){const at=yBody+(20+k*23)*density;ctx.beginPath();ctx.moveTo(m+3,at);ctx.lineTo(right-3,at);ctx.stroke();}
+   if(boxStyle)ctx.strokeRect(answerLeft,answerY+2,answerWidth,78);
+   else for(let k=0;k<3;k++){const lineY=answerY+24+k*26;ctx.beginPath();ctx.moveTo(answerLeft,lineY);ctx.lineTo(answerRight,lineY);ctx.stroke();}
   }
-  if(type==='checkbox')ctx.strokeRect(right-19,yBody+5,15,15);
+  if(type==='checkbox'){
+   ctx.strokeStyle=accent;ctx.strokeRect(answerRight-17,answerY+8,16,16);
+   ctx.strokeStyle='#b8c5d9';ctx.beginPath();ctx.moveTo(answerLeft,answerY+33);ctx.lineTo(answerRight-30,answerY+33);ctx.stroke();
+  }
   if(type==='signature'){
-   if(boxStyle)ctx.strokeRect(m+3,yBody+4,width-8,51*density);
-   else{const at=yBody+48*density;ctx.beginPath();ctx.moveTo(m+3,at);ctx.lineTo(right-3,at);ctx.stroke();}
+   if(boxStyle)ctx.strokeRect(answerLeft,answerY+3,answerWidth,57);
+   else{ctx.beginPath();ctx.moveTo(answerLeft,answerY+56);ctx.lineTo(answerRight,answerY+56);ctx.stroke();}
   }
   if(type==='choice'||type==='multi'){
-   let at=yBody+5;
+   let at=answerY+2;
    for(const option of options){
-    ctx.strokeStyle=accent;
-    if(type==='choice'){ctx.beginPath();ctx.arc(right-14,at+10,6,0,Math.PI*2);ctx.stroke();}
-    else ctx.strokeRect(right-20,at+4,13,13);
-    formDrawLines(ctx,option.lines,right-32,at+15,12.2,17,'#2c3f60',width-41);
+    ctx.strokeStyle=accent;ctx.lineWidth=1.1;
+    const cx=answerRight-9;
+    if(type==='choice'){ctx.beginPath();ctx.arc(cx,at+13,6.5,0,Math.PI*2);ctx.stroke();}
+    else ctx.strokeRect(cx-7,at+6,14,14);
+    formDrawLines(ctx,option.lines,answerRight-30,at+18,12.2,18,'#2c3f60',answerWidth-50);
     at+=option.height;
    }
   }
+  ctx.restore();
  }
  const fy=h-30;
  ctx.strokeStyle='#d8deea';ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(m,fy-16);ctx.lineTo(w-m,fy-16);ctx.stroke();
