@@ -65,6 +65,23 @@ for(const paper of ['A4','A5'])for(const layoutMode of ['grid','stacked']){
  assert.ok(layout.pages.flatMap(p=>p.blocks).some(b=>b.field.id==='42'),'Signature must be laid out');
  assert.ok(layout.pages.flatMap(p=>p.blocks).some(b=>b.field.id==='43'),'ID-number boxes must be laid out');
 }
+
+for(const paper of ['A4','A5'])for(const mode of ['grid','stacked']){
+ for(let count=2;count<=16;count++){
+  const fields=[...Array.from({length:count},(_,i)=>field(i,'short')),
+   {id:'section-boundary',type:'section',label:'ދެވަނަ ބައި',hint:'',required:false,options:''},
+   field(99,'long')];
+  const l=ctx.layoutForm({paper,layout:mode,labelWidth:40,title:'ފޯމު',fields});
+  const all=l.pages.flatMap(p=>p.blocks);
+  const position=all.findIndex(b=>b.field.id==='section-boundary');
+  assert.ok(position>=0&&position+1<all.length,'Section should have subsequent content');
+  for(let pi=0;pi<l.pages.length-1;pi++){
+   const last=l.pages[pi].blocks.at(-1);
+   assert.notEqual(last?.field.id,'section-boundary','Section heading must not be orphaned on '+paper+' '+mode);
+  }
+ }
+}
+assert.match(inline[1],/const count=8,gap=2/,'Official ID rows should have eight boxes');
 assert.match(inline[1],/ctx\.moveTo\(divider,top\)/,'Official grid must have a clear label/response divider');
 assert.match(inline[1],/formLayout/,'The form layout option must be wired');
 console.log('PASS: separate form-detail rows, label/answer spacing, fields, and A4/A5 pagination');
