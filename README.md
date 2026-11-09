@@ -1,38 +1,25 @@
-# ECHOSHOT v0.10 — 100-Level Expansion
+# ECHOSHOT v0.11 — Gameplay Feel & Feedback
 
-**Play:** https://echoshot-game.onrender.com
+Play: https://echoshot-game.onrender.com
 
-## New: 25 levels, 3 chapters
+## What's new
+- Crystal shatters now emit a brief directional sparkle burst.
+- Blue switches show a short charging orbit when activated.
+- Red gates show a visible unlocking sweep when opened.
+- One-way shields display a brief directional chevron when traversed.
+- These effects are bounded and skipped when reduced motion is requested.
+- Existing impact rings, elastic warp, shot trails, sound, and short victory celebration remain intact.
 
-- **76–84: Refraction** — crystals and progressively wider-spaced paired portals; learn to use echo routes after shattering glass
-- **85–90: Circuit Echo** — charge, bounce and traverse the red gate while routing through the portal
-- **91–100: Final Vector** — combine the one-way shield, gate, warp and crystal, ending with the 100th stage
+## Compatibility
+**All 100 levels, puzzle geometry, engine physics, timing, iPhone controls, timer options, Classic/Vibrant themes, achievements, saved progress, and Master Runs remain unchanged.** The visual feedback array is only used by the renderer, never by the simulation.
 
-The new levels have individually seeded launch angles, deterministic layouts, 8–11 targets in most stages, and escalating mechanical requirements. The final 10 levels combine the most mechanics. Level 90 has seven targets but a complex multi-step mission.
+## Verification
+- Chromium mobile layout checks at 320×568, 375×667, 390×844, and 414×896: no page overflow or JavaScript exceptions.
+- All 100 seeded level solutions verified in Chromium.
+- Node inline JavaScript syntax check passed.
+- No new network assets are needed.
 
-## Progress and gameplay preserved
+## PWA
+Offline cache updated to `echoshot-static-v0.11`. Open the installed app while online and restart it to activate the update.
 
-All original **75 level definitions are byte-for-byte equivalent as JSON** to v0.9.5. Their physics, records, scores, achievements and Master Run times are unchanged.
-
-Existing saves continue under `echoshot-progress-v1`. If level 75 was cleared previously, **level 76 automatically unlocks** when v0.10 loads. Existing stars, times, Master Run seals, vibrant theme, flexible timer modes, and mute setting are retained. New chapters have separate Master Run seals. The existing achievement for completing the original 75 levels remains earnable; a new achievement marks clearing all 100.
-
-The one-screen mobile Focus Mode, larger playfield, edge timer, warp animation, arcade SFX, no-timer fun mode, offline PWA, and Android Capacitor starter are retained.
-
-## Testing
-
-- **100/100 seeded stage solutions passed** in Chromium using the real game engine.
-- All **75 original level JSON definitions** match the v0.9.5 release.
-- All 25 new levels were counterfactual-tested with four nearby launch angles to check route sensitivity.
-- Mobile layout tested at **320×568, 375×667, 390×844, 414×896** with no horizontal or vertical page scroll. Desktop tested at 1280×900.
-- Verified an old save with level 75 cleared, a 3-star record, a personal-best time, a Master Run record, vibrant theme and no timer; level 76 is unlocked and preferences are retained.
-- JavaScript syntax validated; no browser page errors.
-
-## Offline update
-
-The service worker cache is now `echoshot-static-v0.10`. Open the installed PWA online, close it, then reopen it. The app bundle includes all levels and runs offline after caching.
-
-## Repository
-
-https://github.com/alithux/echoshot
-
-Render build: `mkdir -p public && cp index.html public/index.html`; publish directory: `public`.
+GitHub: https://github.com/alithux/echoshot
